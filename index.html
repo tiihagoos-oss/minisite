@@ -1,1 +1,17 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>MiniSite</title>
+</head>
+<body>
+  <h2>Bem-vindo</h2>
+  <p>Este link foi acessado com sucesso.</p>
 
+  <script>
+    fetch('/log')
+      .then(r => r.text())
+      .then(t => console.log(t));
+  </script>
+</body>
+</html>
