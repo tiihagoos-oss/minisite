@@ -5,13 +5,22 @@
   <title>MiniSite</title>
 </head>
 <body>
+
   <h2>Bem-vindo</h2>
-  <p>Este link foi acessado com sucesso.</p>
+  <p id="msg">Detectando seu país...</p>
 
   <script>
-    fetch('/log')
-      .then(r => r.text())
-      .then(t => console.log(t));
+    fetch("/api/pais")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("msg").innerText =
+          "Você acessou do país: " + data.country;
+      })
+      .catch(() => {
+        document.getElementById("msg").innerText =
+          "Não foi possível detectar o país.";
+      });
   </script>
+
 </body>
 </html>
