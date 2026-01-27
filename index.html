@@ -8,120 +8,126 @@
 <style>
   body {
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #0f172a;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: #e5e7eb;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
   }
 
+  /* Container principal */
   .chat-container {
-    width: 360px;
-    height: 600px;
-    background: #1e293b;
-    border-radius: 18px;
+    width: 100%;
+    max-width: 420px;
+    height: 100vh;
+    background: #ffffff;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+  }
+
+  /* No computador fica em formato de app */
+  @media (min-width: 768px) {
+    .chat-container {
+      height: 90vh;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
   }
 
   /* TOPO */
   .chat-header {
-    background: #0f172a;
-    padding: 12px;
+    background: #ffffff;
+    padding: 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: 1px solid #1e293b;
+    border-bottom: 1px solid #e5e7eb;
   }
 
-  .profile {
+  .left-icons, .right-icons {
     display: flex;
     align-items: center;
-    gap: 10px;
-  }
-
-  .profile img {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-  }
-
-  .profile-name {
-    color: white;
-    font-weight: bold;
-    font-size: 14px;
-  }
-
-  .menu {
-    color: white;
+    gap: 14px;
     font-size: 20px;
+    color: #4b5563;
     cursor: pointer;
+  }
+
+  .chat-title {
+    font-weight: 600;
+    color: #111827;
   }
 
   /* MENSAGENS */
   .chat-messages {
     flex: 1;
-    padding: 12px;
+    padding: 16px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+    background: #f9fafb;
   }
 
   .message {
-    max-width: 75%;
-    padding: 10px 12px;
-    border-radius: 14px;
+    max-width: 80%;
+    padding: 12px 14px;
+    border-radius: 16px;
     font-size: 14px;
-    line-height: 1.4;
+    line-height: 1.5;
+    word-wrap: break-word;
   }
 
+  /* Estilo parecido com ChatGPT */
   .bot {
-    background: #334155;
-    color: white;
+    background: #e5e7eb;
+    color: #111827;
     align-self: flex-start;
     border-bottom-left-radius: 4px;
   }
 
   .user {
-    background: #2563eb;
+    background: #10a37f;
     color: white;
     align-self: flex-end;
     border-bottom-right-radius: 4px;
   }
 
-  /* INPUT */
+  /* ÁREA DE INPUT */
   .chat-input-area {
     display: flex;
     align-items: center;
-    padding: 10px;
-    background: #0f172a;
-    border-top: 1px solid #1e293b;
-    gap: 8px;
+    padding: 12px;
+    background: #ffffff;
+    border-top: 1px solid #e5e7eb;
+    gap: 10px;
   }
 
   .chat-input {
     flex: 1;
-    padding: 10px;
-    border-radius: 20px;
-    border: none;
+    padding: 12px 14px;
+    border-radius: 22px;
+    border: 1px solid #d1d5db;
     outline: none;
     font-size: 14px;
+  }
+
+  .chat-input:focus {
+    border-color: #10a37f;
   }
 
   .icon-btn {
     background: none;
     border: none;
-    color: white;
-    font-size: 18px;
+    font-size: 20px;
+    color: #4b5563;
     cursor: pointer;
   }
 
   .icon-btn:hover {
-    opacity: 0.7;
+    opacity: 0.6;
   }
 </style>
 </head>
@@ -132,22 +138,26 @@
 
   <!-- TOPO -->
   <div class="chat-header">
-    <div class="profile">
-      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-      <div class="profile-name">Assistente</div>
+    <div class="left-icons">
+      ➕
     </div>
-    <div class="menu">⋮</div>
+
+    <div class="chat-title">Assistente</div>
+
+    <div class="right-icons">
+      ⋯
+    </div>
   </div>
 
   <!-- MENSAGENS -->
   <div class="chat-messages" id="chatMessages">
-    <div class="message bot">Olá! 👋 Como posso ajudar?</div>
+    <div class="message bot">Olá! Como posso ajudar você hoje?</div>
   </div>
 
   <!-- INPUT -->
   <div class="chat-input-area">
-    <button class="icon-btn">😊</button>
-    <input type="text" id="chatInput" class="chat-input" placeholder="Digite uma mensagem...">
+    <button class="icon-btn">📎</button>
+    <input type="text" id="chatInput" class="chat-input" placeholder="Envie uma mensagem...">
     <button class="icon-btn" onclick="sendMessage()">➤</button>
   </div>
 
@@ -164,13 +174,10 @@
     addMessage(text, "user");
     input.value = "";
 
-    // Simulação de resposta do bot
     setTimeout(() => {
-      addMessage("Recebi sua mensagem: " + text, "bot");
-
-      // Seu log antigo continua aqui
+      addMessage("Você disse: " + text, "bot");
       fetch("/api/log").catch(() => {});
-    }, 600);
+    }, 500);
   }
 
   function addMessage(text, type) {
