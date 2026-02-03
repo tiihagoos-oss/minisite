@@ -1,4 +1,88 @@
-            <script>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Converse com meu Bot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .chat-container {
+      width: 95%;
+      max-width: 400px;
+      background: #2f2f4f;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chat-header {
+      background: #3d3d6b;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+    .message {
+      margin: 8px 0;
+      padding: 8px 10px;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+    .user {
+      background: #4e9af1;
+      align-self: flex-end;
+    }
+    .bot {
+      background: #44446a;
+      align-self: flex-start;
+    }
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #555;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+    .chat-input button {
+      padding: 10px 15px;
+      border: none;
+      background: #4e9af1;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">🤖 Meu Bot Experimental</div>
+    <div class="chat-messages" id="chat"></div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Digite algo..." />
+      <button onclick="sendMessage()">Enviar</button>
+    </div>
+  </div>
+
+
+<script>
 const chat = document.getElementById("chat");
 
 function addMessage(text, sender) {
@@ -93,3 +177,7 @@ function sendMessage() {
   }, 500);
 }
 </script>
+
+            
+</body>
+</html>
