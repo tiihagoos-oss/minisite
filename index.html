@@ -1,138 +1,95 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Converse com meu Bot</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #1e1e2f, #2b2b45);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .chat-container {
-      width: 95%;
-      max-width: 400px;
-      background: #2f2f4f;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .chat-header {
-      background: #3d3d6b;
-      padding: 15px;
-      text-align: center;
-      font-weight: bold;
-    }
-    .chat-messages {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-      font-size: 14px;
-    }
-    .message {
-      margin: 8px 0;
-      padding: 8px 10px;
-      border-radius: 10px;
-      max-width: 80%;
-    }
-    .user {
-      background: #4e9af1;
-      align-self: flex-end;
-    }
-    .bot {
-      background: #44446a;
-      align-self: flex-start;
-    }
-    .chat-input {
-      display: flex;
-      border-top: 1px solid #555;
-    }
-    .chat-input input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      outline: none;
-      font-size: 14px;
-    }
-    .chat-input button {
-      padding: 10px 15px;
-      border: none;
-      background: #4e9af1;
-      color: white;
-      cursor: pointer;
-    }
-  </style>
-</head>
-<body>
-  <div class="chat-container">
-    <div class="chat-header">🤖 Meu Bot Experimental</div>
-    <div class="chat-messages" id="chat"></div>
-    <div class="chat-input">
-      <input type="text" id="userInput" placeholder="Digite algo..." />
-      <button onclick="sendMessage()">Enviar</button>
-    </div>
-  </div>
+            <script>
+const chat = document.getElementById("chat");
 
-  <script>
-    const chat = document.getElementById("chat");
+function addMessage(text, sender) {
+  const msg = document.createElement("div");
+  msg.classList.add("message", sender);
+  msg.innerText = text;
+  chat.appendChild(msg);
+  chat.scrollTop = chat.scrollHeight;
+}
 
-    function addMessage(text, sender) {
-      const msg = document.createElement("div");
-      msg.classList.add("message", sender);
-      msg.innerText = text;
-      chat.appendChild(msg);
-      chat.scrollTop = chat.scrollHeight;
+function entenderTema(texto) {
+  texto = texto.toLowerCase();
+
+  const temas = {
+    saudacao: ["oi", "olá", "opa", "bom dia", "boa tarde", "boa noite"],
+    criador: ["quem criou", "seu criador", "quem te fez", "quem é seu dono"],
+    ajuda: ["ajuda", "pode ajudar", "me ajuda"],
+    tecnologia: ["site", "programação", "código", "tecnologia", "ia", "inteligencia"],
+    sentimentos: ["triste", "feliz", "sozinho", "animado", "cansado"],
+    sentido: ["vida", "existência", "mundo", "humanidade"],
+    dica: ["dica", "conselho", "sugestão"],
+    curiosidade: ["curiosidade", "fato", "interessante"]
+  };
+
+  for (let tema in temas) {
+    for (let palavra of temas[tema]) {
+      if (texto.includes(palavra)) return tema;
     }
+  }
 
-    function botReply(input) {
-      input = input.toLowerCase();
+  return "desconhecido";
+}
 
-      if (input.includes("oi") || input.includes("olá"))
-        return "Oi! 😊 Eu sou um bot em teste. Pergunta qualquer coisa!";
-      
-      if (input.includes("seu criador"))
-        return "Fui criado por alguém curioso que gosta de tecnologia 😎";
+function responder(tema) {
+  const respostas = {
+    saudacao: [
+      "Opa 😄 tudo certo?",
+      "Olá! Eu sou um bot experimental.",
+      "E aí! Bora conversar?"
+    ],
+    criador: [
+      "Fui criado por alguém curioso que gosta de tecnologia.",
+      "Meu criador gosta de testar ideias na internet 😎"
+    ],
+    ajuda: [
+      "Posso conversar, dar dicas e falar curiosidades!",
+      "Sou simples, mas tento ajudar do meu jeito 😄"
+    ],
+    tecnologia: [
+      "Tecnologia é fascinante. Pequenas ideias viram grandes projetos.",
+      "Programação é como ensinar o computador a pensar passo a passo."
+    ],
+    sentimentos: [
+      "Às vezes conversar já melhora o dia 🙂",
+      "Sentimentos fazem parte de ser humano. Quer falar mais sobre isso?"
+    ],
+    sentido: [
+      "Perguntas profundas assim bugam até bot 🤯",
+      "O mundo é complexo… mas conversar ajuda a entender melhor."
+    ],
+    dica: [
+      "Dica do dia: consistência é mais forte que motivação.",
+      "Pequenos avanços diários geram grandes resultados."
+    ],
+    curiosidade: [
+      "Curiosidade: seu cérebro usa cerca de 20% da energia do corpo.",
+      "A primeira câmera do mundo levava horas pra tirar uma foto!"
+    ],
+    desconhecido: [
+      "Interessante… me explica melhor?",
+      "Não tenho certeza se entendi, mas gostei 😄",
+      "Pode falar de outro jeito?"
+    ]
+  };
 
-      if (input.includes("o que você faz"))
-        return "Converso com visitantes e respondo de forma inteligente (ou quase 😅)";
+  const lista = respostas[tema];
+  return lista[Math.floor(Math.random() * lista.length)];
+}
 
-      if (input.includes("dica"))
-        return "Dica do dia: pequenas ideias podem virar grandes projetos.";
+function sendMessage() {
+  const inputField = document.getElementById("userInput");
+  const text = inputField.value.trim();
+  if (!text) return;
 
-      if (input.includes("curiosidade"))
-        return "Curiosidade: a internet começou a se popularizar nos anos 90!";
+  addMessage(text, "user");
+  inputField.value = "";
 
-      const respostas = [
-        "Interessante... me conta mais!",
-        "Hmmm 🤔 nunca tinha pensado nisso.",
-        "Boa pergunta! Ainda estou aprendendo sobre isso.",
-        "Isso parece importante!",
-        "Legal 😄 gosto quando conversam comigo."
-      ];
-
-      return respostas[Math.floor(Math.random() * respostas.length)];
-    }
-
-    function sendMessage() {
-      const inputField = document.getElementById("userInput");
-      const text = inputField.value.trim();
-      if (!text) return;
-
-      addMessage(text, "user");
-      inputField.value = "";
-
-      setTimeout(() => {
-        addMessage(botReply(text), "bot");
-      }, 600);
-    }
-  </script>
-</body>
-</html>
+  setTimeout(() => {
+    const tema = entenderTema(text);
+    const resposta = responder(tema);
+    addMessage(resposta, "bot");
+  }, 500);
+}
+</script>
