@@ -1,195 +1,138 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Mini Chat</title>
-
-<style>
-  body {
-    margin: 0;
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: #e5e7eb;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-
-  .chat-container {
-    width: 100%;
-    max-width: 420px;
-    height: 100vh;
-    background: #ffffff;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  @media (min-width: 768px) {
-    .chat-container {
-      height: 90vh;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Converse com meu Bot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
     }
-  }
-
-  .chat-header {
-    background: #ffffff;
-    padding: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  .left-icons, .right-icons {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    font-size: 20px;
-    color: #4b5563;
-    cursor: pointer;
-  }
-
-  .profile-pic {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-
-  .chat-title {
-    font-weight: 600;
-    color: #111827;
-  }
-
-  .chat-messages {
-    flex: 1;
-    padding: 16px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    background: #f9fafb;
-  }
-
-  .message {
-    max-width: 80%;
-    padding: 12px 14px;
-    border-radius: 16px;
-    font-size: 14px;
-    line-height: 1.5;
-    word-wrap: break-word;
-  }
-
-  .bot {
-    background: #e5e7eb;
-    color: #111827;
-    align-self: flex-start;
-    border-bottom-left-radius: 4px;
-  }
-
-  .user {
-    background: #10a37f;
-    color: white;
-    align-self: flex-end;
-    border-bottom-right-radius: 4px;
-  }
-
-  .chat-input-area {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    background: #ffffff;
-    border-top: 1px solid #e5e7eb;
-    gap: 10px;
-  }
-
-  .chat-input {
-    flex: 1;
-    padding: 12px 14px;
-    border-radius: 22px;
-    border: 1px solid #d1d5db;
-    outline: none;
-    font-size: 14px;
-  }
-
-  .chat-input:focus {
-    border-color: #10a37f;
-  }
-
-  .icon-btn {
-    background: none;
-    border: none;
-    font-size: 20px;
-    color: #4b5563;
-    cursor: pointer;
-  }
-
-  .icon-btn:hover {
-    opacity: 0.6;
-  }
-</style>
+    .chat-container {
+      width: 95%;
+      max-width: 400px;
+      background: #2f2f4f;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chat-header {
+      background: #3d3d6b;
+      padding: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .chat-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+    .message {
+      margin: 8px 0;
+      padding: 8px 10px;
+      border-radius: 10px;
+      max-width: 80%;
+    }
+    .user {
+      background: #4e9af1;
+      align-self: flex-end;
+    }
+    .bot {
+      background: #44446a;
+      align-self: flex-start;
+    }
+    .chat-input {
+      display: flex;
+      border-top: 1px solid #555;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+    }
+    .chat-input button {
+      padding: 10px 15px;
+      border: none;
+      background: #4e9af1;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
 </head>
-
 <body>
-
-<div class="chat-container">
-
-  <div class="chat-header">
-    <div class="left-icons">
-      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="profile-pic">
-    </div>
-
-    <div class="chat-title">Assistente</div>
-
-    <div class="right-icons">
-      ⋯
+  <div class="chat-container">
+    <div class="chat-header">🤖 Meu Bot Experimental</div>
+    <div class="chat-messages" id="chat"></div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Digite algo..." />
+      <button onclick="sendMessage()">Enviar</button>
     </div>
   </div>
 
-  <div class="chat-messages" id="chatMessages">
-    <div class="message bot">Olá! Como posso ajudar você hoje?</div>
-  </div>
+  <script>
+    const chat = document.getElementById("chat");
 
-  <div class="chat-input-area">
-    <button class="icon-btn">📎</button>
-    <input type="text" id="chatInput" class="chat-input" placeholder="Envie uma mensagem...">
-    <button class="icon-btn" onclick="sendMessage()">➤</button>
-  </div>
+    function addMessage(text, sender) {
+      const msg = document.createElement("div");
+      msg.classList.add("message", sender);
+      msg.innerText = text;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+    }
 
-</div>
+    function botReply(input) {
+      input = input.toLowerCase();
 
-<script>
-  const input = document.getElementById("chatInput");
-  const messages = document.getElementById("chatMessages");
+      if (input.includes("oi") || input.includes("olá"))
+        return "Oi! 😊 Eu sou um bot em teste. Pergunta qualquer coisa!";
+      
+      if (input.includes("seu criador"))
+        return "Fui criado por alguém curioso que gosta de tecnologia 😎";
 
-  function sendMessage() {
-    const text = input.value.trim();
-    if (!text) return;
+      if (input.includes("o que você faz"))
+        return "Converso com visitantes e respondo de forma inteligente (ou quase 😅)";
 
-    addMessage(text, "user");
-    input.value = "";
+      if (input.includes("dica"))
+        return "Dica do dia: pequenas ideias podem virar grandes projetos.";
 
-    setTimeout(() => {
-      addMessage("Você disse: " + text, "bot");
-      fetch("/api/log").catch(() => {});
-    }, 500);
-  }
+      if (input.includes("curiosidade"))
+        return "Curiosidade: a internet começou a se popularizar nos anos 90!";
 
-  function addMessage(text, type) {
-    const msg = document.createElement("div");
-    msg.className = "message " + type;
-    msg.innerText = text;
-    messages.appendChild(msg);
-    messages.scrollTop = messages.scrollHeight;
-  }
+      const respostas = [
+        "Interessante... me conta mais!",
+        "Hmmm 🤔 nunca tinha pensado nisso.",
+        "Boa pergunta! Ainda estou aprendendo sobre isso.",
+        "Isso parece importante!",
+        "Legal 😄 gosto quando conversam comigo."
+      ];
 
-  input.addEventListener("keypress", function(e) {
-    if (e.key === "Enter") sendMessage();
-  });
-</script>
+      return respostas[Math.floor(Math.random() * respostas.length)];
+    }
 
+    function sendMessage() {
+      const inputField = document.getElementById("userInput");
+      const text = inputField.value.trim();
+      if (!text) return;
+
+      addMessage(text, "user");
+      inputField.value = "";
+
+      setTimeout(() => {
+        addMessage(botReply(text), "bot");
+      }, 600);
+    }
+  </script>
 </body>
 </html>
