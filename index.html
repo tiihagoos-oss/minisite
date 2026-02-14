@@ -1,183 +1,89 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Converse com meu Bot</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site em Manutenção</title>
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #1e1e2f, #2b2b45);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
     }
-    .chat-container {
-      width: 95%;
-      max-width: 400px;
-      background: #2f2f4f;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .chat-header {
-      background: #3d3d6b;
-      padding: 15px;
-      text-align: center;
-      font-weight: bold;
-    }
-    .chat-messages {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-      font-size: 14px;
-    }
-    .message {
-      margin: 8px 0;
-      padding: 8px 10px;
-      border-radius: 10px;
-      max-width: 80%;
-    }
-    .user {
-      background: #4e9af1;
-      align-self: flex-end;
-    }
-    .bot {
-      background: #44446a;
-      align-self: flex-start;
-    }
-    .chat-input {
-      display: flex;
-      border-top: 1px solid #555;
-    }
-    .chat-input input {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      outline: none;
-      font-size: 14px;
-    }
-    .chat-input button {
-      padding: 10px 15px;
-      border: none;
-      background: #4e9af1;
+      align-items: center;
+      justify-content: center;
       color: white;
-      cursor: pointer;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 500px;
+      padding: 40px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 16px;
+      opacity: 0.9;
+      margin-bottom: 25px;
+    }
+
+    .loader {
+      width: 60px;
+      height: 60px;
+      border: 6px solid rgba(255, 255, 255, 0.2);
+      border-top: 6px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      margin-top: 25px;
+      font-size: 14px;
+      opacity: 0.6;
     }
   </style>
 </head>
 <body>
-  <div class="chat-container">
-    <div class="chat-header">🤖 Meu Bot Experimental</div>
-    <div class="chat-messages" id="chat"></div>
-    <div class="chat-input">
-      <input type="text" id="userInput" placeholder="Digite algo..." />
-      <button onclick="sendMessage()">Enviar</button>
-    </div>
+
+  <div class="container">
+    <h1>🚧 Site em Manutenção</h1>
+    <p>Estamos trabalhando para melhorar sua experiência.<br>
+    Volte em breve!</p>
+
+    <div class="loader"></div>
+
+    <footer>
+      © 2026 - Todos os direitos reservados
+    </footer>
   </div>
 
-
-<script>
-const chat = document.getElementById("chat");
-
-function addMessage(text, sender) {
-  const msg = document.createElement("div");
-  msg.classList.add("message", sender);
-  msg.innerText = text;
-  chat.appendChild(msg);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function entenderTema(texto) {
-  texto = texto.toLowerCase();
-
-  const temas = {
-    saudacao: ["oi", "olá", "opa", "bom dia", "boa tarde", "boa noite"],
-    criador: ["quem criou", "seu criador", "quem te fez", "quem é seu dono"],
-    ajuda: ["ajuda", "pode ajudar", "me ajuda"],
-    tecnologia: ["site", "programação", "código", "tecnologia", "ia", "inteligencia"],
-    sentimentos: ["triste", "feliz", "sozinho", "animado", "cansado"],
-    sentido: ["vida", "existência", "mundo", "humanidade"],
-    dica: ["dica", "conselho", "sugestão"],
-    curiosidade: ["curiosidade", "fato", "interessante"]
-  };
-
-  for (let tema in temas) {
-    for (let palavra of temas[tema]) {
-      if (texto.includes(palavra)) return tema;
-    }
-  }
-
-  return "desconhecido";
-}
-
-function responder(tema) {
-  const respostas = {
-    saudacao: [
-      "Opa 😄 tudo certo?",
-      "Olá! Eu sou um bot experimental.",
-      "E aí! Bora conversar?"
-    ],
-    criador: [
-      "Fui criado por alguém curioso que gosta de tecnologia.",
-      "Meu criador gosta de testar ideias na internet 😎"
-    ],
-    ajuda: [
-      "Posso conversar, dar dicas e falar curiosidades!",
-      "Sou simples, mas tento ajudar do meu jeito 😄"
-    ],
-    tecnologia: [
-      "Tecnologia é fascinante. Pequenas ideias viram grandes projetos.",
-      "Programação é como ensinar o computador a pensar passo a passo."
-    ],
-    sentimentos: [
-      "Às vezes conversar já melhora o dia 🙂",
-      "Sentimentos fazem parte de ser humano. Quer falar mais sobre isso?"
-    ],
-    sentido: [
-      "Perguntas profundas assim bugam até bot 🤯",
-      "O mundo é complexo… mas conversar ajuda a entender melhor."
-    ],
-    dica: [
-      "Dica do dia: consistência é mais forte que motivação.",
-      "Pequenos avanços diários geram grandes resultados."
-    ],
-    curiosidade: [
-      "Curiosidade: seu cérebro usa cerca de 20% da energia do corpo.",
-      "A primeira câmera do mundo levava horas pra tirar uma foto!"
-    ],
-    desconhecido: [
-      "Interessante… me explica melhor?",
-      "Não tenho certeza se entendi, mas gostei 😄",
-      "Pode falar de outro jeito?"
-    ]
-  };
-
-  const lista = respostas[tema];
-  return lista[Math.floor(Math.random() * lista.length)];
-}
-
-function sendMessage() {
-  const inputField = document.getElementById("userInput");
-  const text = inputField.value.trim();
-  if (!text) return;
-
-  addMessage(text, "user");
-  inputField.value = "";
-
-  setTimeout(() => {
-    const tema = entenderTema(text);
-    const resposta = responder(tema);
-    addMessage(resposta, "bot");
-  }, 500);
-}
-</script>
-
-            
 </body>
 </html>
