@@ -9,7 +9,6 @@ export default function handler(req, res) {
   console.log("País:", country);
   console.log("Região:", region);
   console.log("Cidade:", city);
-  console.log("===================");
 
   res.status(200).json({ status: "logged" });
 }
