@@ -21,7 +21,7 @@ Cidade: ${city}
   try {
     await resend.emails.send({
       from: "onboarding@resend.dev",
-      to: "tiiagoos@hotmail.com",
+      to: "tiihagoos@gmail.com",
       subject: "Nova visita no minisite",
       text: mensagem,
     });
