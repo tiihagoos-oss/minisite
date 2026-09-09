@@ -818,82 +818,38 @@ carregarPersonagem().then(dados => {
 
   
 
-async function askQuestion() {
+async function carregarPersonagem() {
 
-const question =
-questionInput.value.trim();
+  try {
 
-if (!question) {
-return;
+    const personagemResponse =
+      await fetch("/personagem.json");
+
+    if (!personagemResponse.ok) {
+      throw new Error(
+        "Não foi possível carregar personagem.json"
+      );
+    }
+
+    const personagem =
+      await personagemResponse.json();
+
+    console.log(
+      "PERSONAGEM CARREGADO:",
+      personagem
+    );
+
+    return personagem;
+
+  } catch (error) {
+
+    console.error(error);
+
+    return null;
+
+  }
+
 }
-
-/*
-O personagem continua obrigatório,
-exatamente como no sistema antigo.
-*/
-
-if (!characterText) {
-
-addMessage(
-  "As informações do personagem ainda estão sendo carregadas.",
-  "bot"
-);
-
-return;
-
-}
-
-/* Desabilita botão */
-
-sendBtn.disabled = true;
-
-/* Mensagem do usuário */
-
-addMessage(
-question,
-"user"
-);
-
-questionInput.value = "";
-
-questionInput.style.height = "auto";
-
-/* Mensagem temporária da IA */
-
-const botMessage =
-addMessage(
-"Pensando...",
-"bot"
-);
-
-try {
-
-const relevantText =
-  getRelevantText(
-    characterText,
-    question
-  );
-
-
-console.log(
-  "PERSONAGEM TOTAL:",
-  characterText.length,
-  "caracteres"
-);
-
-
-console.log(
-  "CONTEXTO ENVIADO:",
-  relevantText.length,
-  "caracteres"
-);
-
-
-console.log(
-  "TRECHOS ENVIADOS:",
-  relevantText
-);
-
 
 
 /* ==========================================
