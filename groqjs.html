@@ -808,6 +808,14 @@ async function carregarPersonagem() {
 
 }
 
+
+let personagem = null;
+
+carregarPersonagem().then(dados => {
+  personagem = dados;
+});
+
+
   
 
 async function askQuestion() {
