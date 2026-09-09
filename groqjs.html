@@ -590,25 +590,6 @@ const sendBtn = document.getElementById("sendBtn");
 CARREGAR PERSONAGEM AUTOMATICAMENTE
 ========================================================== */
 
-async function carregarPersonagem() {
-
-try {
-
-status.textContent =
-  "Carregando personagem...";
-
-
-const response =
-  await fetch("/personagem.json");
-
-
-if (!response.ok) {
-
-  throw new Error(
-    "Não foi possível carregar personagem.json"
-  );
-
-}
 
 
 const personagem =
