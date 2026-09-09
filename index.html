@@ -810,48 +810,6 @@ async function carregarPersonagem() {
 }
 
 
-let personagem = null;
-
-carregarPersonagem().then(dados => {
-  personagem = dados;
-});
-
-
-  
-
-async function carregarPersonagem() {
-
-  try {
-
-    const personagemResponse =
-      await fetch("/personagem.json");
-
-    if (!personagemResponse.ok) {
-      throw new Error(
-        "Não foi possível carregar personagem.json"
-      );
-    }
-
-    const personagem =
-      await personagemResponse.json();
-
-    console.log(
-      "PERSONAGEM CARREGADO:",
-      personagem
-    );
-
-    return personagem;
-
-  } catch (error) {
-
-    console.error(error);
-
-    return null;
-
-  }
-
-}
-
 
 /* ==========================================
    CHAMADA GROQ
