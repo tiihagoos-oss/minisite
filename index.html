@@ -512,6 +512,30 @@ textarea::placeholder {
 
 }
 
+/* ==========================================================
+   CORREÇÃO DO TECLADO NO MOBILE
+========================================================== */
+
+@media (max-width: 600px) {
+
+    .input-area {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: env(safe-area-inset-bottom, 0px);
+        width: 100%;
+        padding: 8px 10px 10px;
+        z-index: 100;
+    }
+
+    .messages {
+        padding-bottom: 140px;
+    }
+
+}
+
+      
+
 </style>
 
 </head>
