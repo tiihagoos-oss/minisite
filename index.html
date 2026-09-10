@@ -712,58 +712,28 @@ const sendBtn = document.getElementById("sendBtn");
 /* ==========================================================
    CARREGAR PERSONAGEM
    ========================================================== */
+let personagem = {};
 
 async function carregarPersonagem() {
-
     try {
-
-        const response =
-            await fetch("/personagem.json");
+        const response = await fetch("/personagem.json");
 
         if (!response.ok) {
-
-            throw new Error(
-                "Não foi possível carregar personagem.json"
-            );
-
+            throw new Error("Não foi possível carregar personagem.json");
         }
 
-        const personagem =
-            await response.json();
+        personagem = await response.json();
 
-        /*
-           Se personagem.json for um objeto,
-           transformamos em texto.
-        */
+        console.log("PERSONAGEM CARREGADO:", personagem);
 
-        characterText =
-            JSON.stringify(
-                personagem,
-                null,
-                2
-            );
-
-        console.log(
-            "PERSONAGEM CARREGADO:",
-            personagem
-        );
-
-        status.textContent =
-            "Personagem carregado";
+        status.textContent = "Personagem carregado";
 
     } catch (error) {
-
-        console.error(
-            "ERRO AO CARREGAR PERSONAGEM:",
-            error
-        );
-
-        status.textContent =
-            "Erro ao carregar personagem";
-
+        console.error("ERRO AO CARREGAR PERSONAGEM:", error);
+        status.textContent = "Erro ao carregar personagem";
     }
-
 }
+
 
 
 /* ==========================================================
