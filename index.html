@@ -1087,20 +1087,6 @@ questionInput.addEventListener(
 );
 
 
-questionInput.addEventListener("focus", () => {
-
-    setTimeout(() => {
-
-        questionInput.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
-
-    }, 300);
-
-});
-      
-
 
 /* ==========================================================
    MENU
@@ -1576,48 +1562,6 @@ function getRelevantText(personagem, pergunta) {
 
 }
 
-
-
-/* ==========================================================
-   AJUSTE DO CHAT QUANDO O TECLADO MOBILE ABRE
-========================================================== */
-
-if (window.visualViewport) {
-
-    const inputArea = document.querySelector(".input-area");
-
-    function ajustarTeclado() {
-
-        const viewport = window.visualViewport;
-
-        const teclado =
-            window.innerHeight - viewport.height - viewport.offsetTop;
-
-        if (teclado > 100) {
-
-            inputArea.style.bottom =
-                teclado + "px";
-
-        } else {
-
-            inputArea.style.bottom = "0px";
-
-        }
-
-    }
-
-    window.visualViewport.addEventListener(
-        "resize",
-        ajustarTeclado
-    );
-
-    window.visualViewport.addEventListener(
-        "scroll",
-        ajustarTeclado
-    );
-
-    ajustarTeclado();
-}
 
       
 
