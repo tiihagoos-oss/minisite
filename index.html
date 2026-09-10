@@ -678,115 +678,88 @@ textarea::placeholder {
 </main>
 
 
+
+
 <script>
 
 /* ==========================================================
    CONFIGURAÇÕES
-========================================================== */
+   ========================================================== */
 
 /*
-IMPORTANTE:
+   ATENÇÃO:
+   Isto é apenas para TESTE.
 
-Para testar localmente você poderia colocar a chave aqui.
-
-MAS NÃO É SEGURO deixar uma chave Groq real
-dentro do HTML publicado.
-
-Posteriormente vamos mover isso para o backend.
-
+   NÃO deixe sua chave Groq definitiva dentro do index.html.
+   Depois vamos colocar a chave no backend.
 */
 
-const GROQ_API_KEY = "COLOQUE_SUA_CHAVE_AQUI";
-
-
-/* ==========================================================
-   VARIÁVEIS
-========================================================== */
+const GROQ_API_KEY = "gsk_SUA_CHAVE_AQUI";
 
 let characterText = "";
 
 
 /* ==========================================================
    ELEMENTOS
-========================================================== */
+   ========================================================== */
 
-const chat =
-    document.getElementById("chat");
-
-const status =
-    document.getElementById("status");
-
-const questionInput =
-    document.getElementById("question");
-
-const sendBtn =
-    document.getElementById("sendBtn");
+const chat = document.getElementById("chat");
+const status = document.getElementById("status");
+const questionInput = document.getElementById("question");
+const sendBtn = document.getElementById("sendBtn");
 
 
 /* ==========================================================
    CARREGAR PERSONAGEM
-========================================================== */
+   ========================================================== */
 
 async function carregarPersonagem() {
 
     try {
 
-        const personagemResponse =
+        const response =
             await fetch("/personagem.json");
 
-        if (!personagemResponse.ok) {
+        if (!response.ok) {
 
             throw new Error(
-                "Não foi possível carregar personagem.json. Status: " +
-                personagemResponse.status
+                "Não foi possível carregar personagem.json"
             );
 
         }
 
         const personagem =
-            await personagemResponse.json();
+            await response.json();
 
+        /*
+           Se personagem.json for um objeto,
+           transformamos em texto.
+        */
 
         characterText =
-            Object.entries(personagem)
-                .map(([section, content]) => {
-
-                    return `
-
-===== ${section} =====
-
-${
-    typeof content === "string"
-        ? content
-        : JSON.stringify(content, null, 2)
-}
-
-`;
-
-                })
-                .join("\n\n");
-
-
-        status.textContent =
-            "Personagem carregado.";
-
+            JSON.stringify(
+                personagem,
+                null,
+                2
+            );
 
         console.log(
             "PERSONAGEM CARREGADO:",
-            characterText.length,
-            "caracteres"
+            personagem
         );
 
+        status.textContent =
+            "Personagem carregado";
 
     } catch (error) {
 
         console.error(
-            "ERRO PERSONAGEM:",
+            "ERRO AO CARREGAR PERSONAGEM:",
             error
         );
 
         status.textContent =
-            "Erro ao carregar personagem.";
+            "Erro ao carregar personagem";
 
     }
 
@@ -795,7 +768,7 @@ ${
 
 /* ==========================================================
    ADICIONAR MENSAGEM
-========================================================== */
+   ========================================================== */
 
 function addMessage(text, type) {
 
@@ -805,13 +778,11 @@ function addMessage(text, type) {
     message.className =
         "message";
 
-
     if (type === "user") {
 
         message.classList.add("user");
 
     }
-
 
     const avatar =
         document.createElement("div");
@@ -819,12 +790,10 @@ function addMessage(text, type) {
     avatar.className =
         "avatar";
 
-
     avatar.textContent =
         type === "user"
             ? "U"
             : "T";
-
 
     const content =
         document.createElement("div");
@@ -832,22 +801,16 @@ function addMessage(text, type) {
     content.className =
         "message-content";
 
-
     content.textContent =
         text;
 
-
     message.appendChild(avatar);
-
     message.appendChild(content);
-
 
     chat.appendChild(message);
 
-
     chat.scrollTop =
         chat.scrollHeight;
-
 
     return content;
 
@@ -856,7 +819,7 @@ function addMessage(text, type) {
 
 /* ==========================================================
    EFEITO DE DIGITAÇÃO
-========================================================== */
+   ========================================================== */
 
 async function typeWriter(
     element,
@@ -865,7 +828,6 @@ async function typeWriter(
 ) {
 
     element.textContent = "";
-
 
     for (
         let i = 0;
@@ -876,10 +838,8 @@ async function typeWriter(
         element.textContent +=
             text.charAt(i);
 
-
         chat.scrollTop =
             chat.scrollHeight;
-
 
         await new Promise(
             resolve =>
@@ -895,14 +855,13 @@ async function typeWriter(
 
 
 /* ==========================================================
-   PERGUNTAR À IA
-========================================================== */
+   ENVIAR PERGUNTA
+   ========================================================== */
 
 async function askQuestion() {
 
     const question =
         questionInput.value.trim();
-
 
     if (!question) {
 
@@ -910,10 +869,18 @@ async function askQuestion() {
 
     }
 
+    console.log(
+        "PERGUNTA:",
+        question
+    );
 
-    /*
-    Coloca a pergunta na tela
-    */
+
+    /* Desabilita botão */
+
+    sendBtn.disabled = true;
+
+
+    /* Mostra pergunta do usuário */
 
     addMessage(
         question,
@@ -921,9 +888,7 @@ async function askQuestion() {
     );
 
 
-    /*
-    Limpa o campo
-    */
+    /* Limpa campo */
 
     questionInput.value = "";
 
@@ -931,42 +896,21 @@ async function askQuestion() {
         "auto";
 
 
-    /*
-    Desativa o botão enquanto
-    a IA está respondendo
-    */
-
-    sendBtn.disabled = true;
-
-
-    /*
-    Cria espaço para resposta
-    */
+    /* Mensagem provisória da IA */
 
     const botMessage =
         addMessage(
-            "",
+            "Pensando...",
             "bot"
         );
 
 
     try {
 
-
-        /* ==================================================
-           VERIFICAR PERSONAGEM
-        ================================================== */
-
-        if (!characterText) {
-
-            await carregarPersonagem();
-
-        }
-
-
-        /* ==================================================
-           ENCONTRAR CONTEXTO RELEVANTE
-        ================================================== */
+        /*
+           Procura os trechos relevantes
+           do personagem.
+        */
 
         const relevantText =
             getRelevantText(
@@ -977,14 +921,13 @@ async function askQuestion() {
 
         console.log(
             "CONTEXTO ENVIADO:",
-            relevantText.length,
-            "caracteres"
+            relevantText
         );
 
 
         /* ==================================================
            CHAMADA GROQ
-        ================================================== */
+           ================================================== */
 
         const response =
             await fetch(
@@ -1012,254 +955,63 @@ async function askQuestion() {
                             messages: [
 
                                 {
-
-                                    role:
-                                        "system",
+                                    role: "system",
 
                                     content: `
 
-TIAGO DIGITAL — PERSONALIDADE E COMPORTAMENTO
-
-IDENTIDADE
-
 Você é o Tiago Digital, uma versão virtual do Tiago real.
 
-Nome de conversa: Tiago.
-
-Fale em primeira pessoa quando estiver falando sobre si.
-
-Ao iniciar uma conversa ou quando for necessário se apresentar, seja breve. Basta dizer quem você é e que é o eu digital do Tiago.
-
-Não faça apresentações longas, biografias ou listas de características, interesses, tecnologias, projetos ou informações pessoais do Tiago.
-
-Essas informações devem aparecer naturalmente ao longo da conversa, quando forem relevantes ao assunto ou quando o usuário perguntar sobre elas.
-
-Não tente mostrar toda a sua personalidade de uma vez no início da conversa. A personalidade deve aparecer naturalmente durante a interação.
-
-PERSONALIDADE
-
-Você é:
-
-informal
-
-curioso
-
-interessado em tecnologia e inteligência artificial
-
-desenvolvedor de software
-
-empreendedor digital
-
-interessado em automação
-
-fã de videogames
-
-torce para o SPFC
-
-gosta de gato
-
-gosta de viagens
-
-gosta de assistir jogo de futebol mas não é fanático e não joga.
-
-gosta de natureza e praia
-
-gosta de fazer caminhadas
-
-gosta de andar de bicicleta
-
-não gosta de lugares cheios
-
-Converse de maneira natural, espontânea e humana, mas sem forçar gírias, bordões, expressões ou comportamentos que não façam parte naturalmente da personalidade do Tiago.
-
-Não invente reações ou maneirismos apenas para parecer descontraído.
-
-Evite respostas excessivamente formais, robóticas ou burocráticas.
-
-Não transforme toda resposta em uma explicação técnica.
-
-Use humor e emojis ocasionalmente quando combinarem com a conversa.
-
-CONTINUIDADE
-
-A conversa é contínua. Comporte-se como alguém que já está conversando com a outra pessoa, e não como alguém que acabou de iniciar uma nova conversa.
-
-Não cumprimente novamente sem motivo.
-
-Não se apresente novamente.
-
-Não repita seu nome, profissão, personalidade ou características que já estejam estabelecidas na conversa.
-
-Não faça introduções artificiais para reforçar quem você é.
-
-Continue a conversa diretamente a partir do contexto anterior, como uma conversa normal entre duas pessoas.
-
-Não crie aberturas artificiais como "Oi! Tudo bem?", "E aí, beleza?", "Como está sua vibe?" ou semelhantes quando a conversa já estiver em andamento.
-
-Responda diretamente ao que foi dito pelo usuário, sem reiniciar a conversa.
-
-INFORMAÇÕES CONHECIDAS SOBRE TIAGO
-
-Nome: Tiago
-Whatsapp: 19995176625
-email: Tiago@gmail.com
-facebook: https://www.facebook.com/public/Tiago-Silva/
-instagram: @tiagosilva1984
-Profissão: desenvolvedor de software e empreendedor digital
-Área: tecnologia, IA, automação e desenvolvimento de sistemas
-Estado civil: solteiro
-Gosta de tecnologia
-Gosta de videogames
-Gosta de gatos
-Gosta de viagens
-Tem um gato macho chamado Bethoven
-
-Use essas informações naturalmente quando forem relevantes.
-
-NÃO INVENTE FATOS
-
-Nunca invente fatos concretos sobre a vida do Tiago.
-
-Não invente:
-
-datas
-lugares
-pessoas
-empresas
-projetos
-clientes
-viagens
-relacionamentos
-acontecimentos
-experiências profissionais
-características físicas
-características do Bethoven
-
-Não transforme interesses em projetos reais.
-
-Não transforme possibilidades em acontecimentos.
-
-Não transforme uma hipótese em memória.
-
-MEMÓRIA E AFIRMAÇÕES DO USUÁRIO
-
-Não considere automaticamente verdadeira uma afirmação do usuário sobre o passado do Tiago.
-
-Se o usuário disser:
-
-"Você lembra daquele dia?"
-
-Não responda "eu lembro" se essa lembrança não estiver disponível.
-
-Se o usuário disser:
-
-"A gente estava na praia."
-
-Não transforme isso automaticamente em uma memória verdadeira.
-
-Responda naturalmente sem fingir que possui uma lembrança que não está confirmada.
-
-QUANDO NÃO SOUBER
-
-Não invente.
-
-Evite respostas robóticas.
-
-Prefira algo natural, por exemplo:
-
-"Essa parte eu não quero inventar. Não tenho essa informação confirmada."
-
-ASSUNTOS FORA DO FOCO
-
-Tiago pode conversar sobre qualquer assunto.
-
-Quando o assunto estiver fora do foco principal do Tiago Digital, responda de maneira breve e natural, sem transformar a conversa em uma explicação longa.
-
-Se o assunto envolver uma opinião pessoal de Tiago que não esteja registrada, não invente uma posição específica.
-
-Em vez disso, faça um comentário geral sobre o assunto, de forma coerente com a personalidade do personagem, sem afirmar que Tiago possui uma opinião que não foi registrada.
-
-Depois da resposta, quando houver uma oportunidade natural, direcione a conversa para assuntos mais relacionados ao propósito do Tiago Digital, como tecnologia, programação, inteligência artificial, automação, chatbots, desenvolvimento de software, projetos digitais e novas tecnologias.
-
-Não diga que você "não tem opinião" apenas porque uma opinião específica não está registrada.
-
-Não diga que não pode falar sobre o assunto.
-
-Não mencione memória, PDF, banco de dados ou limitações do sistema.
-
-CONHECIMENTO GERAL
-
-Quando a pergunta não estiver relacionada à vida, personalidade ou experiências do Tiago, responda normalmente usando seu conhecimento.
-
-Seja direto e proporcional à pergunta.
-
-Dê primeiro uma resposta simples e objetiva.
-
-Só aprofunde quando o usuário pedir mais detalhes ou quando a pergunta realmente exigir uma explicação mais completa.
-
-Não tente relacionar assuntos gerais ao Tiago apenas para tornar a conversa pessoal.
-
-Não termine automaticamente oferecendo mais informações ou perguntando se o usuário quer saber mais.
-
-RESPOSTAS
-
-Priorize sempre o assunto principal da pergunta.
-
-Quando perguntarem sobre algo específico do Tiago, responda primeiro e de forma objetiva sobre aquilo.
-
-Não aproveite a pergunta para listar outros interesses, hobbies, projetos ou características pessoais que não sejam relevantes para o assunto.
-
-Inclua detalhes adicionais apenas quando contribuírem para a resposta ou quando o usuário demonstrar interesse.
-
-Seja natural e proporcional à pergunta.
-
-Perguntas simples podem ter respostas curtas.
-
-Perguntas complexas devem receber explicações completas.
-
-Não termine todas as respostas com perguntas ou frases como:
-
-"Se quiser, posso ajudar."
-
-"Espero ter ajudado."
-
-"É só falar."
-
-Use essas frases somente quando fizer sentido.
-
-REGRA PRINCIPAL
-
-Naturalidade + personalidade + continuidade + coerência.
-
-Seja espontâneo e humano.
-
-Não invente fatos pessoais.
+Fale em primeira pessoa quando estiver falando sobre Tiago.
+
+PERSONALIDADE:
+
+- informal
+- curioso
+- interessado em tecnologia e inteligência artificial
+- desenvolvedor de software
+- empreendedor digital
+- interessado em automação
+- fã de videogames
+- torce para o SPFC
+- gosta de gatos
+- gosta de viagens
+- gosta de natureza e praia
+- gosta de caminhadas
+- gosta de andar de bicicleta
+- não gosta de lugares cheios
+
+REGRAS:
+
+Seja natural e espontâneo.
+
+Não invente fatos sobre a vida do Tiago.
 
 Não crie memórias falsas.
 
 Não transforme hipóteses em fatos.
 
-`
+Quando não souber alguma informação pessoal, diga naturalmente que não tem essa informação confirmada.
 
-                                },
+Responda de maneira proporcional à pergunta.
 
-                                {
+Perguntas simples devem receber respostas simples.
 
-                                    role:
-                                        "user",
+Perguntas complexas podem receber respostas mais completas.
 
-                                    content: `
+Não fique repetindo sua apresentação.
 
-CONTEXTO:
+CONTEXTO SOBRE TIAGO:
 
 ${relevantText}
 
-PERGUNTA:
-
-${question}
-
 `
+                                },
 
+                                {
+                                    role: "user",
+
+                                    content:
+                                        question
                                 }
 
                             ]
@@ -1272,45 +1024,40 @@ ${question}
 
         /* ==================================================
            LER RESPOSTA
-        ================================================== */
+           ================================================== */
 
         const data =
             await response.json();
 
 
         console.log(
-            "STATUS GROQ:",
+            "STATUS:",
             response.status
         );
 
-
         console.log(
-            "DATA GROQ:",
+            "RESPOSTA COMPLETA:",
             data
         );
 
 
         /* ==================================================
-           ERRO DA API
-        ================================================== */
+           VERIFICAR ERRO
+           ================================================== */
 
         if (!response.ok) {
 
-            botMessage.textContent =
-                "Erro API: " +
-                (
-                    data.error?.message ||
-                    "Erro desconhecido."
-                );
-
-            return;
+            throw new Error(
+                data.error?.message ||
+                "Erro desconhecido na API"
+            );
 
         }
 
 
         /* ==================================================
-           VERIFICAR RESPOSTA
-        ================================================== */
+           PEGAR RESPOSTA
+           ================================================== */
 
         if (
             !data.choices ||
@@ -1318,34 +1065,26 @@ ${question}
             !data.choices[0].message
         ) {
 
-            botMessage.textContent =
-                "Resposta inválida da IA.";
-
-            return;
+            throw new Error(
+                "A API retornou uma resposta inválida."
+            );
 
         }
 
 
-        /* ==================================================
-           PEGAR TEXTO
-        ================================================== */
-
         const answer =
-            data
-                .choices[0]
-                .message
-                .content;
+            data.choices[0].message.content;
 
 
         console.log(
-            "RESPOSTA ORIGINAL:",
+            "RESPOSTA DA IA:",
             answer
         );
 
 
         /* ==================================================
            DIGITAR RESPOSTA
-        ================================================== */
+           ================================================== */
 
         await typeWriter(
             botMessage,
@@ -1357,13 +1096,14 @@ ${question}
     } catch (error) {
 
         console.error(
-            "ERRO AO CONSULTAR IA:",
+            "ERRO:",
             error
         );
 
-
         botMessage.textContent =
-            "Erro ao consultar a IA.";
+            "Erro ao consultar a IA: " +
+            error.message;
+
 
     } finally {
 
@@ -1377,8 +1117,18 @@ ${question}
 
 
 /* ==========================================================
+   BOTÃO ENVIAR
+   ========================================================== */
+
+sendBtn.addEventListener(
+    "click",
+    askQuestion
+);
+
+
+/* ==========================================================
    ENTER PARA ENVIAR
-========================================================== */
+   ========================================================== */
 
 questionInput.addEventListener(
     "keydown",
@@ -1400,8 +1150,8 @@ questionInput.addEventListener(
 
 
 /* ==========================================================
-   AUTO RESIZE DO TEXTAREA
-========================================================== */
+   AUTO RESIZE
+   ========================================================== */
 
 questionInput.addEventListener(
     "input",
@@ -1422,22 +1172,28 @@ questionInput.addEventListener(
 
 /* ==========================================================
    MENU
-========================================================== */
+   ========================================================== */
 
 const menuButton =
-    document.getElementById("menuButton");
+    document.getElementById(
+        "menuButton"
+    );
 
 const dropdownMenu =
-    document.getElementById("dropdownMenu");
+    document.getElementById(
+        "dropdownMenu"
+    );
 
 const loginButton =
-    document.getElementById("loginButton");
+    document.getElementById(
+        "loginButton"
+    );
 
 const signupButton =
-    document.getElementById("signupButton");
+    document.getElementById(
+        "signupButton"
+    );
 
-
-/* Abrir / fechar menu */
 
 menuButton.addEventListener(
     "click",
@@ -1452,8 +1208,6 @@ menuButton.addEventListener(
     }
 );
 
-
-/* Fechar menu ao clicar fora */
 
 document.addEventListener(
     "click",
@@ -1475,8 +1229,6 @@ document.addEventListener(
 );
 
 
-/* Login */
-
 loginButton.addEventListener(
     "click",
     () => {
@@ -1488,8 +1240,6 @@ loginButton.addEventListener(
     }
 );
 
-
-/* Sign Up */
 
 signupButton.addEventListener(
     "click",
@@ -1504,8 +1254,8 @@ signupButton.addEventListener(
 
 
 /* ==========================================================
-   ENCONTRAR TRECHOS RELEVANTES DO PERSONAGEM
-========================================================== */
+   ENCONTRAR TRECHOS RELEVANTES
+   ========================================================== */
 
 function getRelevantText(
     characterText,
@@ -1522,660 +1272,114 @@ function getRelevantText(
     }
 
 
-    /* =====================================================
-       DEFINIÇÃO DAS SEÇÕES
-    ===================================================== */
-
-    const sections = [
-
-        {
-            name: "IDENTIDADE",
-
-            keywords: [
-                "nome",
-                "nome completo",
-                "idade",
-                "nascimento",
-                "data de nascimento",
-                "nasceu",
-                "cidade",
-                "mora",
-                "nacionalidade",
-                "estado civil"
-            ]
-        },
-
-        {
-            name: "QUEM É O TIAGO",
-
-            keywords: [
-                "quem é",
-                "quem você é",
-                "personalidade",
-                "como você é",
-                "características",
-                "caracteristica",
-                "qualidade",
-                "defeito",
-                "determinado",
-                "curioso",
-                "persistente"
-            ]
-        },
-
-        {
-            name: "HISTÓRIA",
-
-            keywords: [
-                "história",
-                "historia",
-                "infância",
-                "infancia",
-                "adolescência",
-                "adolescencia",
-                "começou",
-                "comecou",
-                "primeiro contato",
-                "programação",
-                "programacao"
-            ]
-        },
-
-        {
-            name: "PROFISSÃO",
-
-            keywords: [
-                "profissão",
-                "profissao",
-                "trabalho",
-                "emprego",
-                "carreira",
-                "desenvolvedor",
-                "programador",
-                "software",
-                "empreendedor",
-                "api",
-                "automação",
-                "automacao"
-            ]
-        },
-
-        {
-            name: "FORMAÇÃO E CURRÍCULO PROFISSIONAL",
-
-            keywords: [
-                "formação",
-                "formacao",
-                "faculdade",
-                "curso",
-                "estudo",
-                "estudos",
-                "graduação",
-                "graduacao",
-                "currículo",
-                "curriculo",
-                "experiência profissional",
-                "experiencia profissional",
-                "python",
-                "php",
-                "laravel",
-                "react",
-                "javascript",
-                "html",
-                "css"
-            ]
-        },
-
-        {
-            name: "COMO TIAGO TRABALHA",
-
-            keywords: [
-                "como trabalha",
-                "trabalha",
-                "modo de trabalhar",
-                "forma de trabalhar",
-                "resolver problemas",
-                "problemas",
-                "solução",
-                "solucao",
-                "tarefas repetitivas"
-            ]
-        },
-
-        {
-            name: "PERSONALIDADE",
-
-            keywords: [
-                "personalidade",
-                "temperamento",
-                "impaciente",
-                "tranquilo",
-                "sincero",
-                "direto",
-                "falsidade",
-                "humor",
-                "brincalhão",
-                "brincalhao"
-            ]
-        },
-
-        {
-            name: "VALORES",
-
-            keywords: [
-                "valores",
-                "honestidade",
-                "liberdade",
-                "família",
-                "familia",
-                "conhecimento",
-                "independência",
-                "independencia",
-                "lealdade",
-                "respeito",
-                "caráter",
-                "carater"
-            ]
-        },
-
-        {
-            name: "GOSTOS",
-
-            keywords: [
-                "gosta",
-                "gosto",
-                "música",
-                "musica",
-                "filme",
-                "filmes",
-                "série",
-                "serie",
-                "séries",
-                "series",
-                "livro",
-                "livros",
-                "comida",
-                "pizza",
-                "hambúrguer",
-                "hamburguer",
-                "churrasco",
-                "massa",
-                "japonesa",
-                "viagem",
-                "viajar"
-            ]
-        },
-
-        {
-            name: "HOBBIES",
-
-            keywords: [
-                "hobby",
-                "hobbies",
-                "tempo livre",
-                "violão",
-                "violao",
-                "guitarra",
-                "videogame",
-                "jogar",
-                "chorinho",
-                "música clássica",
-                "musica classica",
-                "tocar",
-                "projetos pessoais"
-            ]
-        },
-
-        {
-            name: "TECNOLOGIA",
-
-            keywords: [
-                "tecnologia",
-                "inteligência artificial",
-                "inteligencia artificial",
-                "ia",
-                "artificial intelligence",
-                "agente",
-                "agentes",
-                "automação",
-                "automacao",
-                "software",
-                "modelo de linguagem",
-                "modelos de linguagem"
-            ]
-        },
-
-        {
-            name: "ESPIRITUALIDADE E RELIGIÃO",
-
-            keywords: [
-                "religião",
-                "religiao",
-                "judeu",
-                "judaísmo",
-                "judaismo",
-                "judaica",
-                "judaicas",
-                "cabala",
-                "israel",
-                "espiritualidade",
-                "espiritual",
-                "sinagoga",
-                "religioso"
-            ]
-        },
-
-        {
-            name: "OPINIÕES",
-
-            keywords: [
-                "opinião",
-                "opiniao",
-                "dinheiro",
-                "trabalho",
-                "empreendedorismo",
-                "fracasso",
-                "educação",
-                "educacao",
-                "inteligência artificial",
-                "inteligencia artificial",
-                "sucesso"
-            ]
-        },
-
-        {
-            name: "COMO TIAGO TOMA DECISÕES",
-
-            keywords: [
-                "decisão",
-                "decisao",
-                "decisões",
-                "decisoes",
-                "decidir",
-                "escolher",
-                "escolha",
-                "risco",
-                "alternativas"
-            ]
-        },
-
-        {
-            name: "OBJETIVOS",
-
-            keywords: [
-                "objetivo",
-                "objetivos",
-                "sonho",
-                "sonhos",
-                "futuro",
-                "empresa",
-                "empreender",
-                "independência financeira",
-                "independencia financeira",
-                "liberdade financeira",
-                "cinco anos",
-                "dez anos"
-            ]
-        },
-
-        {
-            name: "EXPERIÊNCIAS MARCANTES",
-
-            keywords: [
-                "experiência",
-                "experiencia",
-                "experiências",
-                "experiencias",
-                "marcante",
-                "primeiro projeto",
-                "aprendizado",
-                "aprendi"
-            ]
-        },
-
-        {
-            name: "RELACIONAMENTOS",
-
-            keywords: [
-                "relacionamento",
-                "relacionamentos",
-                "amizade",
-                "amigos",
-                "confiança",
-                "respeito",
-                "sinceridade",
-                "lealdade",
-                "pessoas próximas"
-            ]
-        },
-
-        {
-            name: "FORMA DE FALAR",
-
-            keywords: [
-                "forma de falar",
-                "como fala",
-                "jeito de falar",
-                "expressões",
-                "expressão",
-                "fala",
-                "frases"
-            ]
-        },
-
-        {
-            name: "COMO O TIAGO RESPONDERIA",
-
-            keywords: [
-                "como responderia",
-                "responderia",
-                "resposta",
-                "profissão",
-                "sonho",
-                "qualidade",
-                "defeito",
-                "inteligência artificial"
-            ]
-        },
-
-        {
-            name: "MANEIRA DE PENSAR",
-
-            keywords: [
-                "maneira de pensar",
-                "forma de pensar",
-                "pensamento",
-                "filosofia",
-                "problemas",
-                "soluções",
-                "soluções práticas",
-                "experimentar"
-            ]
-        },
-
-        {
-            name: "FATOS SOBRE TIAGO",
-
-            keywords: [
-                "fato",
-                "fatos",
-                "informação",
-                "informações",
-                "sobre você"
-            ]
-        },
-
-        {
-            name: "REGRAS DO TIAGO DIGITAL",
-
-            keywords: [
-                "regras",
-                "como responder",
-                "memória",
-                "informação pessoal"
-            ]
-        }
-
-    ];
-
-
-    /* =====================================================
-       NORMALIZAR
-    ===================================================== */
-
     function normalize(text) {
 
         return text
             .toLowerCase()
             .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "");
+            .replace(
+                /[\u0300-\u036f]/g,
+                ""
+            );
 
     }
 
 
-    const normalizedCharacter =
+    const normalizedText =
         normalize(characterText);
 
     const normalizedQuestion =
         normalize(question);
 
 
-    /* =====================================================
-       LOCALIZAR SEÇÕES
-    ===================================================== */
+    /*
+       Por enquanto usamos palavras da pergunta
+       para encontrar partes relevantes.
+    */
 
-    const sectionPositions = [];
-
-
-    sections.forEach(section => {
-
-        const normalizedName =
-            normalize(section.name);
-
-        const position =
-            normalizedCharacter.indexOf(
-                normalizedName
+    const words =
+        normalizedQuestion
+            .split(/\s+/)
+            .filter(
+                word =>
+                    word.length >= 4
             );
 
 
-        if (position !== -1) {
+    const lines =
+        characterText.split("\n");
 
-            sectionPositions.push({
 
-                ...section,
+    const relevantLines = [];
 
-                position
 
-            });
+    for (
+        const line of lines
+    ) {
+
+        const normalizedLine =
+            normalize(line);
+
+
+        for (
+            const word of words
+        ) {
+
+            if (
+                normalizedLine.includes(
+                    word
+                )
+            ) {
+
+                relevantLines.push(
+                    line
+                );
+
+                break;
+
+            }
 
         }
 
-    });
+    }
 
 
-    sectionPositions.sort(
-        (a, b) =>
-            a.position - b.position
-    );
-
-
-    /* =====================================================
-       EXTRAIR SEÇÕES
-    ===================================================== */
-
-    const extractedSections =
-        sectionPositions.map(
-            (section, index) => {
-
-                const start =
-                    section.position;
-
-
-                const end =
-                    index + 1 <
-                    sectionPositions.length
-                        ? sectionPositions[
-                            index + 1
-                          ].position
-                        : characterText.length;
-
-
-                return {
-
-                    name:
-                        section.name,
-
-                    keywords:
-                        section.keywords,
-
-                    text:
-                        characterText.substring(
-                            start,
-                            end
-                        )
-
-                };
-
-            }
-        );
-
-
-    /* =====================================================
-       CALCULAR RELEVÂNCIA
-    ===================================================== */
-
-    const scoredSections =
-        extractedSections.map(
-            section => {
-
-                let score = 0;
-
-
-                const sectionText =
-                    normalize(
-                        section.text
-                    );
-
-
-                section.keywords.forEach(
-                    keyword => {
-
-                        const normalizedKeyword =
-                            normalize(keyword);
-
-
-                        if (
-                            normalizedQuestion.includes(
-                                normalizedKeyword
-                            )
-                        ) {
-
-                            score += 5;
-
-                        }
-
-
-                        if (
-                            sectionText.includes(
-                                normalizedKeyword
-                            )
-                        ) {
-
-                            score += 1;
-
-                        }
-
-                    }
-                );
-
-
-                const words =
-                    normalizedQuestion
-                        .split(/\s+/)
-                        .filter(
-                            word =>
-                                word.length >= 4
-                        );
-
-
-                words.forEach(
-                    word => {
-
-                        if (
-                            sectionText.includes(
-                                word
-                            )
-                        ) {
-
-                            score += 1;
-
-                        }
-
-                    }
-                );
-
-
-                return {
-
-                    ...section,
-
-                    score
-
-                };
-
-            }
-        );
-
-
-    /* =====================================================
-       ORDENAR
-    ===================================================== */
-
-    scoredSections.sort(
-        (a, b) =>
-            b.score - a.score
-    );
-
-
-    /* =====================================================
-       PEGAR MELHORES
-    ===================================================== */
-
-    const selectedSections =
-        scoredSections
-            .filter(
-                section =>
-                    section.score > 0
-            )
-            .slice(0, 3);
-
-
-    /* =====================================================
-       SE NÃO ENCONTRAR
-    ===================================================== */
+    /*
+       Limita o contexto enviado
+       para evitar mandar o arquivo inteiro.
+    */
 
     if (
-        selectedSections.length === 0
+        relevantLines.length === 0
     ) {
 
         return characterText.substring(
             0,
-            3000
+            4000
         );
 
     }
 
 
-    /* =====================================================
-       MONTAR CONTEXTO
-    ===================================================== */
-
-    return selectedSections
-        .map(
-            (section, index) => {
-
-                return `
-
-===== MEMÓRIA ${index + 1}: ${section.name} =====
-
-${section.text.trim()}
-
-`;
-
-            }
-        )
-        .join("\n\n");
+    return relevantLines
+        .slice(0, 30)
+        .join("\n");
 
 }
 
 
 /* ==========================================================
    INICIAR
-========================================================== */
+   ========================================================== */
 
 carregarPersonagem();
 
 </script>
+
+      
+
+
+            
 
 </body>
 
