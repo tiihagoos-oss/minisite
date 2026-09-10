@@ -1103,15 +1103,312 @@ signupButton.addEventListener(
 
 
 /* ==========================================================
-   ENCONTRAR TRECHOS RELEVANTES
-   ========================================================== */
+   PALAVRAS-CHAVE DOS CONTEXTOS
+========================================================== */
+
+const palavrasChave = {
+
+    "IDENTIDADE": [
+        "nome",
+        "nome completo",
+        "estado civil",
+        "solteiro",
+        "casado",
+        "idade",
+        "quem é"
+    ],
+
+    "QUEM É O TIAGO": [
+        "quem é",
+        "sobre você",
+        "sobre tiago",
+        "como você é",
+        "quem você é"
+    ],
+
+    "HISTÓRIA": [
+        "história",
+        "historia",
+        "passado",
+        "trajetória",
+        "trajetoria",
+        "começou",
+        "comecou",
+        "infância",
+        "infancia"
+    ],
+
+    "PROFISSÃO": [
+        "profissão",
+        "profissao",
+        "trabalho",
+        "trabalha",
+        "emprego",
+        "carreira",
+        "ocupação",
+        "ocupacao",
+        "o que faz",
+        "faz o que"
+    ],
+
+    "FORMAÇÃO E CURRÍCULO PROFISSIONAL": [
+        "faculdade",
+        "universidade",
+        "formação",
+        "formacao",
+        "estudo",
+        "estudou",
+        "estudar",
+        "curso",
+        "cursos",
+        "graduação",
+        "graduacao",
+        "diploma",
+        "faculdade",
+        "currículo",
+        "curriculo",
+        "formado",
+        "onde estudou"
+    ],
+
+    "COMO TIAGO TRABALHA": [
+        "como trabalha",
+        "forma de trabalhar",
+        "trabalhar",
+        "resolve problemas",
+        "problemas",
+        "automatizar",
+        "automação",
+        "automacao"
+    ],
+
+    "PERSONALIDADE": [
+        "personalidade",
+        "jeito",
+        "temperamento",
+        "como você é",
+        "como tiago é",
+        "caráter",
+        "carater"
+    ],
+
+    "VALORES": [
+        "valores",
+        "valoriza",
+        "honestidade",
+        "liberdade",
+        "conhecimento",
+        "independência",
+        "independencia",
+        "lealdade",
+        "respeito"
+    ],
+
+    "GOSTOS": [
+        "gosta",
+        "gostoso",
+        "preferências",
+        "preferencias",
+        "não gosta",
+        "nao gosta",
+        "futebol",
+        "videogame",
+        "videogames",
+        "gato",
+        "gatos",
+        "viagem",
+        "viagens",
+        "praia",
+        "natureza",
+        "bicicleta"
+    ],
+
+    "HOBBIES": [
+        "hobby",
+        "hobbies",
+        "passatempo",
+        "passatempos",
+        "tempo livre",
+        "lazer",
+        "videogame",
+        "videogames",
+        "caminhada",
+        "caminhadas",
+        "bicicleta",
+        "viagens"
+    ],
+
+    "TECNOLOGIA": [
+        "tecnologia",
+        "tecnologias",
+        "inteligência artificial",
+        "inteligencia artificial",
+        "ia",
+        "automação",
+        "automacao",
+        "software",
+        "programação",
+        "programacao",
+        "chatbot",
+        "chatbots",
+        "agente",
+        "agentes",
+        "linguagem",
+        "modelo de linguagem"
+    ],
+
+    "ESPIRITUALIDADE E RELIGIÃO": [
+        "religião",
+        "religiao",
+        "religioso",
+        "judaísmo",
+        "judaismo",
+        "judeu",
+        "judaica",
+        "judaicas",
+        "espiritualidade",
+        "espiritual",
+        "Israel",
+        "crença",
+        "crencas",
+        "crenças",
+        "fé",
+        "fe"
+    ],
+
+    "OPINIÕES": [
+        "opinião",
+        "opiniao",
+        "opiniões",
+        "opinioes",
+        "acha",
+        "pensa",
+        "pensamento",
+        "o que você acha",
+        "o que tiago acha"
+    ],
+
+    "COMO TIAGO TOMA DECISÕES": [
+        "decisão",
+        "decisao",
+        "decisões",
+        "decisoes",
+        "decide",
+        "escolhe",
+        "escolher",
+        "riscos",
+        "alternativas"
+    ],
+
+    "OBJETIVOS": [
+        "objetivo",
+        "objetivos",
+        "meta",
+        "metas",
+        "futuro",
+        "pretende",
+        "pretende fazer",
+        "sonho",
+        "sonhos",
+        "independência financeira",
+        "independencia financeira"
+    ],
+
+    "EXPERIÊNCIAS MARCANTES": [
+        "experiência",
+        "experiencia",
+        "experiências",
+        "experiencias",
+        "acontecimento",
+        "acontecimentos",
+        "momento marcante",
+        "experiência marcante"
+    ],
+
+    "RELACIONAMENTOS": [
+        "relacionamento",
+        "relacionamentos",
+        "amizade",
+        "amizades",
+        "amigo",
+        "amigos",
+        "confiança",
+        "confianca",
+        "lealdade",
+        "sinceridade"
+    ],
+
+    "FORMA DE FALAR": [
+        "como fala",
+        "fala",
+        "jeito de falar",
+        "maneira de falar",
+        "linguagem",
+        "gíria",
+        "giria",
+        "formal",
+        "informal"
+    ],
+
+    "COMO O TIAGO RESPONDERIA": [
+        "como responderia",
+        "responderia",
+        "como tiago responderia",
+        "o que responderia",
+        "resposta"
+    ],
+
+    "MANEIRA DE PENSAR": [
+        "como pensa",
+        "maneira de pensar",
+        "pensar",
+        "raciocínio",
+        "raciocinio",
+        "como raciocina",
+        "forma de pensar"
+    ],
+
+    "FATOS SOBRE TIAGO": [
+        "fatos",
+        "fato",
+        "informações sobre tiago",
+        "informacoes sobre tiago",
+        "dados sobre tiago",
+        "curiosidades",
+        "informação pessoal",
+        "informacao pessoal"
+    ],
+
+    "REGRAS DO TIAGO DIGITAL": [
+        "regra",
+        "regras",
+        "pode inventar",
+        "pode criar",
+        "memória",
+        "memoria",
+        "informação falsa",
+        "informacao falsa"
+    ]
+};
+
+
+/* ==========================================================
+   NORMALIZAR TEXTO
+========================================================== */
+
 function normalizar(texto) {
+
     return texto
         .toLowerCase()
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "");
+
 }
 
+
+/* ==========================================================
+   ENCONTRAR CONTEXTOS RELEVANTES
+========================================================== */
 
 function getRelevantText(personagem, pergunta) {
 
@@ -1119,58 +1416,85 @@ function getRelevantText(personagem, pergunta) {
         return "";
     }
 
-    const perguntaNormalizada = normalizar(pergunta);
+    const perguntaNormalizada =
+        normalizar(pergunta);
 
-    const palavras = perguntaNormalizada
-        .split(/\s+/)
-        .filter(palavra => palavra.length >= 3);
-
-    const secoes = [];
+    const resultados = [];
 
     for (const [titulo, conteudo] of Object.entries(personagem)) {
 
-        const textoSecao = normalizar(
-            titulo + " " + conteudo
-        );
+        const chaves =
+            palavrasChave[titulo] || [];
 
         let pontos = 0;
 
-        for (const palavra of palavras) {
+        for (const palavraChave of chaves) {
 
-            if (normalizar(titulo).includes(palavra)) {
-                pontos += 5;
+            const chaveNormalizada =
+                normalizar(palavraChave);
+
+            if (
+                perguntaNormalizada
+                    .includes(chaveNormalizada)
+            ) {
+
+                pontos += 10;
+
             }
 
-            if (textoSecao.includes(palavra)) {
-                pontos += 1;
-            }
+        }
+
+        /* Também considera o próprio título da seção */
+
+        const tituloNormalizado =
+            normalizar(titulo);
+
+        if (
+            perguntaNormalizada
+                .includes(tituloNormalizado)
+        ) {
+
+            pontos += 20;
+
         }
 
         if (pontos > 0) {
-            secoes.push({
+
+            resultados.push({
                 titulo,
                 conteudo,
                 pontos
             });
+
         }
+
     }
 
-    secoes.sort((a, b) => b.pontos - a.pontos);
 
-    return secoes
+    /* ======================================================
+       ORDENA PELOS CONTEXTOS MAIS RELEVANTES
+    ====================================================== */
+
+    resultados.sort(
+        (a, b) => b.pontos - a.pontos
+    );
+
+
+    /* ======================================================
+       ENVIA SOMENTE OS MELHORES CONTEXTOS
+    ====================================================== */
+
+    return resultados
         .slice(0, 3)
         .map(secao =>
             `### ${secao.titulo}\n${secao.conteudo}`
         )
         .join("\n\n");
+
 }
-    
-        
-    
 
 
-    
-
+      
 
 /* ==========================================================
    INICIAR
