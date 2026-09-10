@@ -592,58 +592,6 @@ CARREGAR PERSONAGEM AUTOMATICAMENTE
 
 
 
-const personagem =
-  await personagemResponse.json();
-
-
-
-characterText =
-  Object.entries(personagem)
-    .map(([section, content]) => {
-
-      return `
-
-===== ${section} =====
-
-${
-typeof content === "string"
-? content
-: JSON.stringify(content, null, 2)
-}
-`;
-
-    })
-    .join("\n\n");
-
-
-status.textContent =
-  "Personagem carregado.";
-
-
-console.log(
-  "PERSONAGEM CARREGADO:",
-  characterText.length,
-  "caracteres"
-);
-
-} catch (error) {
-
-console.error(error);
-
-
-status.textContent =
-  "Erro ao carregar personagem.";
-
-
-addMessage(
-  "Erro ao carregar as informações do personagem.",
-  "bot"
-);
-
-}
-
-}
-
 /* ==========================================================
 ADICIONAR MENSAGEM
 ========================================================== */
