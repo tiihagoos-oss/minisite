@@ -1256,116 +1256,71 @@ signupButton.addEventListener(
 /* ==========================================================
    ENCONTRAR TRECHOS RELEVANTES
    ========================================================== */
+function normalizar(texto) {
+    return texto
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+}
 
-function getRelevantText(
-    characterText,
-    question
-) {
 
-    if (
-        !characterText ||
-        !question
-    ) {
+function getRelevantText(personagem, pergunta) {
 
+    if (!personagem || !pergunta) {
         return "";
-
     }
 
+    const perguntaNormalizada = normalizar(pergunta);
 
-    function normalize(text) {
+    const palavras = perguntaNormalizada
+        .split(/\s+/)
+        .filter(palavra => palavra.length >= 3);
 
-        return text
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(
-                /[\u0300-\u036f]/g,
-                ""
-            );
+    const secoes = [];
 
-    }
+    for (const [titulo, conteudo] of Object.entries(personagem)) {
 
-
-    const normalizedText =
-        normalize(characterText);
-
-    const normalizedQuestion =
-        normalize(question);
-
-
-    /*
-       Por enquanto usamos palavras da pergunta
-       para encontrar partes relevantes.
-    */
-
-    const words =
-        normalizedQuestion
-            .split(/\s+/)
-            .filter(
-                word =>
-                    word.length >= 4
-            );
-
-
-    const lines =
-        characterText.split("\n");
-
-
-    const relevantLines = [];
-
-
-    for (
-        const line of lines
-    ) {
-
-        const normalizedLine =
-            normalize(line);
-
-
-        for (
-            const word of words
-        ) {
-
-            if (
-                normalizedLine.includes(
-                    word
-                )
-            ) {
-
-                relevantLines.push(
-                    line
-                );
-
-                break;
-
-            }
-
-        }
-
-    }
-
-
-    /*
-       Limita o contexto enviado
-       para evitar mandar o arquivo inteiro.
-    */
-
-    if (
-        relevantLines.length === 0
-    ) {
-
-        return characterText.substring(
-            0,
-            4000
+        const textoSecao = normalizar(
+            titulo + " " + conteudo
         );
 
+        let pontos = 0;
+
+        for (const palavra of palavras) {
+
+            if (normalizar(titulo).includes(palavra)) {
+                pontos += 5;
+            }
+
+            if (textoSecao.includes(palavra)) {
+                pontos += 1;
+            }
+        }
+
+        if (pontos > 0) {
+            secoes.push({
+                titulo,
+                conteudo,
+                pontos
+            });
+        }
     }
 
+    secoes.sort((a, b) => b.pontos - a.pontos);
 
-    return relevantLines
-        .slice(0, 30)
-        .join("\n");
-
+    return secoes
+        .slice(0, 3)
+        .map(secao =>
+            `### ${secao.titulo}\n${secao.conteudo}`
+        )
+        .join("\n\n");
 }
+    
+        
+    
+
+
+    
 
 
 /* ==========================================================
