@@ -1998,8 +1998,13 @@ function getRelevantText(personagem, pergunta) {
 
     for (const [titulo, conteudo] of Object.entries(personagem)) {
 
-        const chaves =
-            palavrasChave[titulo] || [];
+      const secao = sections.find(
+    section => section.name === titulo
+);
+
+const chaves = secao
+    ? secao.keywords
+    : [];
 
         let pontos = 0;
 
