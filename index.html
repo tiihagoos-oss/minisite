@@ -830,190 +830,88 @@ async function typeWriter(
 
 async function askQuestion() {
 
-    const question =
-        questionInput.value.trim();
+    const question = questionInput.value.trim();
 
-    if (!question) {
-
-        return;
-
-    }
-
-    console.log(
-        "PERGUNTA:",
-        question
-    );
-
-
-    /* Desabilita botão */
+    if (!question) return;
 
     sendBtn.disabled = true;
 
-
-    /* Mostra pergunta do usuário */
-
-    addMessage(
-        question,
-        "user"
-    );
-
-
-    /* Limpa campo */
+    addMessage(question, "user");
 
     questionInput.value = "";
 
-    questionInput.style.height =
-        "auto";
-
-
-    /* Mensagem provisória da IA */
-
-    const botMessage =
-        addMessage(
-            "Pensando...",
-            "bot"
-        );
-
+    const botMessage = addMessage("Pensando...", "bot");
 
     try {
 
-        /*
-           Procura os trechos relevantes
-           do personagem.
-        */
-
-        const relevantText =
-            getRelevantText(
-                characterText,
-                question
-            );
-
-
-        console.log(
-            "CONTEXTO ENVIADO:",
-            relevantText
+        const relevantText = getRelevantText(
+            personagem,
+            question
         );
 
+        console.log("PERGUNTA:", question);
+        console.log("CONTEXTO ENVIADO:", relevantText);
 
-        /* ==================================================
-           CHAMADA GROQ
-           ================================================== */
+        const response = await fetch(
+            "https://api.groq.com/openai/v1/chat/completions",
+            {
+                method: "POST",
 
-        const response =
-            await fetch(
-                "https://api.groq.com/openai/v1/chat/completions",
-                {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${GROQ_API_KEY}`
+                },
 
-                    method: "POST",
+                body: JSON.stringify({
 
-                    headers: {
+                    model: "openai/gpt-oss-20b",
 
-                        "Content-Type":
-                            "application/json",
+                    messages: [
 
-                        "Authorization":
-                            `Bearer ${GROQ_API_KEY}`
+                        {
+                            role: "system",
 
-                    },
+                            content: `
+Você é o Tiago Digital, uma versão virtual do Tiago.
 
-                    body:
-                        JSON.stringify({
+Sua função é conversar como se fosse o Tiago.
 
-                            model:
-                                "openai/gpt-oss-20b",
+Use as informações fornecidas no CONTEXTO SOBRE TIAGO como fonte
+principal para responder perguntas sobre a identidade, personalidade,
+gostos, história, religião, profissão e outras características pessoais
+do Tiago.
 
-                            messages: [
+REGRAS IMPORTANTES:
 
-                                {
-                                    role: "system",
-
-                                    content: `
-
-Você é o Tiago Digital, uma versão virtual do Tiago real.
-
-Fale em primeira pessoa quando estiver falando sobre Tiago.
-
-PERSONALIDADE:
-
-- informal
-- curioso
-- interessado em tecnologia e inteligência artificial
-- desenvolvedor de software
-- empreendedor digital
-- interessado em automação
-- fã de videogames
-- torce para o SPFC
-- gosta de gatos
-- gosta de viagens
-- gosta de natureza e praia
-- gosta de caminhadas
-- gosta de andar de bicicleta
-- não gosta de lugares cheios
-
-REGRAS:
-
-Seja natural e espontâneo.
-
-Não invente fatos sobre a vida do Tiago.
-
-Não crie memórias falsas.
-
-Não transforme hipóteses em fatos.
-
-Quando não souber alguma informação pessoal, diga naturalmente que não tem essa informação confirmada.
-
-Responda de maneira proporcional à pergunta.
-
-Perguntas simples devem receber respostas simples.
-
-Perguntas complexas podem receber respostas mais completas.
-
-Não fique repetindo sua apresentação.
+1. Não invente informações pessoais.
+2. Não contradiga o contexto fornecido.
+3. Se uma informação estiver marcada como fictícia ou provisória,
+   trate-a como informação provisória.
+4. Se o contexto não tiver a informação, diga que não há informação
+   suficiente.
+5. Não diga que "sua base de dados possui uma informação".
+6. Não fale como um sistema de IA consultando uma base.
+7. Responda naturalmente, como o próprio Tiago.
+8. Seja direto e proporcional à pergunta.
 
 CONTEXTO SOBRE TIAGO:
 
 ${relevantText}
-
 `
-                                },
+                        },
 
-                                {
-                                    role: "user",
+                        {
+                            role: "user",
+                            content: question
+                        }
 
-                                    content:
-                                        question
-                                }
+                    ]
 
-                            ]
-
-                        })
-
-                }
-            );
-
-
-        /* ==================================================
-           LER RESPOSTA
-           ================================================== */
-
-        const data =
-            await response.json();
-
-
-        console.log(
-            "STATUS:",
-            response.status
+                })
+            }
         );
 
-        console.log(
-            "RESPOSTA COMPLETA:",
-            data
-        );
-
-
-        /* ==================================================
-           VERIFICAR ERRO
-           ================================================== */
+        const data = await response.json();
 
         if (!response.ok) {
 
@@ -1021,40 +919,16 @@ ${relevantText}
                 data.error?.message ||
                 "Erro desconhecido na API"
             );
-
         }
-
-
-        /* ==================================================
-           PEGAR RESPOSTA
-           ================================================== */
-
-        if (
-            !data.choices ||
-            !data.choices[0] ||
-            !data.choices[0].message
-        ) {
-
-            throw new Error(
-                "A API retornou uma resposta inválida."
-            );
-
-        }
-
 
         const answer =
-            data.choices[0].message.content;
+            data.choices?.[0]?.message?.content;
 
-
-        console.log(
-            "RESPOSTA DA IA:",
-            answer
-        );
-
-
-        /* ==================================================
-           DIGITAR RESPOSTA
-           ================================================== */
+        if (!answer) {
+            throw new Error(
+                "A API não retornou uma resposta válida."
+            );
+        }
 
         await typeWriter(
             botMessage,
@@ -1062,28 +936,23 @@ ${relevantText}
             12
         );
 
-
     } catch (error) {
 
-        console.error(
-            "ERRO:",
-            error
-        );
+        console.error("ERRO:", error);
 
         botMessage.textContent =
-            "Erro ao consultar a IA: " +
-            error.message;
-
+            "Erro ao consultar a IA: " + error.message;
 
     } finally {
 
         sendBtn.disabled = false;
 
         questionInput.focus();
-
     }
-
 }
+
+
+
 
 
 /* ==========================================================
