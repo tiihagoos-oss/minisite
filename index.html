@@ -1087,6 +1087,21 @@ questionInput.addEventListener(
 );
 
 
+questionInput.addEventListener("focus", () => {
+
+    setTimeout(() => {
+
+        questionInput.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    }, 300);
+
+});
+      
+
+
 /* ==========================================================
    MENU
    ========================================================== */
