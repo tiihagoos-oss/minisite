@@ -688,11 +688,41 @@ textarea::placeholder {
 
 </main>
 
-<script src="personagem.js"></script>
 
+/* =========== */
+<script src="personagem.js"></script>
+/* =========== */
 <script src="./memoria.js"></script>
 
+      
+
 <script>
+
+/* =========== */
+let personagem = {};
+
+/* =========== */
+async function carregarPersonagem() {
+    try {
+        const response = await fetch("./personagem.json");
+
+        if (!response.ok) {
+            throw new Error("Não foi possível carregar personagem.json");
+        }
+
+        personagem = await response.json();
+
+        console.log("PERSONAGEM CARREGADO:", personagem);
+
+        status.textContent = "Personagem carregado";
+
+    } catch (error) {
+        console.error("ERRO AO CARREGAR PERSONAGEM:", error);
+        status.textContent = "Erro ao carregar personagem";
+    }
+}
+
+
 
 /* ==========================================================
    CONFIGURAÇÕES
@@ -746,6 +776,12 @@ async function carregarPersonagem() {
     }
 }
 
+/* =========== */      
+async function iniciar() {
+    await carregarPersonagem();
+}
+/* =========== */        
+iniciar();
 
 
 /* ==========================================================
