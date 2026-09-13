@@ -1370,6 +1370,53 @@ ${relevantText}
 }     */
 
 
+
+
+const memoriaConversa = {
+
+    mensagens: [],
+
+    adicionarMensagem(role, content) {
+
+        this.mensagens.push({
+            role: role,
+            content: content
+        });
+
+    },
+
+    obterContexto() {
+
+        return this.mensagens
+            .map(mensagem => {
+                return `${mensagem.role}: ${mensagem.content}`;
+            })
+            .join("\n");
+
+    },
+
+    precisaResumir() {
+
+        return this.mensagens.length >= 20;
+
+    },
+
+    async gerarResumo(apiKey, model) {
+
+        // Por enquanto não faz nada.
+        // Depois podemos implementar o resumo da conversa.
+
+        console.log(
+            "Resumo solicitado:",
+            this.mensagens.length,
+            "mensagens"
+        );
+
+    }
+
+};
+      
+
 async function askQuestion() {
 
 const question =
