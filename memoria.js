@@ -1,61 +1,22 @@
 /* ==========================================================
 MEMÓRIA DA CONVERSA
-Este arquivo controla somente a memória da conversa atual.
-
-Ele NÃO controla:
-
-personagem.json
-personalidade
-interface
-mensagens visuais do chat
-Ele controla:
-
-histórico da conversa
-resumo da conversa
-mensagens recentes
-quando criar um resumo
 ========================================================== */
+
 /* ==========================================================
 CONFIGURAÇÕES
 ========================================================== */
 
-/*
-Quantas mensagens recentes queremos manter completas
-depois que um resumo for criado.
-
-6 mensagens = aproximadamente 3 perguntas + 3 respostas.
-*/
-
 const MEMORIA_MENSAGENS_RECENTES = 6;
-
-/*
-Quando o histórico passar dessa quantidade,
-o sistema cria um resumo.
-
-Estamos usando mensagens apenas para o primeiro teste.
-
-Depois podemos trocar isso por limite de tokens.
-*/
 
 const MEMORIA_LIMITE_MENSAGENS = 8;
 
 /* ==========================================================
-ESTADO DA CONVERSA
+ESTADO INTERNO
 ========================================================== */
 
-const memoriaConversa = {
-
-/*
-   Resumo das partes antigas da conversa.
-*/
+const memoriaEstado = {
 
 resumo: "",
-
-
-/*
-   Mensagens que ainda estão sendo mantidas
-   integralmente.
-*/
 
 mensagens: []
 
@@ -65,7 +26,7 @@ mensagens: []
 ADICIONAR MENSAGEM
 ========================================================== */
 
-function memoriaAdicionarMensagem(
+function adicionarMensagem(
 role,
 content
 ) {
@@ -74,8 +35,7 @@ if (!content) {
     return;
 }
 
-
-memoriaConversa.mensagens.push({
+memoriaEstado.mensagens.push({
 
     role: role,
 
@@ -83,9 +43,8 @@ memoriaConversa.mensagens.push({
 
 });
 
-
 console.log(
-    "Memória: mensagem adicionada",
+    "MEMÓRIA: mensagem adicionada",
     role,
     content
 );
@@ -93,24 +52,24 @@ console.log(
 }
 
 /* ==========================================================
-PEGAR MENSAGENS
+OBTER MENSAGENS
 ========================================================== */
 
-function memoriaObterMensagens() {
+function obterMensagens() {
 
 return [
-    ...memoriaConversa.mensagens
+    ...memoriaEstado.mensagens
 ];
 
 }
 
 /* ==========================================================
-PEGAR RESUMO
+OBTER RESUMO
 ========================================================== */
 
-function memoriaObterResumo() {
+function obterResumo() {
 
-return memoriaConversa.resumo;
+return memoriaEstado.resumo;
 
 }
 
@@ -118,22 +77,22 @@ return memoriaConversa.resumo;
 VERIFICAR SE PRECISA RESUMIR
 ========================================================== */
 
-function memoriaPrecisaResumir() {
+function precisaResumir() {
 
 return (
-    memoriaConversa.mensagens.length >
+    memoriaEstado.mensagens.length >
     MEMORIA_LIMITE_MENSAGENS
 );
 
 }
 
 /* ==========================================================
-CRIAR TEXTO DO HISTÓRICO
+CRIAR HISTÓRICO
 ========================================================== */
 
-function memoriaCriarHistorico() {
+function criarHistorico() {
 
-return memoriaConversa.mensagens
+return memoriaEstado.mensagens
 
     .map(message => {
 
@@ -141,7 +100,6 @@ return memoriaConversa.mensagens
             message.role === "user"
                 ? "USUÁRIO"
                 : "TIAGO";
-
 
         return (
             `${nome}: ${message.content}`
@@ -157,7 +115,7 @@ return memoriaConversa.mensagens
 GERAR RESUMO
 ========================================================== */
 
-async function memoriaGerarResumo(
+async function gerarResumo(
 groqApiKey,
 model = "openai/gpt-oss-20b"
 ) {
@@ -171,26 +129,18 @@ if (!groqApiKey) {
 }
 
 
-/*
-   Pega as mensagens atuais.
-*/
-
 const historico =
-    memoriaCriarHistorico();
+    criarHistorico();
 
-
-/*
-   Prompt responsável pela criação da memória.
-*/
 
 const prompt = `
 
-Você é responsável por manter a memória resumida
+Você é responsável por criar a memória resumida
 de uma conversa.
 
 Crie um resumo curto e útil para que outro modelo
-consiga continuar essa conversa sem precisar receber
-todas as mensagens antigas.
+consiga continuar a conversa sem receber todas
+as mensagens antigas.
 
 PRESERVE:
 
@@ -204,29 +154,21 @@ preferências relevantes;
 informações necessárias para entender referências futuras.
 NÃO INVENTE informações.
 
-Se existir um resumo anterior, mantenha as informações
-importantes dele e acrescente as informações relevantes
-das novas mensagens.
-
 RESUMO ANTERIOR:
 
-${memoriaConversa.resumo || "(nenhum)"}
+${memoriaEstado.resumo || "(nenhum)"}
 
-MENSAGENS DA CONVERSA:
+MENSAGENS:
 
 ${historico}
 
-Retorne somente o novo resumo.
+Retorne somente o resumo atualizado.
 `;
 
 console.log(
-    "Memória: gerando resumo..."
+    "MEMÓRIA: gerando resumo..."
 );
 
-
-/*
-   Chamada para a Groq.
-*/
 
 const response =
     await fetch(
@@ -255,7 +197,7 @@ const response =
                         role: "system",
 
                         content:
-                            "Você cria memórias resumidas de conversas."
+                            "Você cria resumos de memória de conversas."
                     },
 
                     {
@@ -278,23 +220,15 @@ const data =
     await response.json();
 
 
-/*
-   Verifica erro da API.
-*/
-
 if (!response.ok) {
 
     throw new Error(
         data.error?.message ||
-        "Erro ao gerar resumo da conversa."
+        "Erro ao gerar resumo."
     );
 
 }
 
-
-/*
-   Pega o resumo retornado.
-*/
 
 const resumo =
     data.choices?.[0]?.message?.content;
@@ -309,23 +243,17 @@ if (!resumo) {
 }
 
 
-/*
-   Salva o novo resumo.
-*/
-
-memoriaConversa.resumo =
+memoriaEstado.resumo =
     resumo.trim();
 
 
 /*
-   Depois que o resumo foi criado,
-   não precisamos mais manter todas as mensagens.
-
-   Mantemos somente as mais recentes.
+   Depois de criar o resumo,
+   mantemos somente as mensagens recentes.
 */
 
-memoriaConversa.mensagens =
-    memoriaConversa.mensagens.slice(
+memoriaEstado.mensagens =
+    memoriaEstado.mensagens.slice(
         -MEMORIA_MENSAGENS_RECENTES
     );
 
@@ -335,11 +263,11 @@ console.log(
 );
 
 console.log(
-    "MEMÓRIA ATUALIZADA"
+    "MEMÓRIA ATUALIZADA:"
 );
 
 console.log(
-    memoriaConversa.resumo
+    memoriaEstado.resumo
 );
 
 console.log(
@@ -347,7 +275,7 @@ console.log(
 );
 
 
-return memoriaConversa.resumo;
+return memoriaEstado.resumo;
 
 }
 
@@ -355,26 +283,24 @@ return memoriaConversa.resumo;
 OBTER CONTEXTO COMPLETO
 ========================================================== */
 
-function memoriaObterContexto() {
+function obterContexto() {
 
 let contexto = "";
 
 
 /*
-   Primeiro colocamos o resumo.
+   RESUMO
 */
 
 if (
-    memoriaConversa.resumo
+    memoriaEstado.resumo
 ) {
 
     contexto +=
-        `RESUMO DA CONVERSA:\n\n`;
-
+        "RESUMO DA CONVERSA:\n\n";
 
     contexto +=
-        memoriaConversa.resumo;
-
+        memoriaEstado.resumo;
 
     contexto +=
         "\n\n";
@@ -383,11 +309,11 @@ if (
 
 
 /*
-   Depois colocamos as mensagens recentes.
+   MENSAGENS RECENTES
 */
 
 if (
-    memoriaConversa.mensagens.length > 0
+    memoriaEstado.mensagens.length > 0
 ) {
 
     contexto +=
@@ -396,7 +322,7 @@ if (
 
     for (
         const message
-        of memoriaConversa.mensagens
+        of memoriaEstado.mensagens
     ) {
 
         const nome =
@@ -418,30 +344,24 @@ return contexto.trim();
 }
 
 /* ==========================================================
-LIMPAR MEMÓRIA
+LIMPAR
 ========================================================== */
 
-function memoriaLimpar() {
+function limpar() {
 
-memoriaConversa.resumo =
+memoriaEstado.resumo =
     "";
 
-
-memoriaConversa.mensagens =
+memoriaEstado.mensagens =
     [];
-
-
-console.log(
-    "Memória da conversa apagada."
-);
 
 }
 
 /* ==========================================================
-MOSTRAR MEMÓRIA NO CONSOLE
+DEBUG
 ========================================================== */
 
-function memoriaDebug() {
+function debug() {
 
 console.log(
     "================================="
@@ -452,28 +372,25 @@ console.log(
 );
 
 console.log(
-    memoriaConversa.resumo ||
+    memoriaEstado.resumo ||
     "(nenhum)"
 );
-
 
 console.log(
     "MENSAGENS:"
 );
 
 console.log(
-    memoriaConversa.mensagens
-);
-
-
-console.log(
-    "CONTEXTO COMPLETO:"
+    memoriaEstado.mensagens
 );
 
 console.log(
-    memoriaObterContexto()
+    "CONTEXTO:"
 );
 
+console.log(
+    obterContexto()
+);
 
 console.log(
     "================================="
@@ -482,33 +399,25 @@ console.log(
 }
 
 /* ==========================================================
-DISPONIBILIZAR FUNÇÕES
+OBJETO PÚBLICO
 ========================================================== */
 
 window.memoriaConversa = {
 
-adicionarMensagem:
-    memoriaAdicionarMensagem,
+adicionarMensagem,
 
-obterMensagens:
-    memoriaObterMensagens,
+obterMensagens,
 
-obterResumo:
-    memoriaObterResumo,
+obterResumo,
 
-precisaResumir:
-    memoriaPrecisaResumir,
+precisaResumir,
 
-gerarResumo:
-    memoriaGerarResumo,
+gerarResumo,
 
-obterContexto:
-    memoriaObterContexto,
+obterContexto,
 
-limpar:
-    memoriaLimpar,
+limpar,
 
-debug:
-    memoriaDebug
+debug
 
 };
