@@ -10,7 +10,6 @@
 
 <title>Tiago Digital</title>
 
-
 <style>
 
 /* ==========================================================
@@ -23,522 +22,574 @@
     box-sizing: border-box;
 }
 
+
+/* ==========================================================
+   BODY
+========================================================== */
+
 body {
+
     font-family: Arial, Helvetica, sans-serif;
-    background: #ffffff;
+
+    background: #f7f8fa;
+
     color: #222;
+
     height: 100vh;
+
     overflow: hidden;
+
 }
 
-/* ==========================================================
-   CHAT
-========================================================== */
-
-.chat {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
 
 /* ==========================================================
-   CABEÇALHO
+   HEADER
 ========================================================== */
 
-.header {
+header {
+
     height: 68px;
-    width: 100%;
+
     background: #ffffff;
-    border-bottom: 1px solid #eeeeee;
+
+    border-bottom: 1px solid #e5e7eb;
+
     display: flex;
+
     align-items: center;
-    padding: 0 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 20;
+
+    justify-content: space-between;
+
+    padding: 0 18px;
+
+    position: relative;
+
+    z-index: 10;
+
 }
 
-.header-content {
-    width: 100%;
-    max-width: 760px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.header-spacer {
-    flex: 1;
-}
 
 /* ==========================================================
    PERFIL
 ========================================================== */
 
-.profile-photo {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
-    opacity: 0.95;
-    filter: brightness(1.05) saturate(0.9);
-}
+.perfil {
 
-.profile-info {
     display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.perfil img {
+
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+}
+
+
+.info-perfil {
+
+    display: flex;
+
     flex-direction: column;
-    gap: 2px;
+
+    justify-content: center;
+
 }
 
-.profile-name {
-    font-size: 14px;
-    font-weight: bold;
+
+.nome {
+
+    font-size: 16px;
+
+    font-weight: 600;
+
     color: #222;
+
 }
 
-.profile-status {
-    font-size: 11px;
-    color: #10a37f;
+
+.online {
+
+    font-size: 12px;
+
+    color: #22a06b;
+
+    margin-top: 2px;
+
 }
+
 
 /* ==========================================================
-   LOGIN / SIGN UP
+   PARTE DIREITA DO HEADER
 ========================================================== */
 
-.auth-button {
-    border: none;
+.header-direita {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+/* ==========================================================
+   LOGIN
+========================================================== */
+
+.login {
+
     background: transparent;
-    color: #222;
+
+    border: none;
+
+    color: #444;
+
     font-size: 14px;
-    font-weight: 500;
-    padding: 9px 12px;
-    border-radius: 8px;
+
     cursor: pointer;
-    transition: 0.2s;
+
+    padding: 8px 10px;
+
 }
 
-.auth-button:hover {
-    background: #f1f1f1;
+
+.login:hover {
+
+    color: #111;
+
 }
 
-.signup-button {
-    background: #222;
-    color: #ffffff;
-    margin-left: 4px;
+
+/* ==========================================================
+   SIGN UP
+========================================================== */
+
+.signup {
+
+    background: #111827;
+
+    border: none;
+
+    color: white;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    padding: 8px 14px;
+
+    border-radius: 8px;
+
 }
 
-.signup-button:hover {
-    background: #000000;
+
+.signup:hover {
+
+    background: #1f2937;
+
 }
+
 
 /* ==========================================================
    MENU
 ========================================================== */
 
 .menu-container {
+
     position: relative;
-    margin-left: 6px;
+
 }
 
-.menu-button {
+
+.menu-btn {
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 23px;
+
+    cursor: pointer;
+
+    color: #444;
+
     width: 38px;
+
     height: 38px;
-    border: none;
-    background: transparent;
+
     border-radius: 8px;
-    cursor: pointer;
-    font-size: 22px;
-    color: #333;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.2s;
+
 }
 
-.menu-button:hover {
-    background: #f1f1f1;
+
+.menu-btn:hover {
+
+    background: #f1f2f4;
+
 }
 
-.dropdown-menu {
-    position: absolute;
-    right: 0;
-    top: 44px;
-    width: 190px;
-    background: #ffffff;
-    border: 1px solid #e5e5e5;
-    border-radius: 12px;
-    padding: 6px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-    display: none;
-    z-index: 50;
-}
-
-.dropdown-menu.active {
-    display: block;
-}
-
-.dropdown-item {
-    width: 100%;
-    border: none;
-    background: transparent;
-    text-align: left;
-    padding: 10px 12px;
-    border-radius: 8px;
-    color: #222;
-    font-size: 13px;
-    cursor: pointer;
-}
-
-.dropdown-item:hover {
-    background: #f3f3f3;
-}
 
 /* ==========================================================
-   ÁREA DAS MENSAGENS
+   MENU DROPDOWN
 ========================================================== */
 
-.messages {
-    flex: 1;
-    overflow-y: auto;
-    padding: 100px 20px 160px;
-    scroll-behavior: smooth;
-}
+.menu-dropdown {
 
-.message {
-    max-width: 760px;
-    margin: 0 auto 28px;
-    display: flex;
-    gap: 16px;
-    line-height: 1.6;
-    font-size: 15px;
-}
+    display: none;
 
-.avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: #10a37f;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-size: 14px;
-    font-weight: bold;
-    color: #ffffff;
-}
-
-.message.user {
-    justify-content: flex-end;
-}
-
-.message.user .avatar {
-    background: #444;
-    order: 2;
-}
-
-.message-content {
-    padding-top: 4px;
-    white-space: pre-wrap;
-    word-break: break-word;
-}
-
-.message.user .message-content {
-    order: 1;
-    background: #f1f1f1;
-    color: #222;
-    padding: 10px 16px;
-    border-radius: 18px;
-    max-width: 70%;
-    position: relative;
-}
-
-.message.user .message-content::after {
-    content: "";
     position: absolute;
-    right: -5px;
-    top: 13px;
-    width: 10px;
-    height: 10px;
-    background: #f1f1f1;
-    transform: rotate(45deg);
-    border-radius: 2px;
+
+    right: 0;
+
+    top: 46px;
+
+    width: 190px;
+
+    background: white;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,.10);
+
+    overflow: hidden;
+
 }
 
-.message:not(.user) .message-content {
-    flex: 1;
+
+.menu-dropdown.ativo {
+
+    display: block;
+
 }
+
+
+.menu-dropdown button {
+
+    display: block;
+
+    width: 100%;
+
+    border: none;
+
+    background: white;
+
+    text-align: left;
+
+    padding: 12px 15px;
+
+    cursor: pointer;
+
+    color: #333;
+
+    font-size: 14px;
+
+}
+
+
+.menu-dropdown button:hover {
+
+    background: #f5f5f5;
+
+}
+
+
+/* ==========================================================
+   CONTAINER PRINCIPAL
+========================================================== */
+
+.container {
+
+    height: calc(100vh - 68px);
+
+    max-width: 1000px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+/* ==========================================================
+   CHAT
+========================================================== */
+
+#chat {
+
+    flex: 1;
+
+    overflow-y: auto;
+
+    padding: 28px 20px 20px;
+
+}
+
+
+/* ==========================================================
+   MENSAGENS
+========================================================== */
+
+.mensagem {
+
+    display: flex;
+
+    margin-bottom: 18px;
+
+}
+
+
+.mensagem.usuario {
+
+    justify-content: flex-end;
+
+}
+
+
+.mensagem.assistente {
+
+    justify-content: flex-start;
+
+}
+
+
+.bolha {
+
+    max-width: 75%;
+
+    padding: 13px 16px;
+
+    line-height: 1.55;
+
+    font-size: 15px;
+
+    white-space: pre-wrap;
+
+    word-break: break-word;
+
+    border-radius: 15px;
+
+}
+
+
+.usuario .bolha {
+
+    background: #2563eb;
+
+    color: white;
+
+    border-bottom-right-radius: 4px;
+
+}
+
+
+.assistente .bolha {
+
+    background: white;
+
+    color: #222;
+
+    border: 1px solid #e4e5e7;
+
+    border-bottom-left-radius: 4px;
+
+}
+
+
+/* ==========================================================
+   STATUS
+========================================================== */
+
+#status {
+
+    text-align: center;
+
+    font-size: 12px;
+
+    color: #777;
+
+    padding: 4px 10px;
+
+}
+
+
+/* ==========================================================
+   AVISO
+========================================================== */
+
+.aviso {
+
+    text-align: center;
+
+    color: #999;
+
+    font-size: 11px;
+
+    padding: 7px 15px;
+
+}
+
 
 /* ==========================================================
    ÁREA DE INPUT
 ========================================================== */
 
 .input-area {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px;
-    background: linear-gradient(
-        transparent,
-        #ffffff 30%
-    );
-    z-index: 10;
+
+    padding: 12px 15px 15px;
+
 }
 
-.input-wrapper {
-    max-width: 760px;
-    margin: 0 auto;
-    background: #ffffff;
-    border: 1px solid #444;
-    border-radius: 16px;
-    min-height: 58px;
+
+.input-box {
+
     display: flex;
+
     align-items: flex-end;
-    padding: 10px 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+
+    gap: 10px;
+
+    background: white;
+
+    border: 1px solid #d9dce1;
+
+    border-radius: 14px;
+
+    padding: 8px;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,.04);
+
 }
 
-textarea {
+
+#question {
+
     flex: 1;
-    resize: none;
+
     border: none;
+
     outline: none;
+
+    resize: none;
+
     background: transparent;
-    color: #222;
-    font-size: 15px;
-    font-family: inherit;
+
     padding: 9px 8px;
-    max-height: 180px;
-    overflow-y: auto;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    font-size: 15px;
+
+    min-height: 40px;
+
+    max-height: 130px;
+
 }
 
-textarea::placeholder {
-    color: #777;
-}
 
-.send-button {
-    width: 38px;
-    height: 38px;
+#sendBtn {
+
     border: none;
+
+    background: #2563eb;
+
+    color: white;
+
     border-radius: 10px;
-    background: #ffffff;
-    color: #222;
+
+    width: 42px;
+
+    height: 40px;
+
     cursor: pointer;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.2s;
-    flex-shrink: 0;
+
+    font-size: 17px;
+
 }
 
-.send-button:hover {
-    background: #ddd;
+
+#sendBtn:hover {
+
+    background: #1d4ed8;
+
 }
 
-.send-button:active {
-    transform: scale(0.94);
-}
 
-.send-button:disabled {
-    opacity: 0.4;
+#sendBtn:disabled {
+
+    opacity: .5;
+
     cursor: not-allowed;
+
 }
 
-/* ==========================================================
-   STATUS DO PERSONAGEM
-========================================================== */
-
-.character-status {
-    max-width: 760px;
-    margin: 0 auto 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    color: #888;
-}
-
-/* ==========================================================
-   DISCLAIMER
-========================================================== */
-
-.disclaimer {
-    max-width: 760px;
-    margin: 8px auto 0;
-    text-align: center;
-    color: #888;
-    font-size: 11px;
-}
-
-/* ==========================================================
-   SCROLLBAR
-========================================================== */
-
-.messages::-webkit-scrollbar {
-    width: 8px;
-}
-
-.messages::-webkit-scrollbar-thumb {
-    background: #444;
-    border-radius: 10px;
-}
 
 /* ==========================================================
    MOBILE
 ========================================================== */
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
 
-    .header {
-        height: 62px;
-        padding: 0 10px;
+    header {
+
+        padding: 0 12px;
+
     }
 
-    .header-content {
-        gap: 8px;
+
+    .login {
+
+        display: none;
+
     }
 
-    .profile-photo {
-        width: 36px;
-        height: 36px;
+
+    .signup {
+
+        display: none;
+
     }
 
-    .profile-name {
-        font-size: 13px;
+
+    .bolha {
+
+        max-width: 88%;
+
     }
 
-    .profile-status {
-        font-size: 10px;
+
+    #chat {
+
+        padding: 20px 12px 15px;
+
     }
 
-    .auth-button {
-        font-size: 12px;
-        padding: 8px 7px;
-    }
-
-    .signup-button {
-        margin-left: 0;
-    }
-
-    .menu-container {
-        margin-left: 0;
-    }
-
-    .menu-button {
-        width: 34px;
-        height: 34px;
-    }
-
-    .dropdown-menu {
-        right: 0;
-        width: 180px;
-    }
-
-    .messages {
-        padding:
-            82px 10px 155px;
-    }
-
-    .message {
-        gap: 9px;
-        margin-bottom: 22px;
-        font-size: 14px;
-        line-height: 1.5;
-    }
-
-    .avatar {
-        width: 30px;
-        height: 30px;
-        font-size: 13px;
-    }
-
-    .message.user .message-content {
-        max-width: 80%;
-        padding: 9px 13px;
-        border-radius: 16px;
-    }
 
     .input-area {
-        padding: 8px 10px 10px;
-    }
 
-    .input-wrapper {
-        min-height: 54px;
-        border-radius: 14px;
-        padding: 8px 9px;
-    }
+        padding: 8px;
 
-    textarea {
-        font-size: 15px;
-        padding: 8px 6px;
-    }
-
-    .send-button {
-        width: 36px;
-        height: 36px;
-    }
-
-    .character-status {
-        padding: 0 5px;
-        font-size: 10px;
-    }
-
-    .disclaimer {
-        font-size: 9px;
-        margin-top: 6px;
-    }
-}
-
-/* ==========================================================
-   TELAS MUITO PEQUENAS
-========================================================== */
-
-@media (max-width: 380px) {
-
-    .auth-button {
-        font-size: 11px;
-        padding: 7px 5px;
-    }
-
-    .profile-info {
-        gap: 1px;
-    }
-
-    .message.user .message-content {
-        max-width: 84%;
     }
 
 }
 
-/* ==========================================================
-   CORREÇÃO DO TECLADO NO MOBILE
-========================================================== */
-
-@media (max-width: 600px) {
-
-    .input-area {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: env(safe-area-inset-bottom, 0px);
-        width: 100%;
-        padding: 8px 10px 10px;
-        z-index: 100;
-    }
-
-    .messages {
-        padding-bottom: 140px;
-    }
-
-}
-
-      
 </style>
-
-
 
 </head>
 
@@ -546,11 +597,12 @@ textarea::placeholder {
 <body>
 
 
-<!-- ========================================================
+<!-- ==========================================================
      HEADER
-========================================================= -->
+========================================================== -->
 
 <header>
+
 
     <div class="perfil">
 
@@ -559,10 +611,10 @@ textarea::placeholder {
             alt="Tiago"
         >
 
-        <div>
+        <div class="info-perfil">
 
             <div class="nome">
-                Tiago Digital
+                Tiago
             </div>
 
             <div class="online">
@@ -574,28 +626,73 @@ textarea::placeholder {
     </div>
 
 
-    <div class="menu">
+
+    <div class="header-direita">
+
 
         <button
+            class="login"
             type="button"
-            onclick="alert('Configurações em desenvolvimento.')"
+            onclick="alert('Login em desenvolvimento.')"
         >
-            ⚙
+            Login
         </button>
 
-        <button
-            type="button"
-            onclick="alert('Privacidade em desenvolvimento.')"
-        >
-            🔒
-        </button>
 
         <button
+            class="signup"
             type="button"
-            onclick="alert('Ajuda em desenvolvimento.')"
+            onclick="alert('Cadastro em desenvolvimento.')"
         >
-            ?
+            Sign Up
         </button>
+
+
+
+        <div class="menu-container">
+
+
+            <button
+                class="menu-btn"
+                id="menuBtn"
+                type="button"
+            >
+                ⋮
+            </button>
+
+
+
+            <div
+                class="menu-dropdown"
+                id="menuDropdown"
+            >
+
+                <button
+                    type="button"
+                    onclick="alert('Configurações em desenvolvimento.')"
+                >
+                    ⚙ Configurações
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="alert('Privacidade em desenvolvimento.')"
+                >
+                    🔒 Privacidade
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="alert('Ajuda em desenvolvimento.')"
+                >
+                    ❔ Ajuda
+                </button>
+
+            </div>
+
+        </div>
 
     </div>
 
@@ -603,32 +700,20 @@ textarea::placeholder {
 
 
 
-<!-- ========================================================
+<!-- ==========================================================
      CONTAINER
-========================================================= -->
+========================================================== -->
 
 <div class="container">
 
 
-    <!-- ====================================================
-         CHAT
-    ===================================================== -->
-
     <div id="chat"></div>
 
-
-    <!-- ====================================================
-         STATUS
-    ===================================================== -->
 
     <div id="status">
         Carregando personagem...
     </div>
 
-
-    <!-- ====================================================
-         AVISO
-    ===================================================== -->
 
     <div class="aviso">
 
@@ -638,25 +723,28 @@ textarea::placeholder {
     </div>
 
 
-    <!-- ====================================================
-         INPUT
-    ===================================================== -->
-
     <div class="input-area">
 
-        <textarea
-            id="question"
-            placeholder="Digite sua mensagem..."
-            rows="1"
-        ></textarea>
+        <div class="input-box">
 
 
-        <button
-            id="sendBtn"
-            type="button"
-        >
-            Enviar
-        </button>
+            <textarea
+                id="question"
+                placeholder="Digite sua mensagem..."
+                rows="1"
+            ></textarea>
+
+
+            <button
+                id="sendBtn"
+                type="button"
+                title="Enviar"
+            >
+                ➤
+            </button>
+
+
+        </div>
 
     </div>
 
@@ -666,14 +754,9 @@ textarea::placeholder {
 
 
 <!-- ==========================================================
-     ARQUIVOS EXTERNOS
+     SCRIPTS EXTERNOS
 
-     ORDEM IMPORTANTE:
-
-     1. personagem.js
-     2. memoria.js
-     3. código deste index.html
-
+     NÃO ALTERAR A ORDEM
 ========================================================== -->
 
 <script src="./personagem.js"></script>
@@ -688,19 +771,8 @@ textarea::placeholder {
    CONFIGURAÇÃO
 ========================================================== */
 
-
-/*
-    ATENÇÃO:
-
-    Coloque aqui uma NOVA chave da Groq.
-
-    A chave anterior que estava no seu HTML ficou exposta
-    e deve ser revogada/trocada.
-
-    Posteriormente vamos mover isso para o backend.
-*/
-
-const GROQ_API_KEY = "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";
+const GROQ_API_KEY =
+    "COLOQUE_SUA_NOVA_CHAVE_AQUI";
 
 
 const GROQ_MODEL =
@@ -709,7 +781,7 @@ const GROQ_MODEL =
 
 
 /* ==========================================================
-   ELEMENTOS DA PÁGINA
+   ELEMENTOS
 ========================================================== */
 
 const chat =
@@ -728,23 +800,64 @@ const sendBtn =
     document.getElementById("sendBtn");
 
 
+const menuBtn =
+    document.getElementById("menuBtn");
+
+
+const menuDropdown =
+    document.getElementById("menuDropdown");
+
+
+
+/* ==========================================================
+   MENU
+========================================================== */
+
+menuBtn.addEventListener(
+    "click",
+    () => {
+
+        menuDropdown.classList.toggle(
+            "ativo"
+        );
+
+    }
+);
+
+
+document.addEventListener(
+    "click",
+    event => {
+
+        if (
+            !event.target.closest(
+                ".menu-container"
+            )
+        ) {
+
+            menuDropdown.classList.remove(
+                "ativo"
+            );
+
+        }
+
+    }
+);
+
+
 
 /* ==========================================================
    MEMÓRIA
 ========================================================== */
 
-
 /*
     IMPORTANTE:
 
-    memoria.js cria:
+    memoria.js já criou:
 
         window.memoriaConversa
 
-    Aqui NÃO criamos outra memória.
-
-    Apenas pegamos a memória que já foi criada
-    pelo arquivo memoria.js.
+    Não criamos outra memória aqui.
 */
 
 const memoriaConversa =
@@ -762,7 +875,7 @@ if (!memoriaConversa) {
 
 
 /* ==========================================================
-   ADICIONAR MENSAGEM AO CHAT
+   ADICIONAR MENSAGEM
 ========================================================== */
 
 function addMessage(
@@ -771,7 +884,9 @@ function addMessage(
 ) {
 
     const mensagem =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     mensagem.className =
@@ -784,7 +899,9 @@ function addMessage(
 
 
     const bolha =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
 
     bolha.className =
@@ -854,7 +971,7 @@ async function typeWriter(
 
 
 /* ==========================================================
-   NORMALIZAR TEXTO
+   NORMALIZAÇÃO
 ========================================================== */
 
 function normalizar(
@@ -898,9 +1015,8 @@ const palavrasChave = [
         name: "IDENTIDADE",
 
         keywords: [
-            "quem é tiago",
             "quem e tiago",
-            "tiago",
+            "quem é tiago",
             "identidade",
             "nome"
         ]
@@ -913,7 +1029,6 @@ const palavrasChave = [
         keywords: [
             "resumo",
             "sobre tiago",
-            "fale sobre tiago",
             "quem voce e",
             "quem você é"
         ]
@@ -942,8 +1057,7 @@ const palavrasChave = [
             "profissão",
             "trabalho",
             "trabalha",
-            "carreira",
-            "emprego"
+            "carreira"
         ]
     },
 
@@ -955,9 +1069,7 @@ const palavrasChave = [
             "curriculo",
             "currículo",
             "experiencia",
-            "experiência",
-            "formacao",
-            "formação"
+            "experiência"
         ]
     },
 
@@ -969,22 +1081,8 @@ const palavrasChave = [
             "formacao",
             "formação",
             "estudo",
-            "estudos",
             "faculdade",
             "curso"
-        ]
-    },
-
-
-    {
-        name: "EXPERIÊNCIA PROFISSIONAL",
-
-        keywords: [
-            "experiencia profissional",
-            "experiência profissional",
-            "empresa",
-            "empresas",
-            "projeto profissional"
         ]
     },
 
@@ -995,8 +1093,6 @@ const palavrasChave = [
         keywords: [
             "projeto",
             "projetos",
-            "aplicacao",
-            "aplicação",
             "software",
             "sistema"
         ]
@@ -1023,27 +1119,12 @@ const palavrasChave = [
 
 
     {
-        name: "COMO TRABALHA",
-
-        keywords: [
-            "como trabalha",
-            "como voce trabalha",
-            "como você trabalha",
-            "trabalhar",
-            "metodo",
-            "método"
-        ]
-    },
-
-
-    {
         name: "PERSONALIDADE",
 
         keywords: [
             "personalidade",
             "jeito",
-            "comportamento",
-            "temperamento"
+            "comportamento"
         ]
     },
 
@@ -1062,27 +1143,13 @@ const palavrasChave = [
 
 
     {
-        name: "VISÃO DE SUCESSO",
-
-        keywords: [
-            "sucesso",
-            "visao de sucesso",
-            "visão de sucesso",
-            "objetivo profissional"
-        ]
-    },
-
-
-    {
         name: "GOSTOS",
 
         keywords: [
             "gosta",
             "gosto",
             "preferencia",
-            "preferência",
-            "preferencias",
-            "preferências"
+            "preferência"
         ]
     },
 
@@ -1094,7 +1161,6 @@ const palavrasChave = [
             "hobby",
             "hobbies",
             "lazer",
-            "tempo livre",
             "jogos",
             "videogame",
             "futebol",
@@ -1110,11 +1176,9 @@ const palavrasChave = [
             "religiao",
             "religião",
             "espiritualidade",
-            "deus",
             "judaismo",
             "judaísmo",
-            "judeu",
-            "judaica"
+            "judeu"
         ]
     },
 
@@ -1126,22 +1190,7 @@ const palavrasChave = [
             "opiniao",
             "opinião",
             "acha",
-            "pensamento",
             "pensa"
-        ]
-    },
-
-
-    {
-        name: "TOMADA DE DECISÕES",
-
-        keywords: [
-            "decisao",
-            "decisão",
-            "decisoes",
-            "decisões",
-            "escolha",
-            "escolher"
         ]
     },
 
@@ -1153,22 +1202,8 @@ const palavrasChave = [
             "objetivo",
             "objetivos",
             "meta",
-            "metas",
             "futuro",
-            "sonho",
-            "sonhos"
-        ]
-    },
-
-
-    {
-        name: "EXPERIÊNCIAS MARCANTES",
-
-        keywords: [
-            "experiencia marcante",
-            "experiência marcante",
-            "acontecimento",
-            "momento importante"
+            "sonho"
         ]
     },
 
@@ -1178,7 +1213,6 @@ const palavrasChave = [
 
         keywords: [
             "relacionamento",
-            "relacionamentos",
             "familia",
             "família",
             "amigo",
@@ -1194,19 +1228,7 @@ const palavrasChave = [
             "forma de falar",
             "fala",
             "linguagem",
-            "tom",
-            "maneira de falar"
-        ]
-    },
-
-
-    {
-        name: "RESPOSTAS EXEMPLO",
-
-        keywords: [
-            "resposta",
-            "respostas",
-            "exemplo de resposta"
+            "tom"
         ]
     },
 
@@ -1253,7 +1275,7 @@ const palavrasChave = [
 
 
 /* ==========================================================
-   ENCONTRAR TEXTO RELEVANTE DO PERSONAGEM
+   BUSCAR CONTEXTO DO PERSONAGEM
 ========================================================== */
 
 function getRelevantText(
@@ -1312,25 +1334,21 @@ function getRelevantText(
         let pontos = 0;
 
 
-        /*
-            Verifica palavras-chave.
-        */
-
         for (
             const palavraChave
             of chaves
         ) {
 
-            const chaveNormalizada =
+            const chave =
                 normalizar(
                     palavraChave
                 );
 
 
             if (
-                chaveNormalizada &&
+                chave &&
                 perguntaNormalizada.includes(
-                    chaveNormalizada
+                    chave
                 )
             ) {
 
@@ -1340,10 +1358,6 @@ function getRelevantText(
 
         }
 
-
-        /*
-            Verifica o nome da seção.
-        */
 
         const tituloNormalizado =
             normalizar(
@@ -1383,24 +1397,16 @@ function getRelevantText(
     }
 
 
-    /*
-        Ordena do mais relevante
-        para o menos relevante.
-    */
-
     resultados.sort(
-        (
-            a,
-            b
-        ) =>
+        (a, b) =>
             b.pontos -
             a.pontos
     );
 
 
     /*
-        Se encontrou informações
-        relevantes, usa até 3 seções.
+        Se encontrou informações específicas,
+        utiliza até 3 seções.
     */
 
     if (
@@ -1414,33 +1420,23 @@ function getRelevantText(
             .map(
                 secao => {
 
-                    let conteudo;
-
-
-                    if (
+                    const conteudo =
                         typeof secao.conteudo ===
                         "string"
-                    ) {
 
-                        conteudo =
-                            secao.conteudo;
+                            ? secao.conteudo
 
-                    } else {
-
-                        conteudo =
-                            JSON.stringify(
+                            : JSON.stringify(
                                 secao.conteudo,
                                 null,
                                 2
                             );
 
-                    }
-
 
                     return (
                         "### " +
                         secao.titulo +
-                        "\n" +
+                        "\n\n" +
                         conteudo
                     );
 
@@ -1457,16 +1453,10 @@ function getRelevantText(
     /*
         ======================================================
         FALLBACK
+        ======================================================
 
         Se nenhuma palavra-chave foi encontrada,
-        manda o personagem inteiro.
-
-        Isso é importante.
-
-        Antes, quando não encontrava palavra-chave,
-        relevantText ficava vazio e o personagem
-        praticamente não era enviado para a IA.
-        ======================================================
+        utiliza o personagem inteiro.
     */
 
     if (
@@ -1486,7 +1476,7 @@ function getRelevantText(
 
 
 /* ==========================================================
-   CRIAR PROMPT DO SISTEMA
+   PROMPT DO SISTEMA
 ========================================================== */
 
 function criarPromptSistema(
@@ -1499,15 +1489,8 @@ function criarPromptSistema(
 Você é o Tiago Digital, uma representação virtual
 do Tiago descrito nos dados do personagem.
 
-==================================================
-IDENTIDADE
-==================================================
-
-Você deve falar em primeira pessoa quando estiver
-falando sobre Tiago.
-
-As informações pessoais do Tiago devem vir dos dados
-do personagem fornecidos abaixo.
+Fale em primeira pessoa quando estiver falando sobre
+Tiago.
 
 Não invente fatos pessoais.
 
@@ -1515,38 +1498,16 @@ Não invente memórias.
 
 Não invente experiências.
 
-Não invente opiniões pessoais.
+Não atribua ao Tiago opiniões que não estejam nos
+dados fornecidos.
 
-Não atribua ao Tiago algo que não esteja nos dados
-do personagem ou na memória da conversa.
+Use as informações do personagem para responder
+perguntas pessoais sobre Tiago.
 
-==================================================
-FORMA DE CONVERSAR
-==================================================
+Se uma pergunta envolver algo pessoal que Tiago
+prefira não responder, não invente.
 
-Seja natural, informal e conversacional.
-
-Responda diretamente ao que o usuário perguntou.
-
-Não fique repetindo quem você é.
-
-Não comece todas as respostas com "Eu sou Tiago".
-
-Não transforme uma conversa simples em uma resposta
-excessivamente formal ou técnica.
-
-Use o contexto da conversa para compreender frases
-como "isso", "aquilo", "ele", "antes", "depois",
-"também", "e sobre aquilo?" etc.
-
-==================================================
-QUANDO NÃO QUISER RESPONDER
-==================================================
-
-Se uma pergunta envolver alguma informação pessoal
-que Tiago prefira não responder, não invente.
-
-Também não responda de maneira robótica dizendo:
+Também não use respostas robóticas como:
 
 "Não possuo informações suficientes."
 
@@ -1554,10 +1515,7 @@ Também não responda de maneira robótica dizendo:
 
 "Não tenho informações sobre isso."
 
-Prefira uma resposta natural indicando que é algo
-que ele prefere não comentar.
-
-Exemplos:
+Prefira respostas naturais como:
 
 "Essa é uma parte que eu prefiro não comentar."
 
@@ -1565,29 +1523,20 @@ Exemplos:
 
 "Essa é uma coisa que eu prefiro deixar em privado."
 
-Não invente uma resposta somente para preencher
-uma informação que não está disponível.
+Seja natural e informal.
 
-==================================================
-HIERARQUIA
-==================================================
+Não fique repetindo quem você é.
 
-Prioridade das informações:
+Responda diretamente ao que foi perguntado.
 
-1. Contexto específico do personagem.
-2. Memória da conversa.
-3. Conhecimento geral.
-
-Quando estiver falando sobre a vida pessoal de Tiago,
-priorize os dados específicos do personagem.
-
-Não contradiga informações fornecidas pelo personagem.
+Use a memória da conversa para compreender
+referências anteriores.
 
 ==================================================
 CONTEXTO DO PERSONAGEM
 ==================================================
 
-${relevantText || "(Nenhuma informação específica encontrada.)"}
+${relevantText || "(Nenhum contexto específico encontrado.)"}
 
 ==================================================
 MEMÓRIA DA CONVERSA
@@ -1596,7 +1545,7 @@ MEMÓRIA DA CONVERSA
 ${contextoConversa || "(A conversa está começando agora.)"}
 
 ==================================================
-REGRAS FINAIS
+REGRAS
 ==================================================
 
 Não invente fatos pessoais.
@@ -1604,11 +1553,9 @@ Não invente fatos pessoais.
 Não invente memórias.
 
 Não diga que lembra de algo se isso não estiver
-presente na memória fornecida.
+presente no contexto.
 
-Use as informações acima naturalmente.
-
-Responda sempre em português do Brasil.
+Responda em português do Brasil.
 
 `.trim();
 
@@ -1617,7 +1564,7 @@ Responda sempre em português do Brasil.
 
 
 /* ==========================================================
-   FAZER PERGUNTA
+   ASK QUESTION
 ========================================================== */
 
 async function askQuestion() {
@@ -1634,10 +1581,6 @@ async function askQuestion() {
     }
 
 
-    /*
-        Verifica se a chave foi configurada.
-    */
-
     if (
         !GROQ_API_KEY ||
         GROQ_API_KEY ===
@@ -1646,8 +1589,7 @@ async function askQuestion() {
 
         addMessage(
             "assistant",
-
-            "Configure uma nova chave da Groq no código antes de usar o chatbot."
+            "Configure uma nova chave da Groq antes de usar o chatbot."
         );
 
         return;
@@ -1655,15 +1597,10 @@ async function askQuestion() {
     }
 
 
-    /*
-        Verifica memória.
-    */
-
     if (!memoriaConversa) {
 
         addMessage(
             "assistant",
-
             "Erro: memoria.js não foi carregado."
         );
 
@@ -1671,10 +1608,6 @@ async function askQuestion() {
 
     }
 
-
-    /*
-        Desabilita interface.
-    */
 
     sendBtn.disabled =
         true;
@@ -1697,7 +1630,7 @@ async function askQuestion() {
 
 
     /*
-        Mostra mensagem do usuário.
+        Mostra a pergunta.
     */
 
     addMessage(
@@ -1708,8 +1641,7 @@ async function askQuestion() {
 
     /*
         ======================================================
-        PRIMEIRO:
-        adiciona a pergunta à memória.
+        MEMÓRIA — PERGUNTA
         ======================================================
     */
 
@@ -1721,9 +1653,7 @@ async function askQuestion() {
 
     /*
         ======================================================
-        SEGUNDO:
-        encontra as informações relevantes
-        no personagem.json.
+        PERSONAGEM
         ======================================================
     */
 
@@ -1736,8 +1666,7 @@ async function askQuestion() {
 
     /*
         ======================================================
-        TERCEIRO:
-        pega a memória da conversa.
+        MEMÓRIA
         ======================================================
     */
 
@@ -1750,51 +1679,21 @@ async function askQuestion() {
     */
 
     console.log(
-        "======================================"
-    );
-
-    console.log(
-        "PERGUNTA:"
-    );
-
-    console.log(
-        pergunta
-    );
-
-
-    console.log(
-        "======================================"
-    );
-
-    console.log(
-        "PERSONAGEM ENVIADO:"
-    );
-
-    console.log(
+        "CONTEXTO DO PERSONAGEM:",
         relevantText
     );
 
 
     console.log(
-        "======================================"
-    );
-
-    console.log(
-        "MEMÓRIA ENVIADA:"
-    );
-
-    console.log(
+        "MEMÓRIA:",
         contextoConversa
     );
 
 
-    console.log(
-        "======================================"
-    );
-
-
     /*
-        Cria prompt.
+        ======================================================
+        PROMPT
+        ======================================================
     */
 
     const promptSistema =
@@ -1806,12 +1705,6 @@ async function askQuestion() {
 
     try {
 
-
-        /*
-            ==================================================
-            CHAMADA GROQ
-            ==================================================
-        */
 
         const response =
             await fetch(
@@ -1874,17 +1767,9 @@ async function askQuestion() {
             );
 
 
-        /*
-            Lê resposta.
-        */
-
         const data =
             await response.json();
 
-
-        /*
-            Verifica erro.
-        */
 
         if (
             !response.ok
@@ -1899,10 +1784,6 @@ async function askQuestion() {
 
         }
 
-
-        /*
-            Pega resposta.
-        */
 
         const answer =
             data
@@ -1921,9 +1802,7 @@ async function askQuestion() {
 
 
         /*
-            ==================================================
-            MOSTRA RESPOSTA
-            ==================================================
+            Mostra resposta.
         */
 
         const bolha =
@@ -1941,7 +1820,7 @@ async function askQuestion() {
 
         /*
             ==================================================
-            SALVA RESPOSTA NA MEMÓRIA
+            MEMÓRIA — RESPOSTA
             ==================================================
         */
 
@@ -1953,10 +1832,8 @@ async function askQuestion() {
 
         /*
             ==================================================
-            RESUMO DA MEMÓRIA
+            RESUMO
             ==================================================
-
-            memoria.js decide quando precisa resumir.
         */
 
         if (
@@ -1966,11 +1843,8 @@ async function askQuestion() {
             try {
 
                 await memoriaConversa.gerarResumo(
-
                     GROQ_API_KEY,
-
                     GROQ_MODEL
-
                 );
 
             } catch (
@@ -1978,7 +1852,7 @@ async function askQuestion() {
             ) {
 
                 console.error(
-                    "Erro ao gerar resumo da memória:",
+                    "Erro ao gerar resumo:",
                     erroMemoria
                 );
 
@@ -1988,7 +1862,7 @@ async function askQuestion() {
 
 
         status.textContent =
-            "Personagem carregado";
+            "Online";
 
 
     } catch (
@@ -1997,7 +1871,7 @@ async function askQuestion() {
 
 
         console.error(
-            "ERRO AO CONSULTAR GROQ:",
+            "ERRO:",
             error
         );
 
@@ -2018,10 +1892,6 @@ async function askQuestion() {
     }
 
 
-    /*
-        Reativa interface.
-    */
-
     sendBtn.disabled =
         false;
 
@@ -2037,15 +1907,12 @@ async function askQuestion() {
 
 
 /* ==========================================================
-   BOTÃO ENVIAR
+   BOTÃO
 ========================================================== */
 
 sendBtn.addEventListener(
-
     "click",
-
     askQuestion
-
 );
 
 
@@ -2060,14 +1927,12 @@ questionInput.addEventListener(
 
     event => {
 
-
         if (
             event.key === "Enter" &&
             !event.shiftKey
         ) {
 
             event.preventDefault();
-
 
             askQuestion();
 
@@ -2080,7 +1945,7 @@ questionInput.addEventListener(
 
 
 /* ==========================================================
-   INICIALIZAÇÃO
+   INICIAR
 ========================================================== */
 
 async function iniciar() {
@@ -2088,64 +1953,39 @@ async function iniciar() {
     try {
 
 
-        /*
-            personagem.js precisa possuir
-            a função carregarPersonagem().
-        */
-
         if (
             typeof carregarPersonagem !==
             "function"
         ) {
 
             throw new Error(
-                "carregarPersonagem() não foi encontrada. Verifique personagem.js."
+                "A função carregarPersonagem() não foi encontrada."
             );
 
         }
 
 
-        /*
-            Carrega personagem.json.
-        */
-
         await carregarPersonagem();
 
 
-        /*
-            Confirma carregamento.
-        */
-
         status.textContent =
-            "Personagem carregado";
+            "Online";
 
 
         console.log(
-            "======================================"
+            "Tiago Digital iniciado."
         );
 
-        console.log(
-            "TIAGO DIGITAL INICIADO"
-        );
 
         console.log(
-            "PERSONAGEM:"
-        );
-
-        console.log(
+            "Personagem carregado:",
             personagem
         );
 
-        console.log(
-            "MEMÓRIA:"
-        );
 
         console.log(
+            "Memória:",
             memoriaConversa
-        );
-
-        console.log(
-            "======================================"
         );
 
 
@@ -2155,7 +1995,7 @@ async function iniciar() {
 
 
         console.error(
-            "ERRO AO CARREGAR PERSONAGEM:",
+            "Erro ao carregar personagem:",
             error
         );
 
@@ -2168,7 +2008,7 @@ async function iniciar() {
 
             "assistant",
 
-            "Não consegui carregar personagem.json. Verifique se o arquivo está na mesma pasta do index.html."
+            "Não consegui carregar personagem.json. Verifique se ele está na mesma pasta do index.html."
 
         );
 
@@ -2179,7 +2019,7 @@ async function iniciar() {
 
 
 /* ==========================================================
-   INICIAR
+   INICIALIZAÇÃO
 ========================================================== */
 
 iniciar();
