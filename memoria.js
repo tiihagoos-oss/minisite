@@ -1,139 +1,137 @@
 /* ==========================================================
-MEMÓRIA DA CONVERSA
-========================================================== */
-
-/* ==========================================================
-CONFIGURAÇÕES
+   MEMÓRIA DA CONVERSA
 ========================================================== */
 
 const MEMORIA_MENSAGENS_RECENTES = 6;
 
 const MEMORIA_LIMITE_MENSAGENS = 8;
 
+
 /* ==========================================================
-ESTADO INTERNO
+   ESTADO INTERNO
 ========================================================== */
 
 const memoriaEstado = {
 
-resumo: "",
+    resumo: "",
 
-mensagens: []
+    mensagens: []
 
 };
 
-/* ==========================================================
-ADICIONAR MENSAGEM
-========================================================== */
-
-function adicionarMensagem(
-role,
-content
-) {
-
-if (!content) {
-    return;
-}
-
-memoriaEstado.mensagens.push({
-
-    role: role,
-
-    content: content
-
-});
-
-console.log(
-    "MEMÓRIA: mensagem adicionada",
-    role,
-    content
-);
-
-}
 
 /* ==========================================================
-OBTER MENSAGENS
+   ADICIONAR MENSAGEM
 ========================================================== */
 
-function obterMensagens() {
+function adicionarMensagem(role, content) {
 
-return [
-    ...memoriaEstado.mensagens
-];
+    if (!content) {
+        return;
+    }
 
-}
+    memoriaEstado.mensagens.push({
 
-/* ==========================================================
-OBTER RESUMO
-========================================================== */
+        role: role,
 
-function obterResumo() {
+        content: content
 
-return memoriaEstado.resumo;
+    });
 
-}
-
-/* ==========================================================
-VERIFICAR SE PRECISA RESUMIR
-========================================================== */
-
-function precisaResumir() {
-
-return (
-    memoriaEstado.mensagens.length >
-    MEMORIA_LIMITE_MENSAGENS
-);
-
-}
-
-/* ==========================================================
-CRIAR HISTÓRICO
-========================================================== */
-
-function criarHistorico() {
-
-return memoriaEstado.mensagens
-
-    .map(message => {
-
-        const nome =
-            message.role === "user"
-                ? "USUÁRIO"
-                : "TIAGO";
-
-        return (
-            `${nome}: ${message.content}`
-        );
-
-    })
-
-    .join("\n\n");
-
-}
-
-/* ==========================================================
-GERAR RESUMO
-========================================================== */
-
-async function gerarResumo(
-groqApiKey,
-model = "openai/gpt-oss-20b"
-) {
-
-if (!groqApiKey) {
-
-    throw new Error(
-        "A chave da Groq não foi informada."
+    console.log(
+        "MEMÓRIA: mensagem adicionada",
+        role,
+        content
     );
 
 }
 
 
-const historico =
-    criarHistorico();
+/* ==========================================================
+   OBTER MENSAGENS
+========================================================== */
+
+function obterMensagens() {
+
+    return [
+        ...memoriaEstado.mensagens
+    ];
+
+}
 
 
-const prompt = `
+/* ==========================================================
+   OBTER RESUMO
+========================================================== */
+
+function obterResumo() {
+
+    return memoriaEstado.resumo;
+
+}
+
+
+/* ==========================================================
+   VERIFICAR SE PRECISA RESUMIR
+========================================================== */
+
+function precisaResumir() {
+
+    return (
+        memoriaEstado.mensagens.length >
+        MEMORIA_LIMITE_MENSAGENS
+    );
+
+}
+
+
+/* ==========================================================
+   CRIAR HISTÓRICO
+========================================================== */
+
+function criarHistorico() {
+
+    return memoriaEstado.mensagens
+
+        .map(message => {
+
+            const nome =
+                message.role === "user"
+                    ? "USUÁRIO"
+                    : "TIAGO";
+
+            return (
+                `${nome}: ${message.content}`
+            );
+
+        })
+
+        .join("\n\n");
+
+}
+
+
+/* ==========================================================
+   GERAR RESUMO
+========================================================== */
+
+async function gerarResumo(
+    groqApiKey,
+    model = "openai/gpt-oss-20b"
+) {
+
+    if (!groqApiKey) {
+
+        throw new Error(
+            "A chave da Groq não foi informada."
+        );
+
+    }
+
+    const historico =
+        criarHistorico();
+
+    const prompt = `
 
 Você é responsável por criar a memória resumida
 de uma conversa.
@@ -152,6 +150,7 @@ problemas que o usuário está tentando resolver;
 objetivos;
 preferências relevantes;
 informações necessárias para entender referências futuras.
+
 NÃO INVENTE informações.
 
 RESUMO ANTERIOR:
@@ -165,259 +164,236 @@ ${historico}
 Retorne somente o resumo atualizado.
 `;
 
-console.log(
-    "MEMÓRIA: gerando resumo..."
-);
-
-
-const response =
-    await fetch(
-        "https://api.groq.com/openai/v1/chat/completions",
-        {
-
-            method: "POST",
-
-            headers: {
-
-                "Content-Type":
-                    "application/json",
-
-                "Authorization":
-                    `Bearer ${groqApiKey}`
-
-            },
-
-            body: JSON.stringify({
-
-                model: model,
-
-                messages: [
-
-                    {
-                        role: "system",
-
-                        content:
-                            "Você cria resumos de memória de conversas."
-                    },
-
-                    {
-                        role: "user",
-
-                        content: prompt
-                    }
-
-                ],
-
-                temperature: 0.2
-
-            })
-
-        }
+    console.log(
+        "MEMÓRIA: gerando resumo..."
     );
 
+    const response =
+        await fetch(
+            "https://api.groq.com/openai/v1/chat/completions",
+            {
 
-const data =
-    await response.json();
+                method: "POST",
 
+                headers: {
 
-if (!response.ok) {
+                    "Content-Type":
+                        "application/json",
 
-    throw new Error(
-        data.error?.message ||
-        "Erro ao gerar resumo."
+                    "Authorization":
+                        `Bearer ${groqApiKey}`
+
+                },
+
+                body: JSON.stringify({
+
+                    model: model,
+
+                    messages: [
+
+                        {
+                            role: "system",
+
+                            content:
+                                "Você cria resumos de memória de conversas."
+                        },
+
+                        {
+                            role: "user",
+
+                            content: prompt
+                        }
+
+                    ],
+
+                    temperature: 0.2
+
+                })
+
+            }
+        );
+
+    const data =
+        await response.json();
+
+    if (!response.ok) {
+
+        throw new Error(
+            data.error?.message ||
+            "Erro ao gerar resumo."
+        );
+
+    }
+
+    const resumo =
+        data.choices?.[0]?.message?.content;
+
+    if (!resumo) {
+
+        throw new Error(
+            "A API não retornou um resumo."
+        );
+
+    }
+
+    memoriaEstado.resumo =
+        resumo.trim();
+
+    memoriaEstado.mensagens =
+        memoriaEstado.mensagens.slice(
+            -MEMORIA_MENSAGENS_RECENTES
+        );
+
+    console.log(
+        "================================="
     );
+
+    console.log(
+        "MEMÓRIA ATUALIZADA:"
+    );
+
+    console.log(
+        memoriaEstado.resumo
+    );
+
+    console.log(
+        "================================="
+    );
+
+    return memoriaEstado.resumo;
 
 }
 
-
-const resumo =
-    data.choices?.[0]?.message?.content;
-
-
-if (!resumo) {
-
-    throw new Error(
-        "A API não retornou um resumo."
-    );
-
-}
-
-
-memoriaEstado.resumo =
-    resumo.trim();
-
-
-/*
-   Depois de criar o resumo,
-   mantemos somente as mensagens recentes.
-*/
-
-memoriaEstado.mensagens =
-    memoriaEstado.mensagens.slice(
-        -MEMORIA_MENSAGENS_RECENTES
-    );
-
-
-console.log(
-    "================================="
-);
-
-console.log(
-    "MEMÓRIA ATUALIZADA:"
-);
-
-console.log(
-    memoriaEstado.resumo
-);
-
-console.log(
-    "================================="
-);
-
-
-return memoriaEstado.resumo;
-
-}
 
 /* ==========================================================
-OBTER CONTEXTO COMPLETO
+   OBTER CONTEXTO COMPLETO
 ========================================================== */
 
 function obterContexto() {
 
-let contexto = "";
+    let contexto = "";
 
-
-/*
-   RESUMO
-*/
-
-if (
-    memoriaEstado.resumo
-) {
-
-    contexto +=
-        "RESUMO DA CONVERSA:\n\n";
-
-    contexto +=
-        memoriaEstado.resumo;
-
-    contexto +=
-        "\n\n";
-
-}
-
-
-/*
-   MENSAGENS RECENTES
-*/
-
-if (
-    memoriaEstado.mensagens.length > 0
-) {
-
-    contexto +=
-        "MENSAGENS RECENTES:\n\n";
-
-
-    for (
-        const message
-        of memoriaEstado.mensagens
+    if (
+        memoriaEstado.resumo
     ) {
 
-        const nome =
-            message.role === "user"
-                ? "USUÁRIO"
-                : "TIAGO";
-
+        contexto +=
+            "RESUMO DA CONVERSA:\n\n";
 
         contexto +=
-            `${nome}: ${message.content}\n\n`;
+            memoriaEstado.resumo;
+
+        contexto +=
+            "\n\n";
 
     }
 
+    if (
+        memoriaEstado.mensagens.length > 0
+    ) {
+
+        contexto +=
+            "MENSAGENS RECENTES:\n\n";
+
+        for (
+            const message
+            of memoriaEstado.mensagens
+        ) {
+
+            const nome =
+                message.role === "user"
+                    ? "USUÁRIO"
+                    : "TIAGO";
+
+            contexto +=
+                `${nome}: ${message.content}\n\n`;
+
+        }
+
+    }
+
+    return contexto.trim();
+
 }
 
-
-return contexto.trim();
-
-}
 
 /* ==========================================================
-LIMPAR
+   LIMPAR
 ========================================================== */
 
 function limpar() {
 
-memoriaEstado.resumo =
-    "";
+    memoriaEstado.resumo =
+        "";
 
-memoriaEstado.mensagens =
-    [];
+    memoriaEstado.mensagens =
+        [];
 
 }
 
+
 /* ==========================================================
-DEBUG
+   DEBUG
 ========================================================== */
 
 function debug() {
 
-console.log(
-    "================================="
-);
+    console.log(
+        "================================="
+    );
 
-console.log(
-    "RESUMO:"
-);
+    console.log(
+        "RESUMO:"
+    );
 
-console.log(
-    memoriaEstado.resumo ||
-    "(nenhum)"
-);
+    console.log(
+        memoriaEstado.resumo ||
+        "(nenhum)"
+    );
 
-console.log(
-    "MENSAGENS:"
-);
+    console.log(
+        "MENSAGENS:"
+    );
 
-console.log(
-    memoriaEstado.mensagens
-);
+    console.log(
+        memoriaEstado.mensagens
+    );
 
-console.log(
-    "CONTEXTO:"
-);
+    console.log(
+        "CONTEXTO:"
+    );
 
-console.log(
-    obterContexto()
-);
+    console.log(
+        obterContexto()
+    );
 
-console.log(
-    "================================="
-);
+    console.log(
+        "================================="
+    );
 
 }
 
+
 /* ==========================================================
-OBJETO PÚBLICO
+   OBJETO PÚBLICO
 ========================================================== */
 
 window.memoriaConversa = {
 
-adicionarMensagem,
+    adicionarMensagem,
 
-obterMensagens,
+    obterMensagens,
 
-obterResumo,
+    obterResumo,
 
-precisaResumir,
+    precisaResumir,
 
-gerarResumo,
+    gerarResumo,
 
-obterContexto,
+    obterContexto,
 
-limpar,
+    limpar,
 
-debug
+    debug
 
 };
