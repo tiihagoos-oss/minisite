@@ -1,1215 +1,1093 @@
-<!DOCTYPE html>  <html lang="pt-BR">  <head>  <meta charset="UTF-8">  <meta name="viewport"  
-content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html> atual
+<html lang="pt-BR">
 
-<title>Tiago Digital</title>  <style>  
-  
-/* ==========================================================  
-   RESET  
-========================================================== */  
-  
-* {  
-    margin: 0;  
-    padding: 0;  
-    box-sizing: border-box;  
-}  
-  
-  
-/* ==========================================================  
-   BODY  
-========================================================== */  
-  
-body {  
-    font-family: Arial, sans-serif;  
-    background: #f5f5f5;  
-    color: #222;  
-    min-height: 100vh;  
-}  
-  
-  
-/* ==========================================================  
-   HEADER  
-========================================================== */  
-  
-header {  
-    background: #111827;  
-    color: white;  
-    padding: 14px 18px;  
-  
-    display: flex;  
-    align-items: center;  
-    justify-content: space-between;  
-}  
-  
-  
-.perfil {  
-    display: flex;  
-    align-items: center;  
-    gap: 12px;  
-}  
-  
-  
-.perfil img {  
-    width: 46px;  
-    height: 46px;  
-  
-    border-radius: 50%;  
-  
-    object-fit: cover;  
-}  
-  
-  
-.nome {  
-    font-size: 18px;  
-    font-weight: bold;  
-}  
-  
-  
-.online {  
-    font-size: 12px;  
-    color: #4ade80;  
-    margin-top: 2px;  
-}  
-  
-  
-.menu {  
-    display: flex;  
-    gap: 8px;  
-}  
-  
-  
-.menu button {  
-    border: none;  
-    background: transparent;  
-    color: white;  
-  
-    cursor: pointer;  
-  
-    padding: 8px;  
-}  
-  
-  
-/* ==========================================================  
-   CONTAINER  
-========================================================== */  
-  
-.container {  
-    width: 100%;  
-    max-width: 900px;  
-  
-    margin: 0 auto;  
-  
-    min-height: calc(100vh - 74px);  
-  
-    display: flex;  
-    flex-direction: column;  
-}  
-  
-  
-/* ==========================================================  
-   CHAT  
-========================================================== */  
-  
-#chat {  
-    flex: 1;  
-  
-    padding: 20px;  
-  
-    overflow-y: auto;  
-}  
-  
-  
-.mensagem {  
-    margin-bottom: 14px;  
-  
-    display: flex;  
-}  
-  
-  
-.mensagem.usuario {  
-    justify-content: flex-end;  
-}  
-  
-  
-.bolha {  
-    max-width: 82%;  
-  
-    padding: 12px 15px;  
-  
-    border-radius: 16px;  
-  
-    line-height: 1.5;  
-  
-    white-space: pre-wrap;  
-  
-    word-wrap: break-word;  
-}  
-  
-  
-.usuario .bolha {  
-    background: #2563eb;  
-    color: white;  
-  
-    border-bottom-right-radius: 4px;  
-}  
-  
-  
-.assistente .bolha {  
-    background: white;  
-  
-    border: 1px solid #ddd;  
-  
-    border-bottom-left-radius: 4px;  
-}  
-  
-  
-/* ==========================================================  
-   STATUS  
-========================================================== */  
-  
-#status {  
-    padding: 8px 18px;  
-  
-    font-size: 12px;  
-  
-    color: #666;  
-  
-    text-align: center;  
-}  
-  
-  
-/* ==========================================================  
-   AVISO  
-========================================================== */  
-  
-.aviso {  
-    font-size: 11px;  
-  
-    color: #777;  
-  
-    text-align: center;  
-  
-    padding: 7px 15px;  
-}  
-  
-  
-/* ==========================================================  
-   INPUT  
-========================================================== */  
-  
-.input-area {  
-    padding: 12px;  
-  
-    background: white;  
-  
-    border-top: 1px solid #ddd;  
-  
-    display: flex;  
-  
-    gap: 10px;  
-  
-    position: sticky;  
-  
-    bottom: 0;  
-}  
-  
-  
-#question {  
-    flex: 1;  
-  
-    resize: none;  
-  
-    border: 1px solid #ccc;  
-  
-    border-radius: 12px;  
-  
-    padding: 12px;  
-  
-    min-height: 48px;  
-  
-    max-height: 140px;  
-  
-    font-family: inherit;  
-  
-    font-size: 15px;  
-  
-    outline: none;  
-}  
-  
-  
-#question:focus {  
-    border-color: #2563eb;  
-}  
-  
-  
-#sendBtn {  
-    border: none;  
-  
-    border-radius: 12px;  
-  
-    background: #2563eb;  
-  
-    color: white;  
-  
-    padding: 0 20px;  
-  
-    cursor: pointer;  
-  
-    font-weight: bold;  
-}  
-  
-  
-#sendBtn:disabled {  
-    opacity: 0.6;  
-  
-    cursor: not-allowed;  
-}  
-  
-  
-/* ==========================================================  
-   MOBILE  
-========================================================== */  
-  
-@media (max-width: 600px) {  
-  
-    .bolha {  
-        max-width: 90%;  
-    }  
-  
-    .input-area {  
-        padding: 8px;  
-    }  
-  
-    #sendBtn {  
-        padding: 0 15px;  
-    }  
-  
-}  
-  
-</style>  </head>  <body>  <!-- ========================================================  
-     HEADER  
-========================================================= -->  <header>  <div class="perfil">  
+<head>
 
-    <img  
-        src="https://static.vecteezy.com/system/resources/previews/009/749/751/large_2x/avatar-man-icon-cartoon-male-profile-mascot-illustration-head-face-business-user-logo-free-vector.jpg"  
-        alt="Tiago"  
-    >  
+<meta charset="UTF-8">
 
-    <div>  
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-        <div class="nome">  
-            Tiago Digital  
-        </div>  
+<title>Tiago Digital</title>
 
-        <div class="online">  
-            ● Online  
-        </div>  
+<style>
 
-    </div>  
+/* ==========================================================
+   RESET
+========================================================== */
 
-</div>  
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 
-<div class="menu">  
+/* ==========================================================
+   BODY
+========================================================== */
 
-    <button  
-        type="button"  
-        onclick="alert('Configurações em desenvolvimento.')"  
-    >  
-        ⚙  
-    </button>  
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #222;
+    min-height: 100vh;
+}
 
-    <button  
-        type="button"  
-        onclick="alert('Privacidade em desenvolvimento.')"  
-    >  
-        🔒  
-    </button>  
 
-    <button  
-        type="button"  
-        onclick="alert('Ajuda em desenvolvimento.')"  
-    >  
-        ?  
-    </button>  
+/* ==========================================================
+   HEADER
+========================================================== */
+
+header {
+    background: #111827;
+    color: white;
+    padding: 14px 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.perfil {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+
+.perfil img {
+    width: 46px;
+    height: 46px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+
+.nome {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+.online {
+    font-size: 12px;
+    color: #4ade80;
+    margin-top: 2px;
+}
+
+
+.menu {
+    display: flex;
+    gap: 8px;
+}
+
+
+.menu button {
+    border: none;
+    background: transparent;
+    color: white;
+
+    cursor: pointer;
+
+    padding: 8px;
+}
+
+
+/* ==========================================================
+   CONTAINER
+========================================================== */
+
+.container {
+    width: 100%;
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    min-height: calc(100vh - 74px);
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ==========================================================
+   CHAT
+========================================================== */
+
+#chat {
+    flex: 1;
+
+    padding: 20px;
+
+    overflow-y: auto;
+}
+
+
+.mensagem {
+    margin-bottom: 14px;
+
+    display: flex;
+}
+
+
+.mensagem.usuario {
+    justify-content: flex-end;
+}
+
+
+.bolha {
+    max-width: 82%;
+
+    padding: 12px 15px;
+
+    border-radius: 16px;
+
+    line-height: 1.5;
+
+    white-space: pre-wrap;
+
+    word-wrap: break-word;
+}
+
+
+.usuario .bolha {
+    background: #2563eb;
+    color: white;
+
+    border-bottom-right-radius: 4px;
+}
+
+
+.assistente .bolha {
+    background: white;
+
+    border: 1px solid #ddd;
+
+    border-bottom-left-radius: 4px;
+}
+
+
+/* ==========================================================
+   STATUS
+========================================================== */
+
+#status {
+    padding: 8px 18px;
+
+    font-size: 12px;
+
+    color: #666;
+
+    text-align: center;
+}
+
+
+/* ==========================================================
+   AVISO
+========================================================== */
+
+.aviso {
+    font-size: 11px;
+
+    color: #777;
+
+    text-align: center;
+
+    padding: 7px 15px;
+}
+
+
+/* ==========================================================
+   INPUT
+========================================================== */
+
+.input-area {
+    padding: 12px;
+
+    background: white;
+
+    border-top: 1px solid #ddd;
+
+    display: flex;
+
+    gap: 10px;
+
+    position: sticky;
+
+    bottom: 0;
+}
+
+
+#question {
+    flex: 1;
+
+    resize: none;
+
+    border: 1px solid #ccc;
+
+    border-radius: 12px;
+
+    padding: 12px;
+
+    min-height: 48px;
+
+    max-height: 140px;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+
+#question:focus {
+    border-color: #2563eb;
+}
+
+
+#sendBtn {
+    border: none;
+
+    border-radius: 12px;
+
+    background: #2563eb;
+
+    color: white;
+
+    padding: 0 20px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+
+#sendBtn:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+/* ==========================================================
+   MOBILE
+========================================================== */
+
+@media (max-width: 600px) {
+
+    .bolha {
+        max-width: 90%;
+    }
+
+    .input-area {
+        padding: 8px;
+    }
+
+    #sendBtn {
+        padding: 0 15px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="perfil">
+
+        <img
+            src="https://static.vecteezy.com/system/resources/previews/009/749/751/large_2x/avatar-man-icon-cartoon-male-profile-mascot-illustration-head-face-business-user-logo-free-vector.jpg"
+            alt="Tiago"
+        >
+
+        <div>
+
+            <div class="nome">
+                Tiago Digital
+            </div>
+
+            <div class="online">
+                ● Online
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="menu">
+
+        <button
+            type="button"
+            onclick="alert('Configurações em desenvolvimento.')"
+        >
+            ⚙
+        </button>
+
+        <button
+            type="button"
+            onclick="alert('Privacidade em desenvolvimento.')"
+        >
+            🔒
+        </button>
+
+        <button
+            type="button"
+            onclick="alert('Ajuda em desenvolvimento.')"
+        >
+            ?
+        </button>
+
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <div id="chat"></div>
+
+    <div id="status">
+        Carregando personagem...
+    </div>
+
+    <div class="aviso">
+
+        A IA pode cometer erros.
+        Confira informações importantes.
+
+    </div>
+
+    <div class="input-area">
+
+        <textarea
+            id="question"
+            placeholder="Digite sua mensagem..."
+            rows="1"
+        ></textarea>
+
+        <button
+            id="sendBtn"
+            type="button"
+        >
+            Enviar
+        </button>
+
+    </div>
 
 </div>
 
-</header>  <!-- ========================================================  
-     CONTAINER  
-========================================================= -->  <div class="container">  <!-- ====================================================  
-     CHAT  
-===================================================== -->  
 
-<div id="chat"></div>  
+<script src="./personagem.js"></script>
+
+<script src="./memoria.js"></script>
 
 
-<!-- ====================================================  
-     STATUS  
-===================================================== -->  
+<script>
 
-<div id="status">  
-    Carregando personagem...  
-</div>  
+/* ==========================================================
+   CONFIGURAÇÃO
+========================================================== */
 
+/*
+   COLOQUE AQUI SUA NOVA CHAVE.
 
-<!-- ====================================================  
-     AVISO  
-===================================================== -->  
+   A chave antiga foi exposta e deve ser REVOGADA.
+*/
 
-<div class="aviso">  
-
-    A IA pode cometer erros.  
-    Confira informações importantes.  
-
-</div>  
+const GROQ_API_KEY =
+    "COLOQUE_SUA_NOVA_CHAVE_AQUI";
 
 
-<!-- ====================================================  
-     INPUT  
-===================================================== -->  
-
-<div class="input-area">  
-
-    <textarea  
-        id="question"  
-        placeholder="Digite sua mensagem..."  
-        rows="1"  
-    ></textarea>  
+const GROQ_MODEL =
+    "openai/gpt-oss-20b";
 
 
-    <button  
-        id="sendBtn"  
-        type="button"  
-    >  
-        Enviar  
-    </button>  
+/* ==========================================================
+   ELEMENTOS
+========================================================== */
 
-</div>
+const chat =
+    document.getElementById("chat");
 
-</div>  <!-- ==========================================================  
-     ARQUIVOS EXTERNOS  
-  
-     ORDEM IMPORTANTE:  
-  
-     1. personagem.js  
-     2. memoria.js  
-     3. código deste index.html  
-  
-========================================================== -->  <script src="./personagem.js"></script>  <script src="./memoria.js"></script>  <script>  
-  
-/* ==========================================================  
-   CONFIGURAÇÃO  
-========================================================== */  
-  
-  
-/*  
-    ATENÇÃO:  
-  
-    Coloque aqui uma NOVA chave da Groq.  
-  
-    A chave anterior que estava no seu HTML ficou exposta  
-    e deve ser revogada/trocada.  
-  
-    Posteriormente vamos mover isso para o backend.  
-*/  
-  
-const GROQ_API_KEY =  
-    "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";  
-  
-  
-const GROQ_MODEL =  
-    "openai/gpt-oss-20b";  
-  
-  
-  
-/* ==========================================================  
-   ELEMENTOS DA PÁGINA  
-========================================================== */  
-  
-const chat =  
-    document.getElementById("chat");  
-  
-  
-const status =  
-    document.getElementById("status");  
-  
-  
-const questionInput =  
-    document.getElementById("question");  
-  
-  
-const sendBtn =  
-    document.getElementById("sendBtn");  
-  
-  
-  
-/* ==========================================================  
-   MEMÓRIA  
-========================================================== */  
-  
-  
-/*  
-    IMPORTANTE:  
-  
-    memoria.js cria:  
-  
-        window.memoriaConversa  
-  
-    Aqui NÃO criamos outra memória.  
-  
-    Apenas pegamos a memória que já foi criada  
-    pelo arquivo memoria.js.  
-*/  
-  
-const memoriaConversa =  
-    window.memoriaConversa;  
-  
-  
-if (!memoriaConversa) {  
-  
-    console.error(  
-        "ERRO: memoria.js não foi carregado."  
-    );  
-  
-}  
-  
-  
-  
-/* ==========================================================  
-   ADICIONAR MENSAGEM AO CHAT  
-========================================================== */  
-  
-function addMessage(  
-    role,  
-    content  
-) {  
-  
-    const mensagem =  
-        document.createElement("div");  
-  
-  
-    mensagem.className =  
-        "mensagem " +  
-        (  
-            role === "user"  
-                ? "usuario"  
-                : "assistente"  
-        );  
-  
-  
-    const bolha =  
-        document.createElement("div");  
-  
-  
-    bolha.className =  
-        "bolha";  
-  
-  
-    bolha.textContent =  
-        content;  
-  
-  
-    mensagem.appendChild(  
-        bolha  
-    );  
-  
-  
-    chat.appendChild(  
-        mensagem  
-    );  
-  
-  
-    chat.scrollTop =  
-        chat.scrollHeight;  
-  
-  
-    return bolha;  
-  
-}  
-  
-  
-  
-/* ==========================================================  
-   EFEITO DE DIGITAÇÃO  
-========================================================== */  
-  
-async function typeWriter(  
-    element,  
-    text  
-) {  
-  
-    element.textContent = "";  
-  
-  
-    for (  
-        const caractere of text  
-    ) {  
-  
-        element.textContent +=  
-            caractere;  
-  
-  
-        chat.scrollTop =  
-            chat.scrollHeight;  
-  
-  
-        await new Promise(  
-            resolve =>  
-                setTimeout(  
-                    resolve,  
-                    8  
-                )  
-        );  
-  
-    }  
-  
-}  
-  
-  
-  
-/* ==========================================================  
-   NORMALIZAR TEXTO  
-========================================================== */  
-  
-function normalizar(  
-    texto  
-) {  
-  
-    if (  
-        texto === null ||  
-        texto === undefined  
-    ) {  
-  
-        return "";  
-  
-    }  
-  
-  
-    return String(texto)  
-  
-        .toLowerCase()  
-  
-        .normalize("NFD")  
-  
-        .replace(  
-            /[\u0300-\u036f]/g,  
-            ""  
-        )  
-  
-        .trim();  
-  
-}  
-  
-  
-  
-/* ==========================================================  
-   PALAVRAS-CHAVE  
-========================================================== */  
-  
-const palavrasChave = [  
-  
-    {  
-        name: "IDENTIDADE",  
-  
-        keywords: [  
-            "quem é tiago",  
-            "quem e tiago",  
-            "tiago",  
-            "identidade",  
-            "nome"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "RESUMO",  
-  
-        keywords: [  
-            "resumo",  
-            "sobre tiago",  
-            "fale sobre tiago",  
-            "quem voce e",  
-            "quem você é"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "HISTÓRIA",  
-  
-        keywords: [  
-            "historia",  
-            "história",  
-            "passado",  
-            "infancia",  
-            "infância",  
-            "vida"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "PROFISSÃO",  
-  
-        keywords: [  
-            "profissao",  
-            "profissão",  
-            "trabalho",  
-            "trabalha",  
-            "carreira",  
-            "emprego"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "CURRICULO",  
-  
-        keywords: [  
-            "curriculo",  
-            "currículo",  
-            "experiencia",  
-            "experiência",  
-            "formacao",  
-            "formação"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "FORMAÇÃO",  
-  
-        keywords: [  
-            "formacao",  
-            "formação",  
-            "estudo",  
-            "estudos",  
-            "faculdade",  
-            "curso"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "EXPERIÊNCIA PROFISSIONAL",  
-  
-        keywords: [  
-            "experiencia profissional",  
-            "experiência profissional",  
-            "empresa",  
-            "empresas",  
-            "projeto profissional"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "PROJETOS",  
-  
-        keywords: [  
-            "projeto",  
-            "projetos",  
-            "aplicacao",  
-            "aplicação",  
-            "software",  
-            "sistema"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "INTELIGÊNCIA ARTIFICIAL",  
-  
-        keywords: [  
-            "inteligencia artificial",  
-            "inteligência artificial",  
-            "ia",  
-            "ai",  
-            "chatbot",  
-            "chatbots",  
-            "gpt",  
-            "gemini",  
-            "groq",  
-            "automacao",  
-            "automação"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "COMO TRABALHA",  
-  
-        keywords: [  
-            "como trabalha",  
-            "como voce trabalha",  
-            "como você trabalha",  
-            "trabalhar",  
-            "metodo",  
-            "método"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "PERSONALIDADE",  
-  
-        keywords: [  
-            "personalidade",  
-            "jeito",  
-            "comportamento",  
-            "temperamento"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "VALORES",  
-  
-        keywords: [  
-            "valores",  
-            "principios",  
-            "princípios",  
-            "etica",  
-            "ética"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "VISÃO DE SUCESSO",  
-  
-        keywords: [  
-            "sucesso",  
-            "visao de sucesso",  
-            "visão de sucesso",  
-            "objetivo profissional"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "GOSTOS",  
-  
-        keywords: [  
-            "gosta",  
-            "gosto",  
-            "preferencia",  
-            "preferência",  
-            "preferencias",  
-            "preferências"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "HOBBIES",  
-  
-        keywords: [  
-            "hobby",  
-            "hobbies",  
-            "lazer",  
-            "tempo livre",  
-            "jogos",  
-            "videogame",  
-            "futebol",  
-            "bicicleta"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "ESPIRITUALIDADE E RELIGIÃO",  
-  
-        keywords: [  
-            "religiao",  
-            "religião",  
-            "espiritualidade",  
-            "deus",  
-            "judaismo",  
-            "judaísmo",  
-            "judeu",  
-            "judaica"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "OPINIÕES",  
-  
-        keywords: [  
-            "opiniao",  
-            "opinião",  
-            "acha",  
-            "pensamento",  
-            "pensa"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "TOMADA DE DECISÕES",  
-  
-        keywords: [  
-            "decisao",  
-            "decisão",  
-            "decisoes",  
-            "decisões",  
-            "escolha",  
-            "escolher"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "OBJETIVOS",  
-  
-        keywords: [  
-            "objetivo",  
-            "objetivos",  
-            "meta",  
-            "metas",  
-            "futuro",  
-            "sonho",  
-            "sonhos"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "EXPERIÊNCIAS MARCANTES",  
-  
-        keywords: [  
-            "experiencia marcante",  
-            "experiência marcante",  
-            "acontecimento",  
-            "momento importante"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "RELACIONAMENTOS",  
-  
-        keywords: [  
-            "relacionamento",  
-            "relacionamentos",  
-            "familia",  
-            "família",  
-            "amigo",  
-            "amigos"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "FORMA DE FALAR",  
-  
-        keywords: [  
-            "forma de falar",  
-            "fala",  
-            "linguagem",  
-            "tom",  
-            "maneira de falar"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "RESPOSTAS EXEMPLO",  
-  
-        keywords: [  
-            "resposta",  
-            "respostas",  
-            "exemplo de resposta"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "MANEIRA DE PENSAR",  
-  
-        keywords: [  
-            "maneira de pensar",  
-            "pensar",  
-            "raciocinio",  
-            "raciocínio",  
-            "logica",  
-            "lógica"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "FATOS",  
-  
-        keywords: [  
-            "fato",  
-            "fatos",  
-            "informacao",  
-            "informação"  
-        ]  
-    },  
-  
-  
-    {  
-        name: "REGRAS DO TIAGO DIGITAL",  
-  
-        keywords: [  
-            "regras",  
-            "regra",  
-            "tiago digital",  
-            "como responder"  
-        ]  
-    }  
-  
-];  
-  
-  
-  
-/* ==========================================================  
-   ENCONTRAR TEXTO RELEVANTE DO PERSONAGEM  
-========================================================== */  
-  
-function getRelevantText(  
-    personagemAtual,  
-    pergunta  
-) {  
-  
-    if (  
-        !personagemAtual ||  
-        !pergunta  
-    ) {  
-  
-        return "";  
-  
-    }  
-  
-  
-    const perguntaNormalizada =  
-        normalizar(  
-            pergunta  
-        );  
-  
-  
-    const resultados = [];  
-  
-  
-    for (  
-        const [  
-            titulo,  
-            conteudo  
-        ]  
-        of Object.entries(  
-            personagemAtual  
-        )  
-    ) {  
-  
-  
-        const secao =  
-            palavrasChave.find(  
-                item =>  
-                    normalizar(  
-                        item.name  
-                    ) ===  
-                    normalizar(  
-                        titulo  
-                    )  
-            );  
-  
-  
-        const chaves =  
-            secao  
-                ? secao.keywords  
-                : [];  
-  
-  
-        let pontos = 0;  
-  
-  
-        /*  
-            Verifica palavras-chave.  
-        */  
-  
-        for (  
-            const palavraChave  
-            of chaves  
-        ) {  
-  
-            const chaveNormalizada =  
-                normalizar(  
-                    palavraChave  
-                );  
-  
-  
-            if (  
-                chaveNormalizada &&  
-                perguntaNormalizada.includes(  
-                    chaveNormalizada  
-                )  
-            ) {  
-  
-                pontos += 10;  
-  
-            }  
-  
-        }  
-  
-  
-        /*  
-            Verifica o nome da seção.  
-        */  
-  
-        const tituloNormalizado =  
-            normalizar(  
-                titulo  
-            );  
-  
-  
-        if (  
-            tituloNormalizado &&  
-            perguntaNormalizada.includes(  
-                tituloNormalizado  
-            )  
-        ) {  
-  
-            pontos += 20;  
-  
-        }  
-  
-  
-        if (pontos > 0) {  
-  
-            resultados.push({  
-  
-                titulo:  
-                    titulo,  
-  
-                conteudo:  
-                    conteudo,  
-  
-                pontos:  
-                    pontos  
-  
-            });  
-  
-        }  
-  
-    }  
-  
-  
-    /*  
-        Ordena do mais relevante  
-        para o menos relevante.  
-    */  
-  
-    resultados.sort(  
-        (  
-            a,  
-            b  
-        ) =>  
-            b.pontos -  
-            a.pontos  
-    );  
-  
-  
-    /*  
-        Se encontrou informações  
-        relevantes, usa até 3 seções.  
-    */  
-  
-    if (  
-        resultados.length > 0  
-    ) {  
-  
-        return resultados  
-  
-            .slice(0, 3)  
-  
-            .map(  
-                secao => {  
-  
-                    let conteudo;  
-  
-  
-                    if (  
-                        typeof secao.conteudo ===  
-                        "string"  
-                    ) {  
-  
-                        conteudo =  
-                            secao.conteudo;  
-  
-                    } else {  
-  
-                        conteudo =  
-                            JSON.stringify(  
-                                secao.conteudo,  
-                                null,  
-                                2  
-                            );  
-  
-                    }  
-  
-  
-                    return (  
-                        "### " +  
-                        secao.titulo +  
-                        "\n" +  
-                        conteudo  
-                    );  
-  
-                }  
-            )  
-  
-            .join(  
-                "\n\n"  
-            );  
-  
-    }  
-  
-  
-    /*  
-        ======================================================  
-        FALLBACK  
-  
-        Se nenhuma palavra-chave foi encontrada,  
-        manda o personagem inteiro.  
-  
-        Isso é importante.  
-  
-        Antes, quando não encontrava palavra-chave,  
-        relevantText ficava vazio e o personagem  
-        praticamente não era enviado para a IA.  
-        ======================================================  
-    */  
-  
-    if (  
-        typeof montarPromptPersonagem ===  
-        "function"  
-    ) {  
-  
-        return montarPromptPersonagem();  
-  
-    }  
-  
-  
-    return "";  
-  
-}  
-  
-  
-  
-/* ==========================================================  
-   CRIAR PROMPT DO SISTEMA  
-========================================================== */  
-  
-function criarPromptSistema(  
-    relevantText,  
-    contextoConversa  
-) {  
-  
-    return `  
-  
+const status =
+    document.getElementById("status");
+
+const questionInput =
+    document.getElementById("question");
+
+const sendBtn =
+    document.getElementById("sendBtn");
+
+
+/* ==========================================================
+   MEMÓRIA
+========================================================== */
+
+const memoriaConversa =
+    window.memoriaConversa;
+
+
+if (!memoriaConversa) {
+
+    console.error(
+        "ERRO: memoria.js não foi carregado."
+    );
+
+}
+
+
+/* ==========================================================
+   ADICIONAR MENSAGEM
+========================================================== */
+
+function addMessage(
+    role,
+    content
+) {
+
+    const mensagem =
+        document.createElement("div");
+
+    mensagem.className =
+        "mensagem " +
+        (
+            role === "user"
+                ? "usuario"
+                : "assistente"
+        );
+
+    const bolha =
+        document.createElement("div");
+
+    bolha.className =
+        "bolha";
+
+    bolha.textContent =
+        content;
+
+    mensagem.appendChild(
+        bolha
+    );
+
+    chat.appendChild(
+        mensagem
+    );
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+    return bolha;
+
+}
+
+
+/* ==========================================================
+   EFEITO DE DIGITAÇÃO
+========================================================== */
+
+async function typeWriter(
+    element,
+    text
+) {
+
+    element.textContent = "";
+
+    for (
+        const caractere of text
+    ) {
+
+        element.textContent +=
+            caractere;
+
+        chat.scrollTop =
+            chat.scrollHeight;
+
+        await new Promise(
+            resolve =>
+                setTimeout(
+                    resolve,
+                    8
+                )
+        );
+
+    }
+
+}
+
+
+/* ==========================================================
+   NORMALIZAR
+========================================================== */
+
+function normalizar(
+    texto
+) {
+
+    if (
+        texto === null ||
+        texto === undefined
+    ) {
+
+        return "";
+
+    }
+
+    return String(texto)
+
+        .toLowerCase()
+
+        .normalize("NFD")
+
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
+        )
+
+        .trim();
+
+}
+
+
+/* ==========================================================
+   PALAVRAS-CHAVE
+========================================================== */
+
+const palavrasChave = [
+
+    {
+        name: "IDENTIDADE",
+        keywords: [
+            "quem é tiago",
+            "quem e tiago",
+            "tiago",
+            "identidade",
+            "nome"
+        ]
+    },
+
+    {
+        name: "RESUMO",
+        keywords: [
+            "resumo",
+            "sobre tiago",
+            "fale sobre tiago",
+            "quem voce e",
+            "quem você é"
+        ]
+    },
+
+    {
+        name: "HISTÓRIA",
+        keywords: [
+            "historia",
+            "história",
+            "passado",
+            "infancia",
+            "infância",
+            "vida"
+        ]
+    },
+
+    {
+        name: "PROFISSÃO",
+        keywords: [
+            "profissao",
+            "profissão",
+            "trabalho",
+            "trabalha",
+            "carreira",
+            "emprego"
+        ]
+    },
+
+    {
+        name: "CURRICULO",
+        keywords: [
+            "curriculo",
+            "currículo",
+            "experiencia",
+            "experiência",
+            "formacao",
+            "formação"
+        ]
+    },
+
+    {
+        name: "FORMAÇÃO",
+        keywords: [
+            "formacao",
+            "formação",
+            "estudo",
+            "estudos",
+            "faculdade",
+            "curso"
+        ]
+    },
+
+    {
+        name: "EXPERIÊNCIA PROFISSIONAL",
+        keywords: [
+            "experiencia profissional",
+            "experiência profissional",
+            "empresa",
+            "empresas",
+            "projeto profissional"
+        ]
+    },
+
+    {
+        name: "PROJETOS",
+        keywords: [
+            "projeto",
+            "projetos",
+            "aplicacao",
+            "aplicação",
+            "software",
+            "sistema"
+        ]
+    },
+
+    {
+        name: "INTELIGÊNCIA ARTIFICIAL",
+        keywords: [
+            "inteligencia artificial",
+            "inteligência artificial",
+            "ia",
+            "ai",
+            "chatbot",
+            "chatbots",
+            "gpt",
+            "gemini",
+            "groq",
+            "automacao",
+            "automação"
+        ]
+    },
+
+    {
+        name: "COMO TRABALHA",
+        keywords: [
+            "como trabalha",
+            "como voce trabalha",
+            "como você trabalha",
+            "trabalhar",
+            "metodo",
+            "método"
+        ]
+    },
+
+    {
+        name: "PERSONALIDADE",
+        keywords: [
+            "personalidade",
+            "jeito",
+            "comportamento",
+            "temperamento"
+        ]
+    },
+
+    {
+        name: "VALORES",
+        keywords: [
+            "valores",
+            "principios",
+            "princípios",
+            "etica",
+            "ética"
+        ]
+    },
+
+    {
+        name: "VISÃO DE SUCESSO",
+        keywords: [
+            "sucesso",
+            "visao de sucesso",
+            "visão de sucesso",
+            "objetivo profissional"
+        ]
+    },
+
+    {
+        name: "GOSTOS",
+        keywords: [
+            "gosta",
+            "gosto",
+            "preferencia",
+            "preferência",
+            "preferencias",
+            "preferências"
+        ]
+    },
+
+    {
+        name: "HOBBIES",
+        keywords: [
+            "hobby",
+            "hobbies",
+            "lazer",
+            "tempo livre",
+            "jogos",
+            "videogame",
+            "futebol",
+            "bicicleta"
+        ]
+    },
+
+    {
+        name: "ESPIRITUALIDADE E RELIGIÃO",
+        keywords: [
+            "religiao",
+            "religião",
+            "espiritualidade",
+            "deus",
+            "judaismo",
+            "judaísmo",
+            "judeu",
+            "judaica"
+        ]
+    },
+
+    {
+        name: "OPINIÕES",
+        keywords: [
+            "opiniao",
+            "opinião",
+            "acha",
+            "pensamento",
+            "pensa"
+        ]
+    },
+
+    {
+        name: "TOMADA DE DECISÕES",
+        keywords: [
+            "decisao",
+            "decisão",
+            "decisoes",
+            "decisões",
+            "escolha",
+            "escolher"
+        ]
+    },
+
+    {
+        name: "OBJETIVOS",
+        keywords: [
+            "objetivo",
+            "objetivos",
+            "meta",
+            "metas",
+            "futuro",
+            "sonho",
+            "sonhos"
+        ]
+    },
+
+    {
+        name: "EXPERIÊNCIAS MARCANTES",
+        keywords: [
+            "experiencia marcante",
+            "experiência marcante",
+            "acontecimento",
+            "momento importante"
+        ]
+    },
+
+    {
+        name: "RELACIONAMENTOS",
+        keywords: [
+            "relacionamento",
+            "relacionamentos",
+            "familia",
+            "família",
+            "amigo",
+            "amigos"
+        ]
+    },
+
+    {
+        name: "FORMA DE FALAR",
+        keywords: [
+            "forma de falar",
+            "fala",
+            "linguagem",
+            "tom",
+            "maneira de falar"
+        ]
+    },
+
+    {
+        name: "RESPOSTAS EXEMPLO",
+        keywords: [
+            "resposta",
+            "respostas",
+            "exemplo de resposta"
+        ]
+    },
+
+    {
+        name: "MANEIRA DE PENSAR",
+        keywords: [
+            "maneira de pensar",
+            "pensar",
+            "raciocinio",
+            "raciocínio",
+            "logica",
+            "lógica"
+        ]
+    },
+
+    {
+        name: "FATOS",
+        keywords: [
+            "fato",
+            "fatos",
+            "informacao",
+            "informação"
+        ]
+    },
+
+    {
+        name: "REGRAS DO TIAGO DIGITAL",
+        keywords: [
+            "regras",
+            "regra",
+            "tiago digital",
+            "como responder"
+        ]
+    }
+
+];
+
+
+/* ==========================================================
+   ENCONTRAR TEXTO RELEVANTE
+========================================================== */
+
+function getRelevantText(
+    personagemAtual,
+    pergunta
+) {
+
+    if (
+        !personagemAtual ||
+        !pergunta
+    ) {
+
+        return "";
+
+    }
+
+    const perguntaNormalizada =
+        normalizar(
+            pergunta
+        );
+
+    const resultados = [];
+
+
+    for (
+        const [
+            titulo,
+            conteudo
+        ]
+        of Object.entries(
+            personagemAtual
+        )
+    ) {
+
+        const secao =
+            palavrasChave.find(
+                item =>
+                    normalizar(
+                        item.name
+                    ) ===
+                    normalizar(
+                        titulo
+                    )
+            );
+
+        const chaves =
+            secao
+                ? secao.keywords
+                : [];
+
+        let pontos = 0;
+
+
+        for (
+            const palavraChave
+            of chaves
+        ) {
+
+            const chaveNormalizada =
+                normalizar(
+                    palavraChave
+                );
+
+            if (
+                chaveNormalizada &&
+                perguntaNormalizada.includes(
+                    chaveNormalizada
+                )
+            ) {
+
+                pontos += 10;
+
+            }
+
+        }
+
+
+        const tituloNormalizado =
+            normalizar(
+                titulo
+            );
+
+
+        if (
+            tituloNormalizado &&
+            perguntaNormalizada.includes(
+                tituloNormalizado
+            )
+        ) {
+
+            pontos += 20;
+
+        }
+
+
+        if (pontos > 0) {
+
+            resultados.push({
+
+                titulo:
+                    titulo,
+
+                conteudo:
+                    conteudo,
+
+                pontos:
+                    pontos
+
+            });
+
+        }
+
+    }
+
+
+    resultados.sort(
+        (
+            a,
+            b
+        ) =>
+            b.pontos -
+            a.pontos
+    );
+
+
+    if (
+        resultados.length > 0
+    ) {
+
+        return resultados
+
+            .slice(0, 2)
+
+            .map(
+                secao => {
+
+                    let conteudo;
+
+                    if (
+                        typeof secao.conteudo ===
+                        "string"
+                    ) {
+
+                        conteudo =
+                            secao.conteudo;
+
+                    } else {
+
+                        conteudo =
+                            JSON.stringify(
+                                secao.conteudo
+                            );
+
+                    }
+
+
+                    /*
+                        Limita o tamanho de cada
+                        seção enviada para a API.
+                    */
+
+                    if (
+                        conteudo.length > 3500
+                    ) {
+
+                        conteudo =
+                            conteudo.substring(
+                                0,
+                                3500
+                            );
+
+                    }
+
+
+                    return (
+                        "### " +
+                        secao.titulo +
+                        "\n" +
+                        conteudo
+                    );
+
+                }
+            )
+
+            .join(
+                "\n\n"
+            );
+
+    }
+
+
+    /*
+        Se não encontrou uma seção específica,
+        NÃO envia o personagem inteiro.
+
+        Isso reduz bastante o consumo de tokens.
+    */
+
+    return "";
+
+}
+
+
+/* ==========================================================
+   PROMPT DO SISTEMA
+========================================================== */
+
+function criarPromptSistema(
+    relevantText,
+    contextoConversa
+) {
+
+    return `
+
 Você é o Tiago Digital, uma representação virtual  
 do Tiago descrito nos dados do personagem.  
   
@@ -1323,581 +1201,445 @@ presente na memória fornecida.
 Use as informações acima naturalmente.  
   
 Responda sempre em português do Brasil.  
-  
-`.trim();  
-  
-}  
-  
-  
-  
-/* ==========================================================  
-   FAZER PERGUNTA  
-========================================================== */  
-  
-async function askQuestion() {  
-  
-  
-    const question =  
-        questionInput.value.trim();  
-  
-  
-    if (!question) {  
-  
-        return;  
-  
-    }  
-  
-  
-    /*  
-        Verifica se a chave foi configurada.  
-    */  
-  
-    if (  
-        !GROQ_API_KEY ||  
-        GROQ_API_KEY ===  
-        "COLOQUE_SUA_NOVA_CHAVE_AQUI"  
-    ) {  
-  
-        addMessage(  
-            "assistant",  
-  
-            "Configure uma nova chave da Groq no código antes de usar o chatbot."  
-        );  
-  
-        return;  
-  
-    }  
-  
-  
-    /*  
-        Verifica memória.  
-    */  
-  
-    if (!memoriaConversa) {  
-  
-        addMessage(  
-            "assistant",  
-  
-            "Erro: memoria.js não foi carregado."  
-        );  
-  
-        return;  
-  
-    }  
-  
-  
-    /*  
-        Desabilita interface.  
-    */  
-  
-    sendBtn.disabled =  
-        true;  
-  
-  
-    questionInput.disabled =  
-        true;  
-  
-  
-    status.textContent =  
-        "Pensando...";  
-  
-  
-    const pergunta =  
-        question;  
-  
-  
-    questionInput.value =  
-        "";  
-  
-  
-    /*  
-        Mostra mensagem do usuário.  
-    */  
-  
-    addMessage(  
-        "user",  
-        pergunta  
-    );  
-  
-  
-    /*  
-        ======================================================  
-        PRIMEIRO:  
-        adiciona a pergunta à memória.  
-        ======================================================  
-    */  
-        
-/*  
-    memoriaConversa.adicionarMensagem(  
-        "user",  
-        pergunta  
-    );  
-      
-*/  
-        
-    /*  
-        ======================================================  
-        SEGUNDO:  
-        encontra as informações relevantes  
-        no personagem.json.  
-        ======================================================  
-    */  
-  
-    const relevantText =  
-        getRelevantText(  
-            personagem,  
-            pergunta  
-        );  
-  
-  
-    /*  
-        ======================================================  
-        TERCEIRO:  
-        pega a memória da conversa.  
-        ======================================================  
-    */  
-  
-    const contextoConversa =  
-        memoriaConversa.obterContexto();  
-  
-  
-    /*  
-        DEBUG  
-    */  
-  
-    console.log(  
-        "======================================"  
-    );  
-  
-    console.log(  
-        "PERGUNTA:"  
-    );  
-  
-    console.log(  
-        pergunta  
-    );  
-  
-  
-    console.log(  
-        "======================================"  
-    );  
-  
-    console.log(  
-        "PERSONAGEM ENVIADO:"  
-    );  
-  
-    console.log(  
-        relevantText  
-    );  
-  
-  
-    console.log(  
-        "======================================"  
-    );  
-  
-    console.log(  
-        "MEMÓRIA ENVIADA:"  
-    );  
-  
-    console.log(  
-        contextoConversa  
-    );  
-  
-  
-    console.log(  
-        "======================================"  
-    );  
-  
-  
-    /*  
-        Cria prompt.  
-    */  
-  
-    const promptSistema =  
-        criarPromptSistema(  
-            relevantText,  
-            contextoConversa  
-        );  
-  
-  
-    try {  
-  
-  
-        /*  
-            ==================================================  
-            CHAMADA GROQ  
-            ==================================================  
-        */  
-  
-        const response =  
-            await fetch(  
-  
-                "https://api.groq.com/openai/v1/chat/completions",  
-  
-                {  
-  
-                    method:  
-                        "POST",  
-  
-  
-                    headers: {  
-  
-                        "Content-Type":  
-                            "application/json",  
-  
-                        "Authorization":  
-                            `Bearer ${GROQ_API_KEY}`  
-  
-                    },  
-  
-  
-                    body:  
-                        JSON.stringify({  
-  
-                            model:  
-                                GROQ_MODEL,  
-  
-  
-                            messages: [  
-  
-                                {  
-                                    role:  
-                                        "system",  
-  
-                                    content:  
-                                        promptSistema  
-                                },  
-  
-  
-                                {  
-                                    role:  
-                                        "user",  
-  
-                                    content:  
-                                        pergunta  
-                                }  
-  
-                            ],  
-  
-  
-                            temperature:  
-                                0.7  
-  
-                        })  
-  
-                }  
-  
-            );  
-  
-  
-        /*  
-            Lê resposta.  
-        */  
-  
-        const data =  
-            await response.json();  
-  
-  
-        /*  
-            Verifica erro.  
-        */  
-  
-        if (  
-            !response.ok  
-        ) {  
-  
-            throw new Error(  
-  
-                data.error?.message ||  
-                `Erro da API: ${response.status}`  
-  
-            );  
-  
-        }  
-  
-  
-        /*  
-            Pega resposta.  
-        */  
-  
-        const answer =  
-            data  
-                .choices?.[0]  
-                ?.message  
-                ?.content;  
-  
-  
-        if (!answer) {  
-  
-            throw new Error(  
-                "A API não retornou uma resposta."  
-            );  
-  
-        }  
-  
-  
-        /*  
-            ==================================================  
-            MOSTRA RESPOSTA  
-            ==================================================  
-        */  
-  
-        const bolha =  
-            addMessage(  
-                "assistant",  
-                ""  
-            );  
-  
-  
-        await typeWriter(  
-            bolha,  
-            answer.trim()  
-        );  
-  
-  
-        /*  
-            ==================================================  
-            SALVA RESPOSTA NA MEMÓRIA  
-            ==================================================  
-        */  
-  
-        memoriaConversa.adicionarMensagem(  
-            "assistant",  
-            answer.trim()  
-        );  
-  
-  
-        /*  
-            ==================================================  
-            RESUMO DA MEMÓRIA  
-            ==================================================  
-  
-            memoria.js decide quando precisa resumir.  
-        */  
-  
-        if (  
-            memoriaConversa.precisaResumir()  
-        ) {  
-  
-            try {  
-  
-                await memoriaConversa.gerarResumo(  
-  
-                    GROQ_API_KEY,  
-  
-                    GROQ_MODEL  
-  
-                );  
-  
-            } catch (  
-                erroMemoria  
-            ) {  
-  
-                console.error(  
-                    "Erro ao gerar resumo da memória:",  
-                    erroMemoria  
-                );  
-  
-            }  
-  
-        }  
-  
-  
-        status.textContent =  
-            "Personagem carregado";  
-  
-  
-    } catch (  
-        error  
-    ) {  
-  
-  
-        console.error(  
-            "ERRO AO CONSULTAR GROQ:",  
-            error  
-        );  
-  
-  
-        addMessage(  
-  
-            "assistant",  
-  
-            "Erro ao consultar a IA: " +  
-            error.message  
-  
-        );  
-  
-  
-        status.textContent =  
-            "Erro";  
-  
-    }  
-  
-  
-    /*  
-        Reativa interface.  
-    */  
-  
-    sendBtn.disabled =  
-        false;  
-  
-  
-    questionInput.disabled =  
-        false;  
-  
-  
-    questionInput.focus();  
-  
-}  
-  
-  
-  
-/* ==========================================================  
-   BOTÃO ENVIAR  
-========================================================== */  
-  
-sendBtn.addEventListener(  
-  
-    "click",  
-  
-    askQuestion  
-  
-);  
-  
-  
-  
-/* ==========================================================  
-   ENTER  
-========================================================== */  
-  
-questionInput.addEventListener(  
-  
-    "keydown",  
-  
-    event => {  
-  
-  
-        if (  
-            event.key === "Enter" &&  
-            !event.shiftKey  
-        ) {  
-  
-            event.preventDefault();  
-  
-  
-            askQuestion();  
-  
-        }  
-  
-    }  
-  
-);  
-  
-  
-  
-/* ==========================================================  
-   INICIALIZAÇÃO  
-========================================================== */  
-  
-async function iniciar() {  
-  
-    try {  
-  
-  
-        /*  
-            personagem.js precisa possuir  
-            a função carregarPersonagem().  
-        */  
-  
-        if (  
-            typeof carregarPersonagem !==  
-            "function"  
-        ) {  
-  
-            throw new Error(  
-                "carregarPersonagem() não foi encontrada. Verifique personagem.js."  
-            );  
-  
-        }  
-  
-  
-        /*  
-            Carrega personagem.json.  
-        */  
-  
-        await carregarPersonagem();  
-  
-  
-        /*  
-            Confirma carregamento.  
-        */  
-  
-        status.textContent =  
-            "Personagem carregado";  
-  
-  
-        console.log(  
-            "======================================"  
-        );  
-  
-        console.log(  
-            "TIAGO DIGITAL INICIADO"  
-        );  
-  
-        console.log(  
-            "PERSONAGEM:"  
-        );  
-  
-        console.log(  
-            personagem  
-        );  
-  
-        console.log(  
-            "MEMÓRIA:"  
-        );  
-  
-        console.log(  
-            memoriaConversa  
-        );  
-  
-        console.log(  
-            "======================================"  
-        );  
-  
-  
-    } catch (  
-        error  
-    ) {  
-  
-  
-        console.error(  
-            "ERRO AO CARREGAR PERSONAGEM:",  
-            error  
-        );  
-  
-  
-        status.textContent =  
-            "Erro ao carregar personagem";  
-  
-  
-        addMessage(  
-  
-            "assistant",  
-  
-            "Não consegui carregar personagem.json. Verifique se o arquivo está na mesma pasta do index.html."  
-  
-        );  
-  
-    }  
-  
-}  
-  
-  
-  
-/* ==========================================================  
-   INICIAR  
-========================================================== */  
-  
-iniciar();  
-  
-</script>  </body>  </html>
+
+
+`.trim();
+
+}
+
+
+/* ==========================================================
+   FAZER PERGUNTA
+========================================================== */
+
+async function askQuestion() {
+
+    const question =
+        questionInput.value.trim();
+
+
+    if (!question) {
+        return;
+    }
+
+
+    if (
+        !GROQ_API_KEY ||
+        GROQ_API_KEY ===
+        "COLOQUE_SUA_NOVA_CHAVE_AQUI"
+    ) {
+
+        addMessage(
+            "assistant",
+            "Configure uma nova chave da Groq no código antes de usar o chatbot."
+        );
+
+        return;
+
+    }
+
+
+    if (!memoriaConversa) {
+
+        addMessage(
+            "assistant",
+            "Erro: memoria.js não foi carregado."
+        );
+
+        return;
+
+    }
+
+
+    sendBtn.disabled =
+        true;
+
+    questionInput.disabled =
+        true;
+
+    status.textContent =
+        "Pensando...";
+
+
+    const pergunta =
+        question;
+
+
+    questionInput.value =
+        "";
+
+
+    /*
+        Mostra no chat.
+    */
+
+    addMessage(
+        "user",
+        pergunta
+    );
+
+
+    /*
+        IMPORTANTE:
+
+        Pegamos a memória ANTES de adicionar
+        a pergunta atual.
+
+        Assim a pergunta não aparece duas
+        vezes no envio.
+    */
+
+    const contextoConversa =
+        memoriaConversa.obterContexto();
+
+
+    /*
+        Busca somente o personagem relevante.
+    */
+
+    const relevantText =
+        getRelevantText(
+            personagem,
+            pergunta
+        );
+
+
+    console.log(
+        "======================================"
+    );
+
+    console.log(
+        "PERGUNTA:",
+        pergunta
+    );
+
+    console.log(
+        "PERSONAGEM ENVIADO:",
+        relevantText
+    );
+
+    console.log(
+        "MEMÓRIA ENVIADA:",
+        contextoConversa
+    );
+
+    console.log(
+        "======================================"
+    );
+
+
+    const promptSistema =
+        criarPromptSistema(
+            relevantText,
+            contextoConversa
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+
+                "https://api.groq.com/openai/v1/chat/completions",
+
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${GROQ_API_KEY}`
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            model:
+                                GROQ_MODEL,
+
+                            messages: [
+
+                                {
+                                    role:
+                                        "system",
+
+                                    content:
+                                        promptSistema
+                                },
+
+                                {
+                                    role:
+                                        "user",
+
+                                    content:
+                                        pergunta
+                                }
+
+                            ],
+
+                            temperature:
+                                0.7,
+
+                            max_completion_tokens:
+                                500
+
+                        })
+
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+
+                data.error?.message ||
+                `Erro da API: ${response.status}`
+
+            );
+
+        }
+
+
+        const answer =
+            data
+                .choices?.[0]
+                ?.message
+                ?.content;
+
+
+        if (!answer) {
+
+            throw new Error(
+                "A API não retornou uma resposta."
+            );
+
+        }
+
+
+        const respostaFinal =
+            answer.trim();
+
+
+        const bolha =
+            addMessage(
+                "assistant",
+                ""
+            );
+
+
+        await typeWriter(
+            bolha,
+            respostaFinal
+        );
+
+
+        /*
+            Agora salva AMBAS as mensagens.
+
+            A pergunta é salva somente depois
+            de ser enviada para a API.
+        */
+
+        memoriaConversa.adicionarMensagem(
+            "user",
+            pergunta
+        );
+
+
+        memoriaConversa.adicionarMensagem(
+            "assistant",
+            respostaFinal
+        );
+
+
+        /*
+            Verifica se precisa resumir.
+        */
+
+        if (
+            memoriaConversa.precisaResumir()
+        ) {
+
+            try {
+
+                await memoriaConversa.gerarResumo(
+                    GROQ_API_KEY,
+                    GROQ_MODEL
+                );
+
+            } catch (
+                erroMemoria
+            ) {
+
+                console.error(
+                    "Erro ao gerar resumo:",
+                    erroMemoria
+                );
+
+            }
+
+        }
+
+
+        status.textContent =
+            "Personagem carregado";
+
+
+    } catch (
+        error
+    ) {
+
+        console.error(
+            "ERRO AO CONSULTAR GROQ:",
+            error
+        );
+
+
+        addMessage(
+            "assistant",
+            "Erro ao consultar a IA: " +
+            error.message
+        );
+
+
+        status.textContent =
+            "Erro";
+
+    }
+
+
+    sendBtn.disabled =
+        false;
+
+    questionInput.disabled =
+        false;
+
+    questionInput.focus();
+
+}
+
+
+/* ==========================================================
+   BOTÃO
+========================================================== */
+
+sendBtn.addEventListener(
+    "click",
+    askQuestion
+);
+
+
+/* ==========================================================
+   ENTER
+========================================================== */
+
+questionInput.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Enter" &&
+            !event.shiftKey
+        ) {
+
+            event.preventDefault();
+
+            askQuestion();
+
+        }
+
+    }
+);
+
+
+/* ==========================================================
+   INICIALIZAÇÃO
+========================================================== */
+
+async function iniciar() {
+
+    try {
+
+        if (
+            typeof carregarPersonagem !==
+            "function"
+        ) {
+
+            throw new Error(
+                "carregarPersonagem() não foi encontrada. Verifique personagem.js."
+            );
+
+        }
+
+
+        await carregarPersonagem();
+
+
+        status.textContent =
+            "Personagem carregado";
+
+
+        console.log(
+            "TIAGO DIGITAL INICIADO"
+        );
+
+
+        console.log(
+            "PERSONAGEM:",
+            personagem
+        );
+
+
+        console.log(
+            "MEMÓRIA:",
+            memoriaConversa
+        );
+
+
+    } catch (
+        error
+    ) {
+
+        console.error(
+            "ERRO AO CARREGAR PERSONAGEM:",
+            error
+        );
+
+
+        status.textContent =
+            "Erro ao carregar personagem";
+
+
+        addMessage(
+            "assistant",
+            "Não consegui carregar personagem.json. Verifique se o arquivo está na mesma pasta do index.html."
+        );
+
+    }
+
+}
+
+
+/* ==========================================================
+   INICIAR
+========================================================== */
+
+iniciar();
+
+</script>
+
+</body>
+
+</html> 
