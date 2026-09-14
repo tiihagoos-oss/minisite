@@ -302,10 +302,6 @@ header {
 <body>
 
 
-<!-- ========================================================
-     HEADER
-========================================================= -->
-
 <header>
 
     <div class="perfil">
@@ -358,33 +354,13 @@ header {
 </header>
 
 
-
-<!-- ========================================================
-     CONTAINER
-========================================================= -->
-
 <div class="container">
 
-
-    <!-- ====================================================
-         CHAT
-    ===================================================== -->
-
     <div id="chat"></div>
-
-
-    <!-- ====================================================
-         STATUS
-    ===================================================== -->
 
     <div id="status">
         Carregando personagem...
     </div>
-
-
-    <!-- ====================================================
-         AVISO
-    ===================================================== -->
 
     <div class="aviso">
 
@@ -393,11 +369,6 @@ header {
 
     </div>
 
-
-    <!-- ====================================================
-         INPUT
-    ===================================================== -->
-
     <div class="input-area">
 
         <textarea
@@ -405,7 +376,6 @@ header {
             placeholder="Digite sua mensagem..."
             rows="1"
         ></textarea>
-
 
         <button
             id="sendBtn"
@@ -416,26 +386,12 @@ header {
 
     </div>
 
-
 </div>
 
-
-
-<!-- ==========================================================
-     ARQUIVOS EXTERNOS
-
-     ORDEM IMPORTANTE:
-
-     1. personagem.js
-     2. memoria.js
-     3. código deste index.html
-
-========================================================== -->
 
 <script src="./personagem.js"></script>
 
 <script src="./memoria.js"></script>
-
 
 
 <script>
@@ -444,65 +400,40 @@ header {
    CONFIGURAÇÃO
 ========================================================== */
 
-
 /*
-    ATENÇÃO:
+   COLOQUE AQUI SUA NOVA CHAVE.
 
-    Coloque aqui uma NOVA chave da Groq.
-
-    A chave anterior que estava no seu HTML ficou exposta
-    e deve ser revogada/trocada.
-
-    Posteriormente vamos mover isso para o backend.
+   A chave antiga foi exposta e deve ser REVOGADA.
 */
 
 const GROQ_API_KEY =
-    "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";
+    "COLOQUE_SUA_NOVA_CHAVE_AQUI";
 
 
 const GROQ_MODEL =
     "openai/gpt-oss-20b";
 
 
-
 /* ==========================================================
-   ELEMENTOS DA PÁGINA
+   ELEMENTOS
 ========================================================== */
 
 const chat =
     document.getElementById("chat");
 
-
 const status =
     document.getElementById("status");
 
-
 const questionInput =
     document.getElementById("question");
-
 
 const sendBtn =
     document.getElementById("sendBtn");
 
 
-
 /* ==========================================================
    MEMÓRIA
 ========================================================== */
-
-
-/*
-    IMPORTANTE:
-
-    memoria.js cria:
-
-        window.memoriaConversa
-
-    Aqui NÃO criamos outra memória.
-
-    Apenas pegamos a memória que já foi criada
-    pelo arquivo memoria.js.
-*/
 
 const memoriaConversa =
     window.memoriaConversa;
@@ -517,9 +448,8 @@ if (!memoriaConversa) {
 }
 
 
-
 /* ==========================================================
-   ADICIONAR MENSAGEM AO CHAT
+   ADICIONAR MENSAGEM
 ========================================================== */
 
 function addMessage(
@@ -530,7 +460,6 @@ function addMessage(
     const mensagem =
         document.createElement("div");
 
-
     mensagem.className =
         "mensagem " +
         (
@@ -539,37 +468,29 @@ function addMessage(
                 : "assistente"
         );
 
-
     const bolha =
         document.createElement("div");
-
 
     bolha.className =
         "bolha";
 
-
     bolha.textContent =
         content;
-
 
     mensagem.appendChild(
         bolha
     );
 
-
     chat.appendChild(
         mensagem
     );
 
-
     chat.scrollTop =
         chat.scrollHeight;
-
 
     return bolha;
 
 }
-
 
 
 /* ==========================================================
@@ -583,7 +504,6 @@ async function typeWriter(
 
     element.textContent = "";
 
-
     for (
         const caractere of text
     ) {
@@ -591,10 +511,8 @@ async function typeWriter(
         element.textContent +=
             caractere;
 
-
         chat.scrollTop =
             chat.scrollHeight;
-
 
         await new Promise(
             resolve =>
@@ -609,9 +527,8 @@ async function typeWriter(
 }
 
 
-
 /* ==========================================================
-   NORMALIZAR TEXTO
+   NORMALIZAR
 ========================================================== */
 
 function normalizar(
@@ -626,7 +543,6 @@ function normalizar(
         return "";
 
     }
-
 
     return String(texto)
 
@@ -644,7 +560,6 @@ function normalizar(
 }
 
 
-
 /* ==========================================================
    PALAVRAS-CHAVE
 ========================================================== */
@@ -653,7 +568,6 @@ const palavrasChave = [
 
     {
         name: "IDENTIDADE",
-
         keywords: [
             "quem é tiago",
             "quem e tiago",
@@ -663,10 +577,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "RESUMO",
-
         keywords: [
             "resumo",
             "sobre tiago",
@@ -676,10 +588,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "HISTÓRIA",
-
         keywords: [
             "historia",
             "história",
@@ -690,10 +600,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "PROFISSÃO",
-
         keywords: [
             "profissao",
             "profissão",
@@ -704,10 +612,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "CURRICULO",
-
         keywords: [
             "curriculo",
             "currículo",
@@ -718,10 +624,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "FORMAÇÃO",
-
         keywords: [
             "formacao",
             "formação",
@@ -732,10 +636,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "EXPERIÊNCIA PROFISSIONAL",
-
         keywords: [
             "experiencia profissional",
             "experiência profissional",
@@ -745,10 +647,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "PROJETOS",
-
         keywords: [
             "projeto",
             "projetos",
@@ -759,10 +659,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "INTELIGÊNCIA ARTIFICIAL",
-
         keywords: [
             "inteligencia artificial",
             "inteligência artificial",
@@ -778,10 +676,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "COMO TRABALHA",
-
         keywords: [
             "como trabalha",
             "como voce trabalha",
@@ -792,10 +688,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "PERSONALIDADE",
-
         keywords: [
             "personalidade",
             "jeito",
@@ -804,10 +698,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "VALORES",
-
         keywords: [
             "valores",
             "principios",
@@ -817,10 +709,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "VISÃO DE SUCESSO",
-
         keywords: [
             "sucesso",
             "visao de sucesso",
@@ -829,10 +719,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "GOSTOS",
-
         keywords: [
             "gosta",
             "gosto",
@@ -843,10 +731,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "HOBBIES",
-
         keywords: [
             "hobby",
             "hobbies",
@@ -859,10 +745,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "ESPIRITUALIDADE E RELIGIÃO",
-
         keywords: [
             "religiao",
             "religião",
@@ -875,10 +759,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "OPINIÕES",
-
         keywords: [
             "opiniao",
             "opinião",
@@ -888,10 +770,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "TOMADA DE DECISÕES",
-
         keywords: [
             "decisao",
             "decisão",
@@ -902,10 +782,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "OBJETIVOS",
-
         keywords: [
             "objetivo",
             "objetivos",
@@ -917,10 +795,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "EXPERIÊNCIAS MARCANTES",
-
         keywords: [
             "experiencia marcante",
             "experiência marcante",
@@ -929,10 +805,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "RELACIONAMENTOS",
-
         keywords: [
             "relacionamento",
             "relacionamentos",
@@ -943,10 +817,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "FORMA DE FALAR",
-
         keywords: [
             "forma de falar",
             "fala",
@@ -956,10 +828,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "RESPOSTAS EXEMPLO",
-
         keywords: [
             "resposta",
             "respostas",
@@ -967,10 +837,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "MANEIRA DE PENSAR",
-
         keywords: [
             "maneira de pensar",
             "pensar",
@@ -981,10 +849,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "FATOS",
-
         keywords: [
             "fato",
             "fatos",
@@ -993,10 +859,8 @@ const palavrasChave = [
         ]
     },
 
-
     {
         name: "REGRAS DO TIAGO DIGITAL",
-
         keywords: [
             "regras",
             "regra",
@@ -1008,9 +872,8 @@ const palavrasChave = [
 ];
 
 
-
 /* ==========================================================
-   ENCONTRAR TEXTO RELEVANTE DO PERSONAGEM
+   ENCONTRAR TEXTO RELEVANTE
 ========================================================== */
 
 function getRelevantText(
@@ -1027,12 +890,10 @@ function getRelevantText(
 
     }
 
-
     const perguntaNormalizada =
         normalizar(
             pergunta
         );
-
 
     const resultados = [];
 
@@ -1047,7 +908,6 @@ function getRelevantText(
         )
     ) {
 
-
         const secao =
             palavrasChave.find(
                 item =>
@@ -1059,19 +919,13 @@ function getRelevantText(
                     )
             );
 
-
         const chaves =
             secao
                 ? secao.keywords
                 : [];
 
-
         let pontos = 0;
 
-
-        /*
-            Verifica palavras-chave.
-        */
 
         for (
             const palavraChave
@@ -1082,7 +936,6 @@ function getRelevantText(
                 normalizar(
                     palavraChave
                 );
-
 
             if (
                 chaveNormalizada &&
@@ -1097,10 +950,6 @@ function getRelevantText(
 
         }
 
-
-        /*
-            Verifica o nome da seção.
-        */
 
         const tituloNormalizado =
             normalizar(
@@ -1140,11 +989,6 @@ function getRelevantText(
     }
 
 
-    /*
-        Ordena do mais relevante
-        para o menos relevante.
-    */
-
     resultados.sort(
         (
             a,
@@ -1155,24 +999,18 @@ function getRelevantText(
     );
 
 
-    /*
-        Se encontrou informações
-        relevantes, usa até 3 seções.
-    */
-
     if (
         resultados.length > 0
     ) {
 
         return resultados
 
-            .slice(0, 3)
+            .slice(0, 2)
 
             .map(
                 secao => {
 
                     let conteudo;
-
 
                     if (
                         typeof secao.conteudo ===
@@ -1186,9 +1024,25 @@ function getRelevantText(
 
                         conteudo =
                             JSON.stringify(
-                                secao.conteudo,
-                                null,
-                                2
+                                secao.conteudo
+                            );
+
+                    }
+
+
+                    /*
+                        Limita o tamanho de cada
+                        seção enviada para a API.
+                    */
+
+                    if (
+                        conteudo.length > 3500
+                    ) {
+
+                        conteudo =
+                            conteudo.substring(
+                                0,
+                                3500
                             );
 
                     }
@@ -1212,38 +1066,19 @@ function getRelevantText(
 
 
     /*
-        ======================================================
-        FALLBACK
+        Se não encontrou uma seção específica,
+        NÃO envia o personagem inteiro.
 
-        Se nenhuma palavra-chave foi encontrada,
-        manda o personagem inteiro.
-
-        Isso é importante.
-
-        Antes, quando não encontrava palavra-chave,
-        relevantText ficava vazio e o personagem
-        praticamente não era enviado para a IA.
-        ======================================================
+        Isso reduz bastante o consumo de tokens.
     */
-
-    if (
-        typeof montarPromptPersonagem ===
-        "function"
-    ) {
-
-        return montarPromptPersonagem();
-
-    }
-
 
     return "";
 
 }
 
 
-
 /* ==========================================================
-   CRIAR PROMPT DO SISTEMA
+   PROMPT DO SISTEMA
 ========================================================== */
 
 function criarPromptSistema(
@@ -1251,126 +1086,48 @@ function criarPromptSistema(
     contextoConversa
 ) {
 
-    return `
+    return `Você é o Tiago Digital, uma representação
+virtual do Tiago.
 
-Você é o Tiago Digital, uma representação virtual
-do Tiago descrito nos dados do personagem.
+Fale em primeira pessoa quando falar sobre Tiago.
 
-==================================================
-IDENTIDADE
-==================================================
+Seja natural, informal e direto.
 
-Você deve falar em primeira pessoa quando estiver
-falando sobre Tiago.
+Não invente fatos, memórias, experiências ou opiniões
+pessoais.
 
-As informações pessoais do Tiago devem vir dos dados
-do personagem fornecidos abaixo.
+Use primeiro as informações específicas do personagem,
+depois a memória da conversa e, por último, conhecimento
+geral.
 
-Não invente fatos pessoais.
-
-Não invente memórias.
-
-Não invente experiências.
-
-Não invente opiniões pessoais.
-
-Não atribua ao Tiago algo que não esteja nos dados
-do personagem ou na memória da conversa.
-
-==================================================
-FORMA DE CONVERSAR
-==================================================
-
-Seja natural, informal e conversacional.
-
-Responda diretamente ao que o usuário perguntou.
-
-Não fique repetindo quem você é.
-
-Não comece todas as respostas com "Eu sou Tiago".
-
-Não transforme uma conversa simples em uma resposta
-excessivamente formal ou técnica.
-
-Use o contexto da conversa para compreender frases
-como "isso", "aquilo", "ele", "antes", "depois",
-"também", "e sobre aquilo?" etc.
-
-==================================================
-QUANDO NÃO QUISER RESPONDER
-==================================================
-
-Se uma pergunta envolver alguma informação pessoal
-que Tiago prefira não responder, não invente.
-
-Também não responda de maneira robótica dizendo:
-
-"Não possuo informações suficientes."
-
-"Não tenho conhecimento suficiente."
-
-"Não tenho informações sobre isso."
-
-Prefira uma resposta natural indicando que é algo
-que ele prefere não comentar.
-
-Exemplos:
+Quando uma informação pessoal não estiver disponível
+ou for algo que Tiago prefira não comentar, responda
+naturalmente, por exemplo:
 
 "Essa é uma parte que eu prefiro não comentar."
 
 "Sobre isso eu prefiro não entrar em detalhes."
 
-"Essa é uma coisa que eu prefiro deixar em privado."
+Não diga "não possuo informações suficientes".
 
-Não invente uma resposta somente para preencher
-uma informação que não está disponível.
+Não invente informações para preencher lacunas.
 
-==================================================
-HIERARQUIA
-==================================================
-
-Prioridade das informações:
-
-1. Contexto específico do personagem.
-2. Memória da conversa.
-3. Conhecimento geral.
-
-Quando estiver falando sobre a vida pessoal de Tiago,
-priorize os dados específicos do personagem.
-
-Não contradiga informações fornecidas pelo personagem.
+Responda em português do Brasil.
 
 ==================================================
-CONTEXTO DO PERSONAGEM
+INFORMAÇÕES RELEVANTES DO PERSONAGEM
 ==================================================
 
-${relevantText || "(Nenhuma informação específica encontrada.)"}
+${relevantText || "(nenhuma)"}
 
 ==================================================
 MEMÓRIA DA CONVERSA
 ==================================================
 
-${contextoConversa || "(A conversa está começando agora.)"}
-
-==================================================
-REGRAS FINAIS
-==================================================
-
-Não invente fatos pessoais.
-
-Não invente memórias.
-
-Não diga que lembra de algo se isso não estiver
-presente na memória fornecida.
-
-Use as informações acima naturalmente.
-
-Responda sempre em português do Brasil.
-
+${contextoConversa || "(início da conversa)"}
 `.trim();
 
 }
-
 
 
 /* ==========================================================
@@ -1379,21 +1136,14 @@ Responda sempre em português do Brasil.
 
 async function askQuestion() {
 
-
     const question =
         questionInput.value.trim();
 
 
     if (!question) {
-
         return;
-
     }
 
-
-    /*
-        Verifica se a chave foi configurada.
-    */
 
     if (
         !GROQ_API_KEY ||
@@ -1403,7 +1153,6 @@ async function askQuestion() {
 
         addMessage(
             "assistant",
-
             "Configure uma nova chave da Groq no código antes de usar o chatbot."
         );
 
@@ -1412,15 +1161,10 @@ async function askQuestion() {
     }
 
 
-    /*
-        Verifica memória.
-    */
-
     if (!memoriaConversa) {
 
         addMessage(
             "assistant",
-
             "Erro: memoria.js não foi carregado."
         );
 
@@ -1429,17 +1173,11 @@ async function askQuestion() {
     }
 
 
-    /*
-        Desabilita interface.
-    */
-
     sendBtn.disabled =
         true;
 
-
     questionInput.disabled =
         true;
-
 
     status.textContent =
         "Pensando...";
@@ -1454,7 +1192,7 @@ async function askQuestion() {
 
 
     /*
-        Mostra mensagem do usuário.
+        Mostra no chat.
     */
 
     addMessage(
@@ -1464,26 +1202,21 @@ async function askQuestion() {
 
 
     /*
-        ======================================================
-        PRIMEIRO:
-        adiciona a pergunta à memória.
-        ======================================================
+        IMPORTANTE:
+
+        Pegamos a memória ANTES de adicionar
+        a pergunta atual.
+
+        Assim a pergunta não aparece duas
+        vezes no envio.
     */
-      
-/*
-    memoriaConversa.adicionarMensagem(
-        "user",
-        pergunta
-    );
-    
-*/
-      
+
+    const contextoConversa =
+        memoriaConversa.obterContexto();
+
+
     /*
-        ======================================================
-        SEGUNDO:
-        encontra as informações relevantes
-        no personagem.json.
-        ======================================================
+        Busca somente o personagem relevante.
     */
 
     const relevantText =
@@ -1493,68 +1226,29 @@ async function askQuestion() {
         );
 
 
-    /*
-        ======================================================
-        TERCEIRO:
-        pega a memória da conversa.
-        ======================================================
-    */
-
-    const contextoConversa =
-        memoriaConversa.obterContexto();
-
-
-    /*
-        DEBUG
-    */
-
     console.log(
         "======================================"
     );
 
     console.log(
-        "PERGUNTA:"
-    );
-
-    console.log(
+        "PERGUNTA:",
         pergunta
     );
 
-
     console.log(
-        "======================================"
-    );
-
-    console.log(
-        "PERSONAGEM ENVIADO:"
-    );
-
-    console.log(
+        "PERSONAGEM ENVIADO:",
         relevantText
     );
 
-
     console.log(
-        "======================================"
-    );
-
-    console.log(
-        "MEMÓRIA ENVIADA:"
-    );
-
-    console.log(
+        "MEMÓRIA ENVIADA:",
         contextoConversa
     );
 
-
     console.log(
         "======================================"
     );
 
-
-    /*
-        Cria prompt.
-    */
 
     const promptSistema =
         criarPromptSistema(
@@ -1564,13 +1258,6 @@ async function askQuestion() {
 
 
     try {
-
-
-        /*
-            ==================================================
-            CHAMADA GROQ
-            ==================================================
-        */
 
         const response =
             await fetch(
@@ -1582,7 +1269,6 @@ async function askQuestion() {
                     method:
                         "POST",
 
-
                     headers: {
 
                         "Content-Type":
@@ -1593,13 +1279,11 @@ async function askQuestion() {
 
                     },
 
-
                     body:
                         JSON.stringify({
 
                             model:
                                 GROQ_MODEL,
-
 
                             messages: [
 
@@ -1611,7 +1295,6 @@ async function askQuestion() {
                                         promptSistema
                                 },
 
-
                                 {
                                     role:
                                         "user",
@@ -1622,9 +1305,11 @@ async function askQuestion() {
 
                             ],
 
-
                             temperature:
-                                0.7
+                                0.7,
+
+                            max_completion_tokens:
+                                500
 
                         })
 
@@ -1633,21 +1318,11 @@ async function askQuestion() {
             );
 
 
-        /*
-            Lê resposta.
-        */
-
         const data =
             await response.json();
 
 
-        /*
-            Verifica erro.
-        */
-
-        if (
-            !response.ok
-        ) {
+        if (!response.ok) {
 
             throw new Error(
 
@@ -1658,10 +1333,6 @@ async function askQuestion() {
 
         }
 
-
-        /*
-            Pega resposta.
-        */
 
         const answer =
             data
@@ -1679,11 +1350,9 @@ async function askQuestion() {
         }
 
 
-        /*
-            ==================================================
-            MOSTRA RESPOSTA
-            ==================================================
-        */
+        const respostaFinal =
+            answer.trim();
+
 
         const bolha =
             addMessage(
@@ -1694,28 +1363,31 @@ async function askQuestion() {
 
         await typeWriter(
             bolha,
-            answer.trim()
+            respostaFinal
         );
 
 
         /*
-            ==================================================
-            SALVA RESPOSTA NA MEMÓRIA
-            ==================================================
+            Agora salva AMBAS as mensagens.
+
+            A pergunta é salva somente depois
+            de ser enviada para a API.
         */
 
         memoriaConversa.adicionarMensagem(
+            "user",
+            pergunta
+        );
+
+
+        memoriaConversa.adicionarMensagem(
             "assistant",
-            answer.trim()
+            respostaFinal
         );
 
 
         /*
-            ==================================================
-            RESUMO DA MEMÓRIA
-            ==================================================
-
-            memoria.js decide quando precisa resumir.
+            Verifica se precisa resumir.
         */
 
         if (
@@ -1725,11 +1397,8 @@ async function askQuestion() {
             try {
 
                 await memoriaConversa.gerarResumo(
-
                     GROQ_API_KEY,
-
                     GROQ_MODEL
-
                 );
 
             } catch (
@@ -1737,7 +1406,7 @@ async function askQuestion() {
             ) {
 
                 console.error(
-                    "Erro ao gerar resumo da memória:",
+                    "Erro ao gerar resumo:",
                     erroMemoria
                 );
 
@@ -1754,7 +1423,6 @@ async function askQuestion() {
         error
     ) {
 
-
         console.error(
             "ERRO AO CONSULTAR GROQ:",
             error
@@ -1762,12 +1430,9 @@ async function askQuestion() {
 
 
         addMessage(
-
             "assistant",
-
             "Erro ao consultar a IA: " +
             error.message
-
         );
 
 
@@ -1777,36 +1442,25 @@ async function askQuestion() {
     }
 
 
-    /*
-        Reativa interface.
-    */
-
     sendBtn.disabled =
         false;
 
-
     questionInput.disabled =
         false;
-
 
     questionInput.focus();
 
 }
 
 
-
 /* ==========================================================
-   BOTÃO ENVIAR
+   BOTÃO
 ========================================================== */
 
 sendBtn.addEventListener(
-
     "click",
-
     askQuestion
-
 );
-
 
 
 /* ==========================================================
@@ -1814,11 +1468,8 @@ sendBtn.addEventListener(
 ========================================================== */
 
 questionInput.addEventListener(
-
     "keydown",
-
     event => {
-
 
         if (
             event.key === "Enter" &&
@@ -1827,15 +1478,12 @@ questionInput.addEventListener(
 
             event.preventDefault();
 
-
             askQuestion();
 
         }
 
     }
-
 );
-
 
 
 /* ==========================================================
@@ -1845,12 +1493,6 @@ questionInput.addEventListener(
 async function iniciar() {
 
     try {
-
-
-        /*
-            personagem.js precisa possuir
-            a função carregarPersonagem().
-        */
 
         if (
             typeof carregarPersonagem !==
@@ -1864,54 +1506,33 @@ async function iniciar() {
         }
 
 
-        /*
-            Carrega personagem.json.
-        */
-
         await carregarPersonagem();
 
-
-        /*
-            Confirma carregamento.
-        */
 
         status.textContent =
             "Personagem carregado";
 
 
         console.log(
-            "======================================"
-        );
-
-        console.log(
             "TIAGO DIGITAL INICIADO"
         );
 
-        console.log(
-            "PERSONAGEM:"
-        );
 
         console.log(
+            "PERSONAGEM:",
             personagem
         );
 
-        console.log(
-            "MEMÓRIA:"
-        );
 
         console.log(
+            "MEMÓRIA:",
             memoriaConversa
-        );
-
-        console.log(
-            "======================================"
         );
 
 
     } catch (
         error
     ) {
-
 
         console.error(
             "ERRO AO CARREGAR PERSONAGEM:",
@@ -1924,17 +1545,13 @@ async function iniciar() {
 
 
         addMessage(
-
             "assistant",
-
             "Não consegui carregar personagem.json. Verifique se o arquivo está na mesma pasta do index.html."
-
         );
 
     }
 
 }
-
 
 
 /* ==========================================================
