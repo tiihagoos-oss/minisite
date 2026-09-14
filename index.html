@@ -657,6 +657,7 @@ function normalizar(
    PALAVRAS-CHAVE
 ========================================================== */
 
+/*
 const palavrasChave = [
 
     {
@@ -1016,11 +1017,11 @@ const palavrasChave = [
 ];
 
 
-
+*/
 /* ==========================================================
    ENCONTRAR TEXTO RELEVANTE DO PERSONAGEM
 ========================================================== */
-
+/*
 function getRelevantText(
     personagemAtual,
     pergunta
@@ -1077,9 +1078,7 @@ function getRelevantText(
         let pontos = 0;
 
 
-        /*
-            Verifica palavras-chave.
-        */
+      
 
         for (
             const palavraChave
@@ -1106,9 +1105,8 @@ function getRelevantText(
         }
 
 
-        /*
-            Verifica o nome da seção.
-        */
+      
+      
 
         const tituloNormalizado =
             normalizar(
@@ -1148,10 +1146,7 @@ function getRelevantText(
     }
 
 
-    /*
-        Ordena do mais relevante
-        para o menos relevante.
-    */
+    
 
     resultados.sort(
         (
@@ -1163,10 +1158,7 @@ function getRelevantText(
     );
 
 
-    /*
-        Se encontrou informações
-        relevantes, usa até 3 seções.
-    */
+
 
     if (
         resultados.length > 0
@@ -1234,6 +1226,7 @@ function getRelevantText(
         ======================================================
     */
 
+   /*
     if (
         typeof montarPromptPersonagem ===
         "function"
@@ -1248,6 +1241,386 @@ function getRelevantText(
 
 }
 
+ */
+
+      
+/* ==========================================================
+   PALAVRAS-CHAVE E SISTEMA DE PONTUAÇÃO
+========================================================== */
+
+const palavrasChave = [
+
+    {
+        name: "IDENTIDADE",
+        keywords: [
+            "quem é", "quem sou", "nome", "idade", "nasceu",
+            "nascimento", "mora", "onde mora", "cidade",
+            "brasileiro", "tiago"
+        ]
+    },
+
+    {
+        name: "RESUMO",
+        keywords: [
+            "sobre você", "sobre ti", "resumo", "como você é",
+            "como é você", "se descreva", "descreva você"
+        ]
+    },
+
+    {
+        name: "HISTÓRIA",
+        keywords: [
+            "história", "infância", "quando começou", "começou",
+            "desde criança", "cresceu", "origem", "passado"
+        ]
+    },
+
+    {
+        name: "PROFISSÃO",
+        keywords: [
+            "trabalho", "trabalha", "profissão", "profissional",
+            "emprego", "programador", "desenvolvedor",
+            "software", "tecnologia", "empreendedor"
+        ]
+    },
+
+    {
+        name: "CURRICULO",
+        keywords: [
+            "currículo", "curriculo", "experiência profissional",
+            "qualificação", "qualificações"
+        ]
+    },
+
+    {
+        name: "FORMAÇÃO",
+        keywords: [
+            "formação", "formacao", "faculdade", "curso",
+            "estudo", "estudou", "formado", "graduação",
+            "graduacao", "ads", "análise e desenvolvimento",
+            "violão", "violao", "guitarra"
+        ]
+    },
+
+    {
+        name: "EXPERIÊNCIA PROFISSIONAL",
+        keywords: [
+            "experiência", "experiencia", "trabalhos",
+            "projetos profissionais", "programação",
+            "programacao", "javascript", "python", "php",
+            "laravel", "react", "api", "apis"
+        ]
+    },
+
+    {
+        name: "PROJETOS",
+        keywords: [
+            "projeto", "projetos", "aplicativo", "aplicação",
+            "site", "sites", "sistema", "chatbot",
+            "automação", "automacao", "aplicações"
+        ]
+    },
+
+    {
+        name: "INTELIGÊNCIA ARTIFICIAL",
+        keywords: [
+            "inteligência artificial", "inteligencia artificial",
+            "ia", "gpt", "gemini", "groq", "chatgpt",
+            "modelo de ia", "modelos de ia", "agente",
+            "agentes", "chatbot", "chatbots"
+        ]
+    },
+
+    {
+        name: "COMO TRABALHA",
+        keywords: [
+            "como trabalha", "como você trabalha",
+            "como trabalha você", "forma de trabalhar",
+            "trabalhar", "método", "metodo", "produtividade"
+        ]
+    },
+
+    {
+        name: "PERSONALIDADE",
+        keywords: [
+            "personalidade", "jeito", "temperamento",
+            "comportamento", "como você é",
+            "como reage", "qualidades", "defeitos",
+            "paciência", "paciencia"
+        ]
+    },
+
+    {
+        name: "VALORES",
+        keywords: [
+            "valores", "valoriza", "princípios", "principios",
+            "honestidade", "liberdade", "família", "familia",
+            "lealdade"
+        ]
+    },
+
+    {
+        name: "VISÃO DE SUCESSO",
+        keywords: [
+            "sucesso", "ser bem sucedido", "ser bem-sucedido",
+            "dinheiro", "riqueza", "liberdade financeira",
+            "independência financeira", "independencia financeira"
+        ]
+    },
+
+    {
+        name: "GOSTOS",
+        keywords: [
+            "gosta", "gosto", "preferência", "preferencias",
+            "música", "musica", "filme", "filmes",
+            "série", "series", "comida", "pizza",
+            "livro", "livros", "rock", "pink floyd",
+            "linkin park", "emin em", "eminem"
+        ]
+    },
+
+    {
+        name: "HOBBIES",
+        keywords: [
+            "hobby", "hobbies", "lazer", "tempo livre",
+            "jogos", "jogo", "videogame", "videogames",
+            "futebol", "bicicleta", "andar de bicicleta",
+            "violão", "violao", "tocar violão", "tocar violao",
+            "guitarra", "música", "musica", "tocar",
+            "instrumento", "choro", "chorinho",
+            "viajar", "viagem"
+        ]
+    },
+
+    {
+        name: "ESPIRITUALIDADE E RELIGIÃO",
+        keywords: [
+            "religião", "religiao", "religioso",
+            "judaísmo", "judaismo", "judeu", "judaica",
+            "judaica", "torá", "tora", "cabala",
+            "kabbalah", "espiritualidade", "espiritual",
+            "fé", "fe"
+        ]
+    },
+
+    {
+        name: "OPINIÕES",
+        keywords: [
+            "opinião", "opiniao", "acha", "acharia",
+            "o que pensa", "o que você pensa",
+            "concorda", "discorda", "visão"
+        ]
+    },
+
+    {
+        name: "TOMADA DE DECISÕES",
+        keywords: [
+            "decisão", "decisao", "decidir",
+            "como decide", "escolher", "escolha",
+            "como escolhe", "tomar decisão"
+        ]
+    },
+
+    {
+        name: "OBJETIVOS",
+        keywords: [
+            "objetivo", "objetivos", "meta", "metas",
+            "sonho", "sonhos", "futuro",
+            "pretende", "quer fazer", "quer construir"
+        ]
+    },
+
+    {
+        name: "EXPERIÊNCIAS MARCANTES",
+        keywords: [
+            "experiência marcante", "experiencia marcante",
+            "momento marcante", "acontecimento",
+            "marcou sua vida", "importante na sua vida"
+        ]
+    },
+
+    {
+        name: "RELACIONAMENTOS",
+        keywords: [
+            "relacionamento", "relacionamentos",
+            "amizade", "amigos", "amigo",
+            "confiança", "confianca", "lealdade",
+            "respeito"
+        ]
+    },
+
+    {
+        name: "FORMA DE FALAR",
+        keywords: [
+            "como fala", "jeito de falar", "linguagem",
+            "conversa", "conversar", "fala informal",
+            "palavras", "expressão", "expressao"
+        ]
+    },
+
+    {
+        name: "RESPOSTAS EXEMPLO",
+        keywords: [
+            "exemplo de resposta", "como responder",
+            "resposta", "responder"
+        ]
+    },
+
+    {
+        name: "MANEIRA DE PENSAR",
+        keywords: [
+            "como pensa", "maneira de pensar",
+            "forma de pensar", "raciocínio", "raciocinio",
+            "pensamento", "lógica", "logica"
+        ]
+    },
+
+    {
+        name: "FATOS",
+        keywords: [
+            "fato", "fatos", "curiosidade", "curiosidades",
+            "informação sobre você", "informacoes sobre voce"
+        ]
+    },
+
+    {
+        name: "REGRAS DO TIAGO DIGITAL",
+        keywords: [
+            "regra", "regras", "como deve responder",
+            "como responder", "comportamento do bot"
+        ]
+    }
+];
+
+
+/* ==========================================================
+   BUSCAR CONTEÚDO MAIS RELEVANTE
+========================================================== */
+
+function getRelevantText(personagemAtual, pergunta) {
+
+    if (
+        !personagemAtual ||
+        Object.keys(personagemAtual).length === 0
+    ) {
+        return "";
+    }
+
+    const texto = normalizar(pergunta);
+
+    const resultados = [];
+
+    for (const categoria of palavrasChave) {
+
+        if (!personagemAtual[categoria.name]) {
+            continue;
+        }
+
+        let pontos = 0;
+
+        for (const palavraOriginal of categoria.keywords) {
+
+            const palavra = normalizar(palavraOriginal);
+
+            if (!palavra) {
+                continue;
+            }
+
+            /*
+             * Palavras/frases mais específicas recebem
+             * mais pontos.
+             */
+            if (texto.includes(palavra)) {
+
+                if (palavra.length >= 15) {
+                    pontos += 25;
+                }
+                else if (palavra.length >= 8) {
+                    pontos += 15;
+                }
+                else {
+                    pontos += 10;
+                }
+            }
+        }
+
+        /*
+         * Se o próprio nome da categoria aparece
+         * na pergunta, damos um peso maior.
+         */
+        const nomeCategoria = normalizar(categoria.name);
+
+        if (
+            nomeCategoria.length > 3 &&
+            texto.includes(nomeCategoria)
+        ) {
+            pontos += 20;
+        }
+
+        if (pontos > 0) {
+
+            resultados.push({
+                titulo: categoria.name,
+                conteudo: personagemAtual[categoria.name],
+                pontos: pontos
+            });
+        }
+    }
+
+
+    /* ======================================================
+       ORDENA PELO MAIOR NÚMERO DE PONTOS
+    ====================================================== */
+
+    resultados.sort((a, b) => b.pontos - a.pontos);
+
+
+    /* ======================================================
+       SE ENCONTROU ASSUNTOS
+    ====================================================== */
+
+    if (resultados.length > 0) {
+
+        /*
+         * Pegamos no máximo 3 categorias.
+         *
+         * Assim uma pergunta simples não manda
+         * o personagem inteiro para o Groq.
+         */
+        const selecionados = resultados.slice(0, 3);
+
+        return selecionados
+            .map(item =>
+                `### ${item.titulo}\n\n${item.conteudo}`
+            )
+            .join("\n\n");
+    }
+
+
+    /* ======================================================
+       FALLBACK
+       
+       Se nenhuma palavra foi encontrada, NÃO manda
+       o personagem inteiro.
+       
+       Usa apenas o RESUMO.
+    ====================================================== */
+
+    if (personagemAtual.RESUMO) {
+
+        return `
+### RESUMO
+
+${personagemAtual.RESUMO}
+`.trim();
+    }
+
+
+    /*
+     * Último fallback caso nem RESUMO exista.
+     */
+    return "";
+}
 
 
 /* ==========================================================
