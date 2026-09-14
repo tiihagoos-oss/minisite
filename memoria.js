@@ -4,7 +4,7 @@
 
 const MEMORIA_MENSAGENS_RECENTES = 6;
 
-const MEMORIA_LIMITE_MENSAGENS = 8;
+const MEMORIA_LIMITE_MENSAGENS = 12;
 
 
 /* ==========================================================
@@ -89,9 +89,9 @@ function precisaResumir() {
    CRIAR HISTÓRICO
 ========================================================== */
 
-function criarHistorico() {
+function criarHistorico(mensagens) {
 
-    return memoriaEstado.mensagens
+    return mensagens
 
         .map(message => {
 
@@ -128,8 +128,36 @@ async function gerarResumo(
 
     }
 
+
+    /*
+        Pega somente as mensagens antigas.
+
+        As 6 mensagens mais recentes permanecem
+        fora do resumo e continuam sendo enviadas
+        normalmente como contexto recente.
+    */
+
+    const mensagensAntigas =
+        memoriaEstado.mensagens.slice(
+            0,
+            -MEMORIA_MENSAGENS_RECENTES
+        );
+
+
+    if (
+        mensagensAntigas.length === 0
+    ) {
+
+        return memoriaEstado.resumo;
+
+    }
+
+
     const historico =
-        criarHistorico();
+        criarHistorico(
+            mensagensAntigas
+        );
+
 
     const prompt = `
 
@@ -157,16 +185,18 @@ RESUMO ANTERIOR:
 
 ${memoriaEstado.resumo || "(nenhum)"}
 
-MENSAGENS:
+MENSAGENS ANTIGAS:
 
 ${historico}
 
 Retorne somente o resumo atualizado.
 `;
 
+
     console.log(
         "MEMÓRIA: gerando resumo..."
     );
+
 
     const response =
         await fetch(
@@ -206,15 +236,19 @@ Retorne somente o resumo atualizado.
 
                     ],
 
-                    temperature: 0.2
+                    temperature: 0.2,
+
+                    max_completion_tokens: 600
 
                 })
 
             }
         );
 
+
     const data =
         await response.json();
+
 
     if (!response.ok) {
 
@@ -225,8 +259,10 @@ Retorne somente o resumo atualizado.
 
     }
 
+
     const resumo =
         data.choices?.[0]?.message?.content;
+
 
     if (!resumo) {
 
@@ -236,13 +272,23 @@ Retorne somente o resumo atualizado.
 
     }
 
+
     memoriaEstado.resumo =
         resumo.trim();
+
+
+    /*
+        Mantém somente as mensagens recentes.
+
+        As mensagens antigas já foram incorporadas
+        ao resumo.
+    */
 
     memoriaEstado.mensagens =
         memoriaEstado.mensagens.slice(
             -MEMORIA_MENSAGENS_RECENTES
         );
+
 
     console.log(
         "================================="
@@ -260,6 +306,7 @@ Retorne somente o resumo atualizado.
         "================================="
     );
 
+
     return memoriaEstado.resumo;
 
 }
@@ -272,6 +319,11 @@ Retorne somente o resumo atualizado.
 function obterContexto() {
 
     let contexto = "";
+
+
+    /*
+        Resumo antigo
+    */
 
     if (
         memoriaEstado.resumo
@@ -288,12 +340,18 @@ function obterContexto() {
 
     }
 
+
+    /*
+        Mensagens recentes
+    */
+
     if (
         memoriaEstado.mensagens.length > 0
     ) {
 
         contexto +=
             "MENSAGENS RECENTES:\n\n";
+
 
         for (
             const message
@@ -305,12 +363,14 @@ function obterContexto() {
                     ? "USUÁRIO"
                     : "TIAGO";
 
+
             contexto +=
                 `${nome}: ${message.content}\n\n`;
 
         }
 
     }
+
 
     return contexto.trim();
 
