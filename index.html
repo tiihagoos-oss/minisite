@@ -10,6 +10,7 @@
 
 <title>Tiago Digital</title>
 
+
 <style>
 
 /* ==========================================================
@@ -22,257 +23,368 @@
     box-sizing: border-box;
 }
 
-
-/* ==========================================================
-   BODY
-========================================================== */
-
 body {
-    font-family: Arial, sans-serif;
-    background: #f5f5f5;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ffffff;
     color: #222;
-    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
 }
-
-
-/* ==========================================================
-   HEADER
-========================================================== */
-
-header {
-    background: #111827;
-    color: white;
-    padding: 14px 18px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-
-.perfil {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-
-.perfil img {
-    width: 46px;
-    height: 46px;
-
-    border-radius: 50%;
-
-    object-fit: cover;
-}
-
-
-.nome {
-    font-size: 18px;
-    font-weight: bold;
-}
-
-
-.online {
-    font-size: 12px;
-    color: #4ade80;
-    margin-top: 2px;
-}
-
-
-.menu {
-    display: flex;
-    gap: 8px;
-}
-
-
-.menu button {
-    border: none;
-    background: transparent;
-    color: white;
-
-    cursor: pointer;
-
-    padding: 8px;
-}
-
-
-/* ==========================================================
-   CONTAINER
-========================================================== */
-
-.container {
-    width: 100%;
-    max-width: 900px;
-
-    margin: 0 auto;
-
-    min-height: calc(100vh - 74px);
-
-    display: flex;
-    flex-direction: column;
-}
-
 
 /* ==========================================================
    CHAT
 ========================================================== */
 
-#chat {
-    flex: 1;
-
-    padding: 20px;
-
-    overflow-y: auto;
-}
-
-
-.mensagem {
-    margin-bottom: 14px;
-
+.chat {
+    height: 100vh;
     display: flex;
+    flex-direction: column;
 }
 
+/* ==========================================================
+   CABEÇALHO
+========================================================== */
 
-.mensagem.usuario {
+.header {
+    height: 68px;
+    width: 100%;
+    background: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 20;
+}
+
+.header-content {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-spacer {
+    flex: 1;
+}
+
+/* ==========================================================
+   PERFIL
+========================================================== */
+
+.profile-photo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.95;
+    filter: brightness(1.05) saturate(0.9);
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.profile-name {
+    font-size: 14px;
+    font-weight: bold;
+    color: #222;
+}
+
+.profile-status {
+    font-size: 11px;
+    color: #10a37f;
+}
+
+/* ==========================================================
+   LOGIN / SIGN UP
+========================================================== */
+
+.auth-button {
+    border: none;
+    background: transparent;
+    color: #222;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.auth-button:hover {
+    background: #f1f1f1;
+}
+
+.signup-button {
+    background: #222;
+    color: #ffffff;
+    margin-left: 4px;
+}
+
+.signup-button:hover {
+    background: #000000;
+}
+
+/* ==========================================================
+   MENU
+========================================================== */
+
+.menu-container {
+    position: relative;
+    margin-left: 6px;
+}
+
+.menu-button {
+    width: 38px;
+    height: 38px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 22px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+}
+
+.menu-button:hover {
+    background: #f1f1f1;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 44px;
+    width: 190px;
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 6px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    display: none;
+    z-index: 50;
+}
+
+.dropdown-menu.active {
+    display: block;
+}
+
+.dropdown-item {
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: left;
+    padding: 10px 12px;
+    border-radius: 8px;
+    color: #222;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background: #f3f3f3;
+}
+
+/* ==========================================================
+   ÁREA DAS MENSAGENS
+========================================================== */
+
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 100px 20px 160px;
+    scroll-behavior: smooth;
+}
+
+.message {
+    max-width: 760px;
+    margin: 0 auto 28px;
+    display: flex;
+    gap: 16px;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #10a37f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.message.user {
     justify-content: flex-end;
 }
 
+.message.user .avatar {
+    background: #444;
+    order: 2;
+}
 
-.bolha {
-    max-width: 82%;
-
-    padding: 12px 15px;
-
-    border-radius: 16px;
-
-    line-height: 1.5;
-
+.message-content {
+    padding-top: 4px;
     white-space: pre-wrap;
-
-    word-wrap: break-word;
+    word-break: break-word;
 }
 
-
-.usuario .bolha {
-    background: #2563eb;
-    color: white;
-
-    border-bottom-right-radius: 4px;
+.message.user .message-content {
+    order: 1;
+    background: #f1f1f1;
+    color: #222;
+    padding: 10px 16px;
+    border-radius: 18px;
+    max-width: 70%;
+    position: relative;
 }
 
-
-.assistente .bolha {
-    background: white;
-
-    border: 1px solid #ddd;
-
-    border-bottom-left-radius: 4px;
+.message.user .message-content::after {
+    content: "";
+    position: absolute;
+    right: -5px;
+    top: 13px;
+    width: 10px;
+    height: 10px;
+    background: #f1f1f1;
+    transform: rotate(45deg);
+    border-radius: 2px;
 }
 
+.message:not(.user) .message-content {
+    flex: 1;
+}
 
 /* ==========================================================
-   STATUS
-========================================================== */
-
-#status {
-    padding: 8px 18px;
-
-    font-size: 12px;
-
-    color: #666;
-
-    text-align: center;
-}
-
-
-/* ==========================================================
-   AVISO
-========================================================== */
-
-.aviso {
-    font-size: 11px;
-
-    color: #777;
-
-    text-align: center;
-
-    padding: 7px 15px;
-}
-
-
-/* ==========================================================
-   INPUT
+   ÁREA DE INPUT
 ========================================================== */
 
 .input-area {
-    padding: 12px;
-
-    background: white;
-
-    border-top: 1px solid #ddd;
-
-    display: flex;
-
-    gap: 10px;
-
-    position: sticky;
-
+    position: fixed;
     bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background: linear-gradient(
+        transparent,
+        #ffffff 30%
+    );
+    z-index: 10;
 }
 
+.input-wrapper {
+    max-width: 760px;
+    margin: 0 auto;
+    background: #ffffff;
+    border: 1px solid #444;
+    border-radius: 16px;
+    min-height: 58px;
+    display: flex;
+    align-items: flex-end;
+    padding: 10px 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+}
 
-#question {
+textarea {
     flex: 1;
-
     resize: none;
-
-    border: 1px solid #ccc;
-
-    border-radius: 12px;
-
-    padding: 12px;
-
-    min-height: 48px;
-
-    max-height: 140px;
-
-    font-family: inherit;
-
-    font-size: 15px;
-
-    outline: none;
-}
-
-
-#question:focus {
-    border-color: #2563eb;
-}
-
-
-#sendBtn {
     border: none;
-
-    border-radius: 12px;
-
-    background: #2563eb;
-
-    color: white;
-
-    padding: 0 20px;
-
-    cursor: pointer;
-
-    font-weight: bold;
+    outline: none;
+    background: transparent;
+    color: #222;
+    font-size: 15px;
+    font-family: inherit;
+    padding: 9px 8px;
+    max-height: 180px;
+    overflow-y: auto;
 }
 
+textarea::placeholder {
+    color: #777;
+}
 
-#sendBtn:disabled {
-    opacity: 0.6;
+.send-button {
+    width: 38px;
+    height: 38px;
+    border: none;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #222;
+    cursor: pointer;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+    flex-shrink: 0;
+}
 
+.send-button:hover {
+    background: #ddd;
+}
+
+.send-button:active {
+    transform: scale(0.94);
+}
+
+.send-button:disabled {
+    opacity: 0.4;
     cursor: not-allowed;
 }
 
+/* ==========================================================
+   STATUS DO PERSONAGEM
+========================================================== */
+
+.character-status {
+    max-width: 760px;
+    margin: 0 auto 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #888;
+}
+
+/* ==========================================================
+   DISCLAIMER
+========================================================== */
+
+.disclaimer {
+    max-width: 760px;
+    margin: 8px auto 0;
+    text-align: center;
+    color: #888;
+    font-size: 11px;
+}
+
+/* ==========================================================
+   SCROLLBAR
+========================================================== */
+
+.messages::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 10px;
+}
 
 /* ==========================================================
    MOBILE
@@ -280,21 +392,153 @@ header {
 
 @media (max-width: 600px) {
 
-    .bolha {
-        max-width: 90%;
+    .header {
+        height: 62px;
+        padding: 0 10px;
+    }
+
+    .header-content {
+        gap: 8px;
+    }
+
+    .profile-photo {
+        width: 36px;
+        height: 36px;
+    }
+
+    .profile-name {
+        font-size: 13px;
+    }
+
+    .profile-status {
+        font-size: 10px;
+    }
+
+    .auth-button {
+        font-size: 12px;
+        padding: 8px 7px;
+    }
+
+    .signup-button {
+        margin-left: 0;
+    }
+
+    .menu-container {
+        margin-left: 0;
+    }
+
+    .menu-button {
+        width: 34px;
+        height: 34px;
+    }
+
+    .dropdown-menu {
+        right: 0;
+        width: 180px;
+    }
+
+    .messages {
+        padding:
+            82px 10px 155px;
+    }
+
+    .message {
+        gap: 9px;
+        margin-bottom: 22px;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .avatar {
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+    }
+
+    .message.user .message-content {
+        max-width: 80%;
+        padding: 9px 13px;
+        border-radius: 16px;
     }
 
     .input-area {
-        padding: 8px;
+        padding: 8px 10px 10px;
     }
 
-    #sendBtn {
-        padding: 0 15px;
+    .input-wrapper {
+        min-height: 54px;
+        border-radius: 14px;
+        padding: 8px 9px;
+    }
+
+    textarea {
+        font-size: 15px;
+        padding: 8px 6px;
+    }
+
+    .send-button {
+        width: 36px;
+        height: 36px;
+    }
+
+    .character-status {
+        padding: 0 5px;
+        font-size: 10px;
+    }
+
+    .disclaimer {
+        font-size: 9px;
+        margin-top: 6px;
+    }
+}
+
+/* ==========================================================
+   TELAS MUITO PEQUENAS
+========================================================== */
+
+@media (max-width: 380px) {
+
+    .auth-button {
+        font-size: 11px;
+        padding: 7px 5px;
+    }
+
+    .profile-info {
+        gap: 1px;
+    }
+
+    .message.user .message-content {
+        max-width: 84%;
     }
 
 }
 
+/* ==========================================================
+   CORREÇÃO DO TECLADO NO MOBILE
+========================================================== */
+
+@media (max-width: 600px) {
+
+    .input-area {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: env(safe-area-inset-bottom, 0px);
+        width: 100%;
+        padding: 8px 10px 10px;
+        z-index: 100;
+    }
+
+    .messages {
+        padding-bottom: 140px;
+    }
+
+}
+
+      
 </style>
+
+
 
 </head>
 
