@@ -314,14 +314,16 @@ header {
       */
 
 #sendBtn {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
 
     border: none;
     border-radius: 50%;
 
-    background: #222;
-    color: white;
+    background: #f1f1f1;
+    color: #555;
 
     display: flex;
     align-items: center;
@@ -329,13 +331,27 @@ header {
 
     cursor: pointer;
 
+    padding: 0;
+
     font-size: 20px;
     font-weight: normal;
 
-    padding: 0;
-
     transition: background 0.2s, transform 0.2s;
 }
+
+#sendBtn:hover {
+    background: #e5e5e5;
+}
+
+#sendBtn:active {
+    transform: scale(0.92);
+}
+
+#sendBtn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
 
 #sendBtn:hover {
     background: #333;
