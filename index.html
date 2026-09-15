@@ -252,16 +252,21 @@ header {
 }
 
 .aviso {
+    text-align: center;
     color: #888;
     font-size: 11px;
-    text-align: center;
+
+    margin: 8px auto;
 }
 
+
 .input-area {
-    width: calc(100% - 30px);
+    width: 100%;
     max-width: 760px;
 
     min-height: 58px;
+
+    margin: 0 auto;
 
     display: flex;
     align-items: flex-end;
@@ -274,13 +279,7 @@ header {
     border: 1px solid #d1d5db;
     border-radius: 24px;
 
-    position: fixed;
-    left: 50%;
-    bottom: 5px;
-    transform: translateX(-50%);
-
     box-sizing: border-box;
-    z-index: 10;
 }
 
 
@@ -449,34 +448,31 @@ header {
         Carregando personagem...
     </div>
 
-    <div class="barra-inferior">
+    <div class="aviso">
+        A IA pode cometer erros.
+        Confira informações importantes.
+    </div>
 
-        <div class="aviso">
-            A IA pode cometer erros.
-            Confira informações importantes.
-        </div>
+    <div class="input-area">
 
-        <div class="input-area">
+        <textarea
+            id="question"
+            placeholder="Digite sua mensagem..."
+            rows="1"
+        ></textarea>
 
-            <textarea
-                id="question"
-                placeholder="Digite sua mensagem..."
-                rows="1"
-            ></textarea>
-
-            <button
-                id="sendBtn"
-                type="button"
-                aria-label="Enviar"
-            >
-                ↑
-            </button>
-
-        </div>
+        <button
+            id="sendBtn"
+            type="button"
+            aria-label="Enviar"
+        >
+            ↑
+        </button>
 
     </div>
 
 </div>
+
 
 
 
