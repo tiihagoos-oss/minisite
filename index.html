@@ -284,7 +284,7 @@ header {
     border-color: #2563eb;
 }
 
-
+/*
 #sendBtn {
     border: none;
 
@@ -307,7 +307,44 @@ header {
 
     cursor: not-allowed;
 }
+      */
 
+#sendBtn {
+    width: 38px;
+    height: 38px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #222;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    font-size: 20px;
+    font-weight: normal;
+
+    padding: 0;
+
+    transition: background 0.2s, transform 0.2s;
+}
+
+#sendBtn:hover {
+    background: #333;
+}
+
+#sendBtn:active {
+    transform: scale(0.92);
+}
+
+#sendBtn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
 
 /* ==========================================================
    MOBILE
