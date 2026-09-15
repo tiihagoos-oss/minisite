@@ -240,14 +240,33 @@ header {
    INPUT
 ========================================================== */
 
-.input-area {
+.barra-inferior {
     position: fixed;
     bottom: 15px;
     left: 50%;
+
     transform: translateX(-50%);
 
-    width: 100%;
+    width: calc(100% - 30px);
     max-width: 760px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 8px;
+
+    z-index: 10;
+}
+
+.aviso {
+    color: #888;
+    font-size: 11px;
+    text-align: center;
+}
+
+.input-area {
+    width: 100%;
 
     min-height: 58px;
 
@@ -257,12 +276,14 @@ header {
 
     padding: 8px 10px;
 
-    background: #ffffff;
+    background: #fff;
+
     border: 1px solid #d1d5db;
     border-radius: 24px;
 
     box-sizing: border-box;
 }
+
 
 
 
@@ -483,78 +504,41 @@ header {
 
 <div class="container">
 
-
-    <!-- ====================================================
-         CHAT
-    ===================================================== -->
-
     <div id="chat"></div>
-
-
-    <!-- ====================================================
-         STATUS
-    ===================================================== -->
 
     <div id="status">
         Carregando personagem...
     </div>
 
+    <div class="barra-inferior">
 
-    <!-- ====================================================
-         AVISO
-    ===================================================== -->
+        <div class="aviso">
+            A IA pode cometer erros.
+            Confira informações importantes.
+        </div>
 
-    <div class="aviso">
+        <div class="input-area">
 
-        A IA pode cometer erros.
-        Confira informações importantes.
+            <textarea
+                id="question"
+                placeholder="Digite sua mensagem..."
+                rows="1"
+            ></textarea>
 
-    </div>
+            <button
+                id="sendBtn"
+                type="button"
+                aria-label="Enviar"
+            >
+                ↑
+            </button>
 
-
-    <!-- ====================================================
-         INPUT
-    ===================================================== -->
-<!--
-    <div class="input-area">
-
-        <textarea
-            id="question"
-            placeholder="Digite sua mensagem..."
-            rows="1"
-        ></textarea>
-
-
-        <button
-            id="sendBtn"
-            type="button"
-        >
-            Enviar
-        </button>
+        </div>
 
     </div>
 
-
 </div>
- -->
-      
-<div class="input-area">
 
-    <textarea
-        id="question"
-        placeholder="Digite sua mensagem..."
-        rows="1"
-    ></textarea>
-
-    <button
-        id="sendBtn"
-        type="button"
-        aria-label="Enviar"
-    >
-        ↑
-    </button>
-
-</div>
 
 
 
