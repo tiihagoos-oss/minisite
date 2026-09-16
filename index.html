@@ -175,12 +175,33 @@ header {
 /* ==========================================================
    CHAT
 ========================================================== */
-
+/*
 #chat {
     flex: 1;
     padding: 20px;
     padding-bottom: 30px;
     overflow-y: auto;
+}
+*/
+
+#chat {
+    position: fixed;
+
+    top: 75px;
+    bottom: 0;
+
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 100%;
+    max-width: 900px;
+
+    padding: 20px;
+    padding-bottom: 180px;
+
+    overflow-y: auto;
+
+    z-index: 1;
 }
 
 
