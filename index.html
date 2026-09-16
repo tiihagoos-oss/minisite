@@ -460,7 +460,7 @@ header {
     opacity: 0.35;
     cursor: not-allowed;
 }
-
+/*
 @media (max-width: 600px) {
 
     .input-area {
@@ -473,7 +473,97 @@ header {
     }
 
 }
+*/
 
+@media (max-width: 600px) {
+
+    /* ======================================================
+       HEADER FIXO NO MOBILE
+    ====================================================== */
+
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+
+        height: 75px;
+
+        z-index: 1000;
+
+        /*
+           Mantém o header preso ao topo.
+           Não usar 100vh, dvh ou flex aqui.
+        */
+    }
+
+
+    /* ======================================================
+       CHAT NO MOBILE
+    ====================================================== */
+
+    #chat {
+        top: 75px;
+        bottom: 0;
+
+        width: 100%;
+
+        padding: 20px 15px;
+        padding-bottom: 160px;
+
+        overflow-y: auto;
+
+        /*
+           O chat é a única área que rola.
+        */
+        position: fixed;
+    }
+
+
+    /* ======================================================
+       AVISO
+    ====================================================== */
+
+    .aviso {
+        position: fixed;
+
+        bottom: 78px;
+
+        left: 50%;
+        transform: translateX(-50%);
+
+        width: calc(100% - 24px);
+
+        margin: 0;
+
+        z-index: 1001;
+    }
+
+
+    /* ======================================================
+       CAIXA DE MENSAGEM
+    ====================================================== */
+
+    .input-area {
+        position: fixed;
+
+        /*
+           Antes estava 20px.
+           Agora fica somente 5px do fundo.
+        */
+        bottom: 5px;
+
+        left: 50%;
+        transform: translateX(-50%);
+
+        width: calc(100% - 24px);
+
+        margin: 0;
+
+        z-index: 1002;
+    }
+
+}
 
 
 
