@@ -194,10 +194,11 @@ header {
     left: 50%;
     transform: translateX(-50%);
 
-    width: 760px;
-    max-width: calc(100% - 30px);
+    width: 100%;
+    max-width: 760px;
 
-    padding: 20px 0 180px;
+    padding: 20px 0;
+    padding-bottom: 180px;
 
     overflow-y: auto;
 
@@ -520,22 +521,19 @@ header {
        CHAT NO MOBILE
     ====================================================== */
 
-    #chat {
-        top: 75px;
-        bottom: 0;
+#chat {
+    top: 75px;
+    bottom: 0;
 
-        width: 100%;
+    width: calc(100% - 24px);
 
-        padding: 20px 15px;
-        padding-bottom: 160px;
+    padding: 20px 0;
+    padding-bottom: 160px;
 
-        overflow-y: auto;
+    overflow-y: auto;
 
-        /*
-           O chat é a única área que rola.
-        */
-        position: fixed;
-    }
+    position: fixed;
+}
 
 
     /* ======================================================
