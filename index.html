@@ -696,7 +696,36 @@ header {
 
 
 
+<script>
+async function registrarAcesso() {
+    try {
+        // Descobre o IP público do visitante
+        const respostaIP = await fetch("https://api.ipify.org?format=json");
+        const dadosIP = await respostaIP.json();
 
+        const ip = dadosIP.ip;
+
+        // Envia o IP para o backend
+        await fetch("/api/ip", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                ip: ip,
+                pagina: window.location.href,
+                navegador: navigator.userAgent
+            })
+        });
+
+    } catch (erro) {
+        console.error("Erro ao registrar acesso:", erro);
+    }
+}
+
+// Executa toda vez que a página carregar
+registrarAcesso();
+</script>
 
 <!-- ==========================================================
      ARQUIVOS EXTERNOS
