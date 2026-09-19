@@ -48,7 +48,7 @@ ${navegador || "Não informado"}
 
             body: JSON.stringify({
                 from: "onboarding@resend.dev",
-                to: ["SEU_EMAIL@gmail.com"],
+                to: ["tiihagoos@gmail.com"],
                 subject: "Novo acesso ao Tiago Digital",
                 text: email
             })
