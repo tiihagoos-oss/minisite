@@ -202,7 +202,7 @@ Retorne somente o resumo atualizado.
         "MEMÓRIA: gerando resumo..."
     );
 
-
+ /*
     const response =
         await fetch(
             "https://api.groq.com/openai/v1/chat/completions",
@@ -221,7 +221,24 @@ Retorne somente o resumo atualizado.
                 },
 
                 body: JSON.stringify({
+*/
 
+   const response =
+    await fetch(
+        "/api/chat",
+        {
+
+            method: "POST",
+
+            headers: {
+
+                "Content-Type":
+                    "application/json"
+
+            },
+
+            body: JSON.stringify({
+               
                     model: model,
 
                     messages: [
