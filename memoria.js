@@ -114,7 +114,7 @@ function criarHistorico(mensagens) {
 /* ==========================================================
    GERAR RESUMO
 ========================================================== */
-
+/*
 async function gerarResumo(
     groqApiKey,
     model = "openai/gpt-oss-20b"
@@ -127,7 +127,12 @@ async function gerarResumo(
         );
 
     }
+*/
 
+
+async function gerarResumo(
+    model = "openai/gpt-oss-20b"
+) {
 
     /*
         Pega somente as mensagens antigas.
