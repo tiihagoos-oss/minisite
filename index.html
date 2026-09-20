@@ -2547,6 +2547,10 @@ async function askQuestion() {
             ==================================================
         */
 
+
+
+          
+ /*
         const response =
             await fetch(
 
@@ -2606,7 +2610,42 @@ async function askQuestion() {
                 }
 
             );
+   */
 
+
+
+const response = await fetch(
+    "/api/chat",
+    {
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            model: GROQ_MODEL,
+
+            messages: [
+                {
+                    role: "system",
+                    content: promptSistema
+                },
+
+                {
+                    role: "user",
+                    content: pergunta
+                }
+            ],
+
+            temperature: 0.7
+        })
+    }
+);
+
+
+
+          
 
         /*
             Lê resposta.
