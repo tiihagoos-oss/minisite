@@ -71,6 +71,11 @@ export default async function handler(req, res) {
     }
 }
 
+const apiKey = process.env.GROQ_API_KEY;
+
+console.log("CHAVE EXISTE:", !!apiKey);
+console.log("TAMANHO:", apiKey ? apiKey.length : 0);
+console.log("COMEÇA COM gsk_:", apiKey?.startsWith("gsk_"));
 
 
 /*
